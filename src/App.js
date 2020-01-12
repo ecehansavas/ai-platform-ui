@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Dataset from './Dataset';
 import Algorithm from './Algorithm';
@@ -10,6 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        id: 3,      
         selected_dataset: 'kdd99',
         dataset_parameters: {},
         stream_period: '0',
@@ -19,6 +19,16 @@ class App extends React.Component {
         repeat_count: '1',
         selected_algorithm: 'hoeffding-tree',
         algorithm_parameters: {},
+        processList: [{id: '1',
+                    dataset:'kdd99',
+                    algorithm: 'KNN',
+                    state: 'Completed'},
+
+                    {id: '2',  
+                    dataset:'kdd99-raw',
+                    algorithm: 'hoeffding-tree',
+                    state: 'In Progress'}],
+        selected_process: ''
     }
   }
 
@@ -50,6 +60,20 @@ class App extends React.Component {
     this.setState({selected_algorithm: event.target.value})
   }
 
+  startProcess(event){
+    let new_process = {}
+    new_process.id = this.state.id
+    new_process.dataset = this.state.selected_dataset
+    new_process.algorithm = this.state.selected_algorithm
+    new_process.state = "In Queue"
+    this.state.id = this.state.id+1
+    this.setState({processList: this.state.processList.concat(new_process)})
+  }
+
+  handleShowDetails(id){
+    let selectedprocess = this.state.processList.filter((e) =>e.id ===id)
+    this.setState({selected_process: selectedprocess[0]})
+  }
 
   render(){
     return (
@@ -64,8 +88,12 @@ class App extends React.Component {
                  />
         <Algorithm selected_algorithm={this.state.selected_algorithm}
                   onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
-        <ProcessesList />
-        <DetailedView />  
+        <button onClick={this.startProcess.bind(this)}>Run</button>
+        <hr/>
+        <ProcessesList processList={this.state.processList} 
+                       showDetails={this.handleShowDetails.bind(this)}/>
+        <DetailedView selected_process={this.state.selected_process} 
+                      />  
       </div>
     );
   }

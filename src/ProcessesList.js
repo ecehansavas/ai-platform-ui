@@ -8,6 +8,13 @@ class ProcessesList extends React.Component {
     }
 
     render(){
+        const header = {id: 'ID',
+                        dataset: 'Dataset',
+                        algorithm: 'Algorithm',
+                        state:'State',
+                        start_time:'Start Time',
+                        finish_time: 'Finish Time',
+                        details: 'Details'}
         return (
         <form>
             <BorderWrapper>
@@ -15,33 +22,17 @@ class ProcessesList extends React.Component {
                     <table>
                         <thead>
                             <tr>
-                                <th>Dataset</th>
-                                <th>Algorithm</th>
-                                <th>Status</th>
-                                <th>Start Time</th>
-                                <th>Finish Time</th>
-                                <th>Details</th>
+                                <th>{header.id}</th>
+                                <th>{header.dataset}</th>
+                                <th>{header.algorithm}</th>
+                                <th>{header.state}</th>
+                                <th>{header.start_time}</th>
+                                <th>{header.finish_time}</th>
+                                <th>{header.details}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Kdd Cup 19</td>
-                                <td>Hoeffding-Tree</td>
-                                <td>Completed</td>
-                                <td>07.01.2020 06:20</td>
-                                <td>07.01.2020 06:30</td>
-                                <td>Link</td>
-                            </tr>
-                            <tr>
-                                <td>Kdd Cup 19</td>
-                                <td>K-Means</td>
-                                <td>Processing</td>
-                                <td>07.01.2020 06:10</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-
-
+                            {this.renderTableData()}
                         </tbody>
                     </table>                    
 
@@ -49,6 +40,23 @@ class ProcessesList extends React.Component {
             </BorderWrapper>
         </form>
         );
+    }
+    renderTableData(){
+        return this.props.processList.map((item, index) => {
+            const { id, dataset, algorithm, state, start_time, finish_time, details } = item //destructuring
+            return (
+               <tr key={id}>
+                  <td>{id}</td>
+                  <td>{dataset}</td>
+                  <td>{algorithm}</td>
+                  <td>{state}</td>
+                  <td>{start_time}</td>
+                  <td>{finish_time}</td>
+                  <td>{details}</td>
+                  <td><button type="button" onClick={(e) => this.props.showDetails(id)}>Tıkla Bana</button></td>
+               </tr>
+            )
+         })
     }
 }
 

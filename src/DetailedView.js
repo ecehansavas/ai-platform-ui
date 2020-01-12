@@ -12,7 +12,8 @@ class DetailedView extends React.Component {
             <form>
                 <BorderWrapper>
                     <div>Details are here</div>
-
+                    <div>Selected Dataset: {this.props.selected_process.dataset}</div>
+                    <div>Selected Algorithm: {this.props.selected_process.algorithm}</div>
                 </BorderWrapper>
             </form>
             
