@@ -1,4 +1,5 @@
 import React from 'react';
+import BorderWrapper from 'react-border-wrapper'
 
 class DetailedView extends React.Component {
     constructor(props) {
@@ -8,7 +9,13 @@ class DetailedView extends React.Component {
 
     render(){
         return (
-            <div>Details are here</div>
+            <form>
+                <BorderWrapper>
+                    <div>Details are here</div>
+
+                </BorderWrapper>
+            </form>
+            
         );
     }
 }
