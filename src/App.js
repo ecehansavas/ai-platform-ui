@@ -11,12 +11,11 @@ class App extends React.Component {
     this.state = {
         id: 3,      
         selected_dataset: 'kdd99',
-        dataset_parameters: {},
-        stream_period: '0',
-        window_length: '10',
-        start_value: '0',
-        stop_value: '',
-        repeat_count: '1',
+        dataset_parameters: {stream_period: '0',
+                            window_length: '10',
+                            start_value: '0',
+                            stop_value: '',
+                            repeat_count: '1'},
         selected_algorithm: 'hoeffding-tree',
         algorithm_parameters: {},
         processList: [{id: '1',
@@ -36,24 +35,14 @@ class App extends React.Component {
     this.setState({selected_dataset: event.target.value})
   }
 
-  handleStreamPeriodChange(event){
-    this.setState({stream_period: event.target.value})
-  }
+  handleDatasetParameterChange(name, value){
+    let param = {
+      ...this.state.dataset_parameters
+    }
 
-  handleWindowChange(event){
-    this.setState({window_length: event.target.value})
-  }
+    param[name] = value
 
-  handleStartValueChange(event){
-    this.setState({start_value: event.target.value})
-  }
-
-  handleStopValueChange(event){
-    this.setState({stop_value: event.target.value})
-  }
-
-  handleRepeatCountChange(event){
-    this.setState({repeat_count: event.target.value})
+    this.setState({dataset_parameters: param})
   }
 
   handleAlgorithmChange(event){
@@ -80,11 +69,7 @@ class App extends React.Component {
       <div className="App">
         <Dataset selected_dataset={this.state.selected_dataset} 
                  onDatasetChange={this.handleDatasetChange.bind(this)}
-                 onPeriodChange={this.handleStreamPeriodChange.bind(this)}
-                 onWindowChange={this.handleWindowChange.bind(this)}
-                 onStartChange={this.handleStartValueChange.bind(this)}
-                 onStopChange={this.handleStopValueChange.bind(this)}
-                 onRepeatCountChange={this.handleRepeatCountChange.bind(this)}
+                 onParameterChange={this.handleDatasetParameterChange.bind(this)}
                  />
         <Algorithm selected_algorithm={this.state.selected_algorithm}
                   onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>

@@ -4,7 +4,7 @@ import BorderWrapper from 'react-border-wrapper'
 class Dataset extends React.Component {
     constructor(props) {
         super(props);
-    }
+    }   
 
     render(){
         return (
@@ -17,26 +17,26 @@ class Dataset extends React.Component {
                     <option value="kdd99-raw">KDD Cup 99 (RAW)</option>
                 </select>
                 <div>Description of {this.props.selected_dataset}</div>
-                {/* <div>
+                <div>
                     <label>Stream Period: </label>
-                    <input type="number" value={this.props.stream_period} onChange={this.props.onPeriodChange}/>
+                    <input type="number" value={this.props.stream_period} onChange={(e) => this.props.onParameterChange("stream_period", e.target.value)}/>
                 </div>
                 <div>
                     <label>Window Length: </label>
-                    <input type="number" value={this.props.window_length} onChange={this.props.onWindowChange}/>
+                    <input type="number" value={this.props.window_length} onChange={(e) => this.props.onParameterChange("window_length", e.target.value)}/>
                 </div>
                 <div>
                     <label>Start:</label>
-                    <textarea value={this.props.start_value} onChange={this.props.onStartChange} />
+                    <textarea value={this.props.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
                 </div>
                 <div>
                     <label>Stop:</label>
-                    <textarea value={this.props.stop_value} onChange={this.props.onStopChange} />
+                    <textarea value={this.props.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
                 </div>
                 <div>
                     <label>Repeat Count for Each Instance:</label>
-                    <textarea value={this.props.repeat_count} onChange={this.props.onRepeatCountChange} />
-                </div> */}
+                    <textarea value={this.props.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
+                </div>
             </BorderWrapper>
         </form>
         );
