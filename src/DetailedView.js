@@ -9,13 +9,13 @@ class DetailedView extends React.Component {
 
     render(){
         return (
-            <form>
-                <BorderWrapper>
+            <BorderWrapper>
+                <form>
                     <div>Details are here</div>
                     <div>Selected Dataset: {this.props.selected_process.dataset}</div>
                     <div>Selected Algorithm: {this.props.selected_process.algorithm}</div>
-                </BorderWrapper>
-            </form>
+                </form>
+            </BorderWrapper>
             
         );
     }

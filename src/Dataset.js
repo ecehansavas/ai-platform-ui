@@ -8,8 +8,8 @@ class Dataset extends React.Component {
 
     render(){
         return (
-        <form>
-            <BorderWrapper>
+        <BorderWrapper>
+            <form>
                 <div>Dataset Component</div>
                 <label>Use Predefined Dataset: </label>
                 <select value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
@@ -37,8 +37,8 @@ class Dataset extends React.Component {
                     <label>Repeat Count for Each Instance:</label>
                     <textarea value={this.props.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
                 </div>
-            </BorderWrapper>
-        </form>
+            </form>
+        </ BorderWrapper>
         );
     }
 }

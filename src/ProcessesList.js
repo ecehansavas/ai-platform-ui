@@ -42,16 +42,16 @@ class ProcessesList extends React.Component {
         );
     }
     renderTableData(){
-        return this.props.processList.map((item, index) => {
-            const { id, dataset, algorithm, state, start_time, finish_time, details } = item //destructuring
+        return this.props.process_list.map((item, index) => {
+            const { id, dataset_name, algorithm_name, state, started_at, finished_at, details } = item //destructuring
             return (
                <tr key={id}>
                   <td>{id}</td>
-                  <td>{dataset}</td>
-                  <td>{algorithm}</td>
+                  <td>{dataset_name}</td>
+                  <td>{algorithm_name}</td>
                   <td>{state}</td>
-                  <td>{start_time}</td>
-                  <td>{finish_time}</td>
+                  <td>{started_at}</td>
+                  <td>{finished_at}</td>
                   <td>{details}</td>
                   <td><button type="button" onClick={(e) => this.props.showDetails(id)}>Tıkla Bana</button></td>
                </tr>
