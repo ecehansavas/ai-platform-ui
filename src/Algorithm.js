@@ -14,8 +14,9 @@ class Algorithm extends React.Component {
                 <div>Dataset Component</div>
                 <label>Algorithm:</label>
                 <select value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
-                    <option value="hoeffding-tree">Hoeffding Tree </option>
-                    <option value="k-means">K-Means</option>
+                    <option value="hoeffding_tree">Hoeffding Tree </option>
+                    <option value="k_means">K-Means</option>
+                    <option value="d3">D3</option>
                 </select>
                 <div>Description of {this.props.selected_algorithm}</div>
             </form>

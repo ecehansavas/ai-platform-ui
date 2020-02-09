@@ -4,6 +4,20 @@ import Dataset from './Dataset';
 import Algorithm from './Algorithm';
 import ProcessesList from './ProcessesList';
 import DetailedView from './DetailedView';
+import Evaluation from './Evaluation';
+
+const KNOWN_ALGORITHMS = {
+  "hoeffding_tree" : {
+    valid_datasets : ['kdd99'],
+    valid_parameters : [
+
+    ]},
+  "d3" : {
+    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
+    valid_parameters : [
+
+    ]}
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -15,9 +29,10 @@ class App extends React.Component {
                             start_value: '0',
                             stop_value: '',
                             repeat_count: '1'},
-        selected_algorithm: 'hoeffding-tree',
+        selected_algorithm: 'hoeffding_tree',
         algorithm_parameters: {},
         process_list: [],
+        selected_evaluation: 'prequential',
         selected_process: '',
         loading: false
     }
@@ -39,6 +54,10 @@ class App extends React.Component {
     this.setState({selected_algorithm: event.target.value})
   }
 
+  handleEvaluationChange(event){
+    this.setState({selected_evaluation: event.target.value})
+  }
+
   startProcess(event){
     let new_process = {}
 
@@ -46,6 +65,7 @@ class App extends React.Component {
     new_process.algorithm_name = this.state.selected_algorithm
     new_process.dataset_parameters = this.state.dataset_parameters
     new_process.algorithm_parameters = this.state.algorithm_parameters
+    new_process.selected_evaluation = this.state.selected_evaluation
     this.setState({loading: true})
     fetch('http://localhost:8000/api/new_job', {
       method: 'POST',
@@ -55,9 +75,16 @@ class App extends React.Component {
       body: JSON.stringify(new_process) ,
       credentials: 'same-origin',
       cache: 'no-cache'
-    }).then(this.setState({loading: true}))
-    
-    this.fetchAllJobs()
+    })
+    .then((data) => {
+      console.log("Received data")
+      console.log(data)
+      this.setState({loading: false})
+    })
+    .catch((error) => {
+      console.log("ERROOORR")
+      console.log(error)
+    })
   }
 
   handleShowDetails(id){
@@ -71,10 +98,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <Dataset selected_dataset={this.state.selected_dataset} 
-                 onDatasetChange={this.handleDatasetChange.bind(this)}
-                 onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
+                onDatasetChange={this.handleDatasetChange.bind(this)}
+                onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
         <Algorithm selected_algorithm={this.state.selected_algorithm}
-                  onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
+                onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
+        <Evaluation selected_evaluation={this.state.selected_evaluation}
+                onEvaluationChange={this.handleEvaluationChange.bind(this)}/>
         <button onClick={this.startProcess.bind(this)}>Run</button>
         <hr/>
         <ProcessesList process_list={this.state.process_list} 
@@ -87,6 +116,7 @@ class App extends React.Component {
 
   componentDidMount(){
     this.fetchAllJobs()
+    setInterval(this.fetchAllJobs.bind(this), 5000);
   }
 
   fetchAllJobs(){

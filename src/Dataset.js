@@ -14,7 +14,9 @@ class Dataset extends React.Component {
                 <label>Use Predefined Dataset: </label>
                 <select value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
                     <option value="kdd99">KDD Cup 99</option>
-                    <option value="kdd99-raw">KDD Cup 99 (RAW)</option>
+                    <option value="kdd99_raw">KDD Cup 99 (RAW)</option>
+                    <option value="pnts_drifted">PNTS DRIFTED</option>
+                    <option value="pnts_stable">PNTS STABLE</option>
                 </select>
                 <div>Description of {this.props.selected_dataset}</div>
                 <div>
@@ -27,15 +29,15 @@ class Dataset extends React.Component {
                 </div>
                 <div>
                     <label>Start:</label>
-                    <textarea value={this.props.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
+                    <input type="number" value={this.props.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
                 </div>
                 <div>
                     <label>Stop:</label>
-                    <textarea value={this.props.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
+                    <input type="number" value={this.props.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
                 </div>
                 <div>
                     <label>Repeat Count for Each Instance:</label>
-                    <textarea value={this.props.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
+                    <input type="number" value={this.props.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
                 </div>
             </form>
         </ BorderWrapper>
