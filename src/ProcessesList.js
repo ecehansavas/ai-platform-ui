@@ -1,5 +1,14 @@
 import React from 'react';
-import BorderWrapper from 'react-border-wrapper'
+
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 
 class ProcessesList extends React.Component {
     constructor(props) {
@@ -17,28 +26,30 @@ class ProcessesList extends React.Component {
                         details: 'Details'}
         return (
         <form>
-            <BorderWrapper>
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>{header.id}</th>
-                                <th>{header.dataset}</th>
-                                <th>{header.algorithm}</th>
-                                <th>{header.evaluation}</th>
-                                <th>{header.state}</th>
-                                <th>{header.start_time}</th>
-                                <th>{header.finish_time}</th>
-                                <th>{header.details}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderTableData()}
-                        </tbody>
-                    </table>                    
-
-                </div>
-            </BorderWrapper>
+            <Grid container spacing={5}>
+                <Grid item sm={12}>
+                    <Typography variant="h4" component="h1" gutterBottom>Processes</Typography>
+                </Grid>
+            </Grid>
+            <TableContainer>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>{header.id}</TableCell>
+                            <TableCell>{header.dataset}</TableCell>
+                            <TableCell>{header.algorithm}</TableCell>
+                            <TableCell>{header.evaluation}</TableCell>
+                            <TableCell>{header.state}</TableCell>
+                            <TableCell>{header.start_time}</TableCell>
+                            <TableCell>{header.finish_time}</TableCell>
+                            <TableCell>{header.details}</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.renderTableData()}
+                    </TableBody>
+                </Table>                    
+            </TableContainer>
         </form>
         );
     }
@@ -46,17 +57,17 @@ class ProcessesList extends React.Component {
         return this.props.process_list.map((item, index) => {
             const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at, details } = item //destructuring
             return (
-               <tr key={id}>
-                  <td>{id}</td>
-                  <td>{dataset_name}</td>
-                  <td>{algorithm_name}</td>
-                  <td>{evaluation}</td>
-                  <td>{state}</td>
-                  <td>{started_at}</td>
-                  <td>{finished_at}</td>
-                  <td>{details}</td>
-                  <td><button type="button" onClick={(e) => this.props.showDetails(id)}>Click for Details</button></td>
-               </tr>
+               <TableRow key={id}>
+                  <TableCell>{id}</TableCell>
+                  <TableCell>{dataset_name}</TableCell>
+                  <TableCell>{algorithm_name}</TableCell>
+                  <TableCell>{evaluation}</TableCell>
+                  <TableCell>{state}</TableCell>
+                  <TableCell>{started_at}</TableCell>
+                  <TableCell>{finished_at}</TableCell>
+                  {/* <TableCell>{details}</TableCell> */}
+                  <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
+               </TableRow>
             )
          })
     }

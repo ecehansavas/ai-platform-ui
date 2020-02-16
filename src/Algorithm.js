@@ -1,5 +1,10 @@
 import React from 'react';
-import BorderWrapper from 'react-border-wrapper'
+import Typography from '@material-ui/core/Typography';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 class Algorithm extends React.Component {
     constructor(props) {
@@ -9,18 +14,30 @@ class Algorithm extends React.Component {
 
     render(){
         return (
-        <BorderWrapper>
-            <form>
-                <div>Dataset Component</div>
-                <label>Algorithm:</label>
-                <select value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
-                    <option value="hoeffding_tree">Hoeffding Tree </option>
-                    <option value="k_means">K-Means</option>
-                    <option value="d3">D3</option>
-                </select>
-                <div>Description of {this.props.selected_algorithm}</div>
-            </form>
-        </ BorderWrapper>
+        <ExpansionPanel expanded={true}>
+            <ExpansionPanelSummary>
+                <Typography variant="h4" component="h1" gutterBottom> Algorithm</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+                <Grid container>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>Use Predefined Algorithm:
+                        <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
+                            <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
+                            <MenuItem value="k_means">K-Means</MenuItem>
+                            <MenuItem value="d3">D3</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+            {/* <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>
+                        <InputLabel htmlFor="description">Description of {this.props.selected_algorithm}</InputLabel>
+                        <Input id="description"/>
+                    </FormControl>
+                </Grid> */}   
+                </Grid>  
+            </ExpansionPanelDetails>
+        </ExpansionPanel>
         );
     }
 }

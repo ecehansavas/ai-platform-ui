@@ -5,6 +5,12 @@ import Algorithm from './Algorithm';
 import ProcessesList from './ProcessesList';
 import DetailedView from './DetailedView';
 import Evaluation from './Evaluation';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
@@ -96,20 +102,47 @@ class App extends React.Component {
     console.log("in render")
     console.log(this.state.process_list)
     return (
-      <div className="App">
-        <Dataset selected_dataset={this.state.selected_dataset} 
-                onDatasetChange={this.handleDatasetChange.bind(this)}
-                onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
-        <Algorithm selected_algorithm={this.state.selected_algorithm}
-                onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
-        <Evaluation selected_evaluation={this.state.selected_evaluation}
-                onEvaluationChange={this.handleEvaluationChange.bind(this)}/>
-        <button onClick={this.startProcess.bind(this)}>Run</button>
-        <hr/>
-        <ProcessesList process_list={this.state.process_list} 
-                       showDetails={this.handleShowDetails.bind(this)}/>
-        <DetailedView selected_process={this.state.selected_process}/>  
-      </div>
+      <Container>
+        <Box>
+          <Typography variant="h3" component="h1" gutterBottom>
+            APP_NAME
+          </Typography>
+        </Box>
+        <Divider />
+        <Box>
+          <Dataset selected_dataset={this.state.selected_dataset} 
+                  onDatasetChange={this.handleDatasetChange.bind(this)}
+                  onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
+        </Box>
+        <br />
+        <Divider />
+        <Box>
+          <Algorithm selected_algorithm={this.state.selected_algorithm}
+                  onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
+        </Box>
+        <br />
+        <Divider />
+        <Box>
+          <Evaluation selected_evaluation={this.state.selected_evaluation}
+                  onEvaluationChange={this.handleEvaluationChange.bind(this)}/>
+        </Box>
+        <br />
+        <Grid item xs={12} sm={2}>
+          <Button fullWidth variant="contained" onClick={this.startProcess.bind(this)}>Run</Button>
+        </Grid>
+        <hr />
+
+        <Box>
+          <ProcessesList process_list={this.state.process_list} 
+                        showDetails={this.handleShowDetails.bind(this)}/>
+        </Box>
+        <br />
+        <Divider />
+
+        <Box>
+          <DetailedView selected_process={this.state.selected_process}/>  
+        </Box>
+      </Container>
     );
   }
 
