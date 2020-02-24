@@ -65,7 +65,6 @@ class ProcessesList extends React.Component {
                   <TableCell>{state}</TableCell>
                   <TableCell>{started_at}</TableCell>
                   <TableCell>{finished_at}</TableCell>
-                  {/* <TableCell>{details}</TableCell> */}
                   <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
                </TableRow>
             )

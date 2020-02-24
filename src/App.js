@@ -15,14 +15,28 @@ import Grid from '@material-ui/core/Grid';
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
     valid_datasets : ['kdd99'],
-    valid_parameters : [
-
-    ]},
+    valid_parameters : []
+  },
   "d3" : {
     valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : [
-
-    ]}
+    valid_parameters : []
+  },
+  "denstream" : {
+    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
+    valid_parameters : []
+  },
+  "clustream" : {
+    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
+    valid_parameters : []
+  },
+  "k_means" : {
+    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
+    valid_parameters : []
+  },
+  "knn" : {
+    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
+    valid_parameters : []
+  }
 }
 
 class App extends React.Component {
@@ -83,12 +97,9 @@ class App extends React.Component {
       cache: 'no-cache'
     })
     .then((data) => {
-      console.log("Received data")
-      console.log(data)
       this.setState({loading: false})
     })
     .catch((error) => {
-      console.log("ERROOORR")
       console.log(error)
     })
   }
@@ -99,8 +110,6 @@ class App extends React.Component {
   }
 
   render(){
-    console.log("in render")
-    console.log(this.state.process_list)
     return (
       <Container>
         <Box>
@@ -161,23 +170,19 @@ class App extends React.Component {
       }
     })
     .then(response=> {
-      console.log("in response")
-      console.log(response)
       return response.json()
     })
     .then(data => {
       this.setState({loading: false})
-      console.log("received data: ")
-      console.log(data)
       this.setState({process_list: data.jobs})
     })
     .catch(e => {
       this.setState({loading: false})
-      console.log("in error")
       console.log(e)
     });
   }
 
+  
   
 }
 
