@@ -41,12 +41,12 @@ class Dataset extends React.Component {
                     </Grid> */}
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth> Stream Period: 
-                            <Input type="number" value={this.props.stream_period} onChange={(e) => this.props.onParameterChange("stream_period", e.target.value)}/>
+                            <Input type="number" value={this.props.parameters.stream_period} onChange={(e) => this.props.onParameterChange("stream_period", e.target.value)}/>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth> Window Length: 
-                            <Input type="number" value={this.props.window_length} onChange={(e) => this.props.onParameterChange("window_length", e.target.value)}/>
+                            <Input type="number" value={this.props.parameters.window_length} onChange={(e) => this.props.onParameterChange("window_length", e.target.value)}/>
                         </FormControl>
                     </Grid>
                     <Grid item sm={1}>
@@ -54,12 +54,12 @@ class Dataset extends React.Component {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth> Start:
-                            <Input type="number" value={this.props.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
+                            <Input type="number" value={this.props.parameters.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth> Stop:
-                            <Input type="number" value={this.props.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
+                            <Input type="number" value={this.props.parameters.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
                         </FormControl>
                     </Grid>
                     <Grid item sm={1}>
@@ -67,7 +67,7 @@ class Dataset extends React.Component {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth> Repeat Count for Each Instance:
-                            <Input type="number" value={this.props.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
+                            <Input type="number" value={this.props.parameters.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
                         </FormControl>
                     </Grid>
                 </Grid>

@@ -12,30 +12,40 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 
+const KNOWN_DATASETS = {  
+  "kdd99" : {
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn']
+  },
+  "kdd99raw" : {
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn']
+  },
+  "pnts_drifted" : {
+    valid_algorithms: ['d3']
+  },
+  "pnts_stable" : {
+    valid_algorithms: ['d3']
+  }
+}
+
+
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
-    valid_datasets : ['kdd99'],
-    valid_parameters : []
+    extra_parameters : ['max_sample', 'batch_size','n_wait','max_time','restart_stream']
   },
   "d3" : {
-    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : []
+    extra_parameters : ['w','n_features','auc']
   },
   "denstream" : {
-    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : []
+    extra_parameters : []
   },
   "clustream" : {
-    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : []
+    extra_parameters : []
   },
   "k_means" : {
-    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : []
+    extra_parameters : ['max_iter','n_init', 'random_state']
   },
   "knn" : {
-    valid_datasets : ['kdd99','pnts_drifted','pnts_stable'],
-    valid_parameters : []
+    extra_parameters : ['weighting','max_window_size','max_sample','batch_size','n_wait','max_time','restart_stream']
   }
 }
 
@@ -59,7 +69,7 @@ class App extends React.Component {
   }
 
   handleDatasetChange(event) {
-    this.setState({selected_dataset: event.target.value})
+    this.setState({selected_dataset: event.target.value, dataset_parameters: {}})
   }
 
   handleDatasetParameterChange(name, value){
@@ -71,7 +81,15 @@ class App extends React.Component {
   }
 
   handleAlgorithmChange(event){
-    this.setState({selected_algorithm: event.target.value})
+    this.setState({selected_algorithm: event.target.value, algorithm_parameters: {}})
+  }
+
+  handleAlgorithmParameterChange(name, value){
+    let param = {
+      ...this.state.algorithm_parameters
+    }
+    param[name] = value
+    this.setState({algorithm_parameters: param})
   }
 
   handleEvaluationChange(event){
@@ -120,6 +138,7 @@ class App extends React.Component {
         <Divider />
         <Box>
           <Dataset selected_dataset={this.state.selected_dataset} 
+                  parameters={this.state.dataset_parameters}
                   onDatasetChange={this.handleDatasetChange.bind(this)}
                   onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
         </Box>
@@ -127,7 +146,9 @@ class App extends React.Component {
         <Divider />
         <Box>
           <Algorithm selected_algorithm={this.state.selected_algorithm}
-                  onAlgorithmChange={this.handleAlgorithmChange.bind(this)}/>
+                  parameters = {this.state.algorithm_parameters}
+                  onAlgorithmChange={this.handleAlgorithmChange.bind(this)}
+                  onParameterChange={this.handleAlgorithmParameterChange.bind(this)}/>
         </Box>
         <br />
         <Divider />
