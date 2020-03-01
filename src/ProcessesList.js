@@ -54,7 +54,7 @@ class ProcessesList extends React.Component {
         );
     }
     renderTableData(){
-        return this.props.process_list.map((item, index) => {
+        return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
             const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at, details } = item //destructuring
             return (
                <TableRow key={id}>

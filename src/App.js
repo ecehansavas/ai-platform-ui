@@ -27,13 +27,13 @@ const KNOWN_DATASETS = {
   }
 }
 
-
+// TODO: fundamental paramları ve defaultları ekle
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
-    extra_parameters : ['max_sample', 'batch_size','n_wait','max_time','restart_stream']
+    extra_parameters : ['max_sample', 'batch_size','restart_stream']
   },
   "d3" : {
-    extra_parameters : ['w','n_features','auc']
+    extra_parameters : ['w','auc']
   },
   "denstream" : {
     extra_parameters : []
@@ -45,7 +45,8 @@ const KNOWN_ALGORITHMS = {
     extra_parameters : ['max_iter','n_init', 'random_state']
   },
   "knn" : {
-    extra_parameters : ['weighting','max_window_size','max_sample','batch_size','n_wait','max_time','restart_stream']
+    fundamental_parameters: {'k': 3}, 
+    extra_parameters : {'max_window_size': 10, 'max_sample': 20, 'batch_size': 20,'n_wait': 7,'max_time': 3}
   }
 }
 
@@ -81,7 +82,9 @@ class App extends React.Component {
   }
 
   handleAlgorithmChange(event){
-    this.setState({selected_algorithm: event.target.value, algorithm_parameters: {}})
+    let algorithm = event.target.value
+    let parameters = {...KNOWN_ALGORITHMS[algorithm].fundamental_parameters, ...KNOWN_ALGORITHMS[algorithm].extra_parameters}
+    this.setState({selected_algorithm: algorithm, algorithm_parameters: parameters})
   }
 
   handleAlgorithmParameterChange(name, value){

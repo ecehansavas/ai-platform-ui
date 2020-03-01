@@ -31,8 +31,7 @@ class DetailedView extends React.Component {
         }
         else if(this.props.selected_process.algorithm_name=="k_means") 
         {
-            console.log("implement et")
-           
+            output = JSON.stringify(this.props.selected_process.results,null,2)
         }
         else if(this.props.selected_process.algorithm_name=="denstream")
         {

@@ -3,9 +3,12 @@ import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
+import Checkbox from '@material-ui/core/Checkbox';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+
 
 class Algorithm extends React.Component {
     constructor(props) {
@@ -89,6 +92,52 @@ class Algorithm extends React.Component {
                         <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
                     </FormControl>
                 </Grid>
+                <Grid item xs={12} sm={12}>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary >
+                            <Typography>Advanced Parameters</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Maximum Window Size: 
+                                <Input type="number" value={this.props.parameters.max_window_size} onChange={(e) => this.props.onParameterChange("max_window_size", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Maximum Sample: 
+                                <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Batch Size: 
+                                <Input type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> n_wait: 
+                                <Input type="number" value={this.props.parameters.n_wait} onChange={(e) => this.props.onParameterChange("n_wait", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Maximum Working Time: 
+                                <Input type="number" value={this.props.parameters.max_time} onChange={(e) => this.props.onParameterChange("max_time", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </Grid>
             </Grid>
         )
     }
@@ -104,6 +153,37 @@ class Algorithm extends React.Component {
                 <Grid item sm={1}>
                     &nbsp;
                 </Grid>
+                <Grid item xs={12} sm={12}>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary >
+                            <Typography>Advanced Parameters</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                        
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Maximum Iteration: 
+                                <Input type="number" value={this.props.parameters.max_iter} onChange={(e) => this.props.onParameterChange("max_iter", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> N_Init: 
+                                <Input type="number" value={this.props.parameters.n_init} onChange={(e) => this.props.onParameterChange("n_init", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Random State: 
+                                <Input type="number" value={this.props.parameters.random_state} onChange={(e) => this.props.onParameterChange("random_state", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </Grid>
             </Grid>
         )
     }
@@ -113,12 +193,42 @@ class Algorithm extends React.Component {
         <Grid container>  
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth> Pretrain Size: 
-                    <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
+                    <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
                 </FormControl>
             </Grid>
             <Grid item sm={1}>
                 &nbsp;
             </Grid> 
+            <Grid item xs={12} sm={12}>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary >
+                        <Typography>Advanced Parameters</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                    <Grid item xs={12} sm={4}>
+                        <FormControl fullWidth> Maximum Sample: 
+                            <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                        </FormControl>
+                    </Grid>
+                    <Grid item sm={1}>
+                        &nbsp;
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <FormControl fullWidth> Batch Size: 
+                            <Input type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
+                        </FormControl>
+                    </Grid>
+                    <Grid item sm={1}>
+                        &nbsp;
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Restart Stream: 
+                        <Checkbox color="primary" onChange={(e) => this.props.onParameterChange("restart_stream", e.target.value)} value={this.props.parameters.restart_stream}  />
+                    </FormControl>
+                    </Grid>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </Grid>
         </Grid>
         )
     }
@@ -173,6 +283,28 @@ class Algorithm extends React.Component {
             <Grid item sm={1}>
                 &nbsp;
             </Grid> 
+            <Grid item xs={12} sm={12}>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary >
+                        <Typography>Advanced Parameters</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                    <Grid item xs={12} sm={4}>
+                        <FormControl fullWidth> W: 
+                            <Input type="number" value={this.props.parameters.w} onChange={(e) => this.props.onParameterChange("w", e.target.value)}/>
+                        </FormControl>
+                    </Grid>
+                    <Grid item sm={1}>
+                        &nbsp;
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                        <FormControl fullWidth> Auc: 
+                            <Input type="number" value={this.props.parameters.auc} onChange={(e) => this.props.onParameterChange("auc", e.target.value)}/>
+                        </FormControl>
+                    </Grid>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </Grid>
         </Grid>
         )
     }
