@@ -31,7 +31,7 @@ class ProcessesList extends React.Component {
                     <Typography variant="h4" component="h1" gutterBottom>Processes</Typography>
                 </Grid>
             </Grid>
-            <TableContainer>
+            <TableContainer style={{maxHeight:400}}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -53,6 +53,7 @@ class ProcessesList extends React.Component {
         </form>
         );
     }
+    // TODO: time ı burada formatla
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
             const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at, details } = item //destructuring

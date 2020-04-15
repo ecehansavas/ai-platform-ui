@@ -33,6 +33,7 @@ class Algorithm extends React.Component {
                                 <MenuItem value="d3">D3</MenuItem>
                                 <MenuItem value="denstream">DenStream</MenuItem>
                                 <MenuItem value="clustream">CluStream</MenuItem>
+                                <MenuItem value="half_space_tree">Half Space Trees</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -40,12 +41,12 @@ class Algorithm extends React.Component {
                         &nbsp;
                     </Grid>
                     { this.renderParameters(this.props.selected_algorithm) }
-            {/* <Grid item xs={12} sm={4}>
+                    {/* <Grid item xs={12} sm={4}>
                     <FormControl fullWidth>
                         <InputLabel htmlFor="description">Description of {this.props.selected_algorithm}</InputLabel>
                         <Input id="description"/>
                     </FormControl>
-                </Grid> */}   
+                    </Grid> */}   
                 </Grid>  
             </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -70,6 +71,9 @@ class Algorithm extends React.Component {
         }
         else if(algorithm == "d3"){
             return this.renderD3()
+        }
+        else if(algorithm == "half_space_tree"){
+            return this.renderHalfSpaceTree()
         }
         else {
             return "";
@@ -306,6 +310,67 @@ class Algorithm extends React.Component {
                 </ExpansionPanel>
             </Grid>
         </Grid>
+        )
+    }
+
+    renderHalfSpaceTree(){
+        return(
+            <Grid container>  
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Feature Size: 
+                        <Input type="number" value={this.props.parameters.n_features} onChange={(e) => this.props.onParameterChange("n_features", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid> 
+                <Grid item xs={12} sm={12}>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary >
+                            <Typography>Advanced Parameters</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Estimator Size: 
+                                <Input type="number" value={this.props.parameters.n_estimators} onChange={(e) => this.props.onParameterChange("n_estimators", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Window Size: 
+                                <Input type="number" value={this.props.parameters.window_size} onChange={(e) => this.props.onParameterChange("window_size", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Depth: 
+                                <Input type="number" value={this.props.parameters.depth} onChange={(e) => this.props.onParameterChange("depth", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Size Limit: 
+                                <Input type="number" value={this.props.parameters.size_limit} onChange={(e) => this.props.onParameterChange("size_limit", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Anomaly Threshold: 
+                                <Input type="number" value={this.props.parameters.anomaly_threshold} onChange={(e) => this.props.onParameterChange("anomaly_threshold", e.target.value)}/>
+                            </FormControl>
+                        </Grid>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </Grid>
+            </Grid>
         )
     }
 

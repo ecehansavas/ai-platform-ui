@@ -11,19 +11,39 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://github.com/ecehansavas">
+        Ecehan SAVAS BASAK
+      </Link>{' '}
+      <br />
+      {new Date().getFullYear()}
+    </Typography>
+  );
+}
 
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn']
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn', 'half_space_tree']
   },
   "kdd99raw" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn']
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn', 'half_space_tree']
   },
   "pnts_drifted" : {
     valid_algorithms: ['d3']
   },
   "pnts_stable" : {
     valid_algorithms: ['d3']
+  },
+  "sea" : {
+    valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
+  },
+  "hyperplane" : {
+    valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
   }
 }
 
@@ -47,30 +67,38 @@ const KNOWN_ALGORITHMS = {
   "knn" : {
     fundamental_parameters: {'k': 3}, 
     extra_parameters : {'max_window_size': 10, 'max_sample': 20, 'batch_size': 20,'n_wait': 7,'max_time': 3}
+  },
+  "half_space_tree":{
+    fundamental_parameters: [], 
+    extra_parameters : {'n_features':1, 'window_size': 250, 'depth':15, 'n_estimators':25, 'size_limit':50, 'anomaly_threshold':0.5}
   }
+
 }
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {     
-        selected_dataset: 'kdd99',
-        dataset_parameters: {stream_period: '0',
-                            window_length: '10',
-                            start_value: '0',
-                            stop_value: '',
-                            repeat_count: '1'},
-        selected_algorithm: 'hoeffding_tree',
+        selected_dataset: '',
+        selected_generator: '',
+        dataset_parameters: {},
+        selected_algorithm: '',
         algorithm_parameters: {},
         process_list: [],
-        selected_evaluation: 'prequential',
+        selected_evaluation: '',
         selected_process: '',
-        loading: false
+        loading: false,
+        is_dataset_generated: false
     }
+    this.myRef=React.createRef();
   }
 
   handleDatasetChange(event) {
     this.setState({selected_dataset: event.target.value, dataset_parameters: {}})
+  }
+
+  handleGeneratorChange(event) {
+    this.setState({selected_generator: event.target.value})
   }
 
   handleDatasetParameterChange(name, value){
@@ -99,6 +127,13 @@ class App extends React.Component {
     this.setState({selected_evaluation: event.target.value})
   }
 
+  onDatasetTypeSelected(datasetType,expanded){
+    if (datasetType=="predefined")
+      this.setState({is_dataset_generated: false, dataset_parameters: {}})
+    else
+      this.setState({is_dataset_generated: true, dataset_parameters: {}})
+  }
+
   startProcess(event){
     let new_process = {}
 
@@ -107,6 +142,7 @@ class App extends React.Component {
     new_process.dataset_parameters = this.state.dataset_parameters
     new_process.algorithm_parameters = this.state.algorithm_parameters
     new_process.selected_evaluation = this.state.selected_evaluation
+    new_process.selected_generator = this.state.selected_generator
     this.setState({loading: true})
     fetch('http://localhost:8000/api/new_job', {
       method: 'POST',
@@ -128,7 +164,9 @@ class App extends React.Component {
   handleShowDetails(id){
     let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
     this.setState({selected_process: selectedprocess[0]})
+    window.scrollTo(0, this.myRef.current.offsetTop);
   }
+
 
   render(){
     return (
@@ -141,9 +179,14 @@ class App extends React.Component {
         <Divider />
         <Box>
           <Dataset selected_dataset={this.state.selected_dataset} 
+                  selected_generator = {this.state.selected_generator}
+                  is_dataset_generated = {this.state.is_dataset_generated}
                   parameters={this.state.dataset_parameters}
                   onDatasetChange={this.handleDatasetChange.bind(this)}
-                  onParameterChange={this.handleDatasetParameterChange.bind(this)}/>
+                  onParameterChange={this.handleDatasetParameterChange.bind(this)}
+                  onGeneratorChange={this.handleGeneratorChange.bind(this)}
+                  onDatasetTypeSelected= {this.onDatasetTypeSelected.bind(this)}
+                  />
         </Box>
         <br />
         <Divider />
@@ -173,9 +216,13 @@ class App extends React.Component {
         <Divider />
 
         <Box>
-          <DetailedView selected_process={this.state.selected_process}/>  
+          <div ref={this.myRef}>
+            <DetailedView selected_process={this.state.selected_process}/>  
+          </div>
         </Box>
+        <Copyright />
       </Container>
+      
     );
   }
 
