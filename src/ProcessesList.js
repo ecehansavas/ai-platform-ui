@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import Moment from 'moment';
 
 class ProcessesList extends React.Component {
     constructor(props) {
@@ -64,8 +65,8 @@ class ProcessesList extends React.Component {
                   <TableCell>{algorithm_name}</TableCell>
                   <TableCell>{evaluation}</TableCell>
                   <TableCell>{state}</TableCell>
-                  <TableCell>{started_at}</TableCell>
-                  <TableCell>{finished_at}</TableCell>
+                  <TableCell>{Moment(started_at).format('d.MM.YYYY hh:mm:ss')}</TableCell>
+                  <TableCell>{Moment(finished_at).format('d.MM.YYYY hh:mm:ss')}</TableCell>
                   <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
                </TableRow>
             )

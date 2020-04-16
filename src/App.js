@@ -136,8 +136,16 @@ class App extends React.Component {
 
   startProcess(event){
     let new_process = {}
-
-    new_process.dataset_name = this.state.selected_dataset
+    
+    if (this.state.is_dataset_generated == false)
+      if(this.state.selected_dataset==="")
+        return
+      else
+        new_process.dataset_name = this.state.selected_dataset
+      
+    if(this.state.selected_algorithm ==="")
+      return
+    
     new_process.algorithm_name = this.state.selected_algorithm
     new_process.dataset_parameters = this.state.dataset_parameters
     new_process.algorithm_parameters = this.state.algorithm_parameters
@@ -209,7 +217,8 @@ class App extends React.Component {
         <hr />
 
         <Box>
-          <ProcessesList process_list={this.state.process_list} 
+          <ProcessesList process_list={this.state.process_list}
+                        selected_generator = {this.state.selected_generator} 
                         showDetails={this.handleShowDetails.bind(this)}/>
         </Box>
         <br />
@@ -220,6 +229,8 @@ class App extends React.Component {
             <DetailedView selected_process={this.state.selected_process}/>  
           </div>
         </Box>
+        <br />
+        <br />
         <Copyright />
       </Container>
       

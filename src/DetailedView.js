@@ -55,8 +55,7 @@ class DetailedView extends React.Component {
                             <FormControl fullWidth> Selected Algorithm: {this.props.selected_process.algorithm_name}</FormControl>
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                        Results:
-                                <code style={{whiteSpace:"pre-wrap"}}>{output}</code>
+                        Results:<code style={{whiteSpace:"pre-wrap"}}>{output}</code>
                         </Grid>
                     </Grid>
                 </div>
