@@ -2,8 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
+import TextField from "@material-ui/core/TextField";
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
@@ -12,6 +12,8 @@ class Dataset extends React.Component {
     constructor(props) {
         super(props);
     }   
+
+    
 
     render(){
         return (
@@ -44,16 +46,16 @@ class Dataset extends React.Component {
                                 <Input id="description"/>
                             </FormControl>
                         </Grid> */}
-                        <Grid item xs={12} sm={4}>
+                        {/* <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Stream Period: 
                                 <Input type="number" value={this.props.parameters.stream_period} onChange={(e) => this.props.onParameterChange("stream_period", e.target.value)}/>
                             </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
+                        </Grid> */}
+                        {/* <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Window Length: 
                                 <Input type="number" value={this.props.parameters.window_length} onChange={(e) => this.props.onParameterChange("window_length", e.target.value)}/>
                             </FormControl>
-                        </Grid>
+                        </Grid> */}
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
@@ -61,6 +63,9 @@ class Dataset extends React.Component {
                             <FormControl fullWidth> Start:
                                 <Input type="number" value={this.props.parameters.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
                             </FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Stop:
@@ -70,11 +75,11 @@ class Dataset extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        {/* <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Repeat Count for Each Instance:
                                 <Input type="number" value={this.props.parameters.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
                             </FormControl>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

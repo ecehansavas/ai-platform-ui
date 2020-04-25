@@ -54,10 +54,12 @@ class ProcessesList extends React.Component {
         </form>
         );
     }
-    // TODO: time ı burada formatla
+    
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
             const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at, details } = item //destructuring
+            let formattedFinishDate= finished_at ? Moment(finished_at).format('d.MM.YYYY hh:mm:ss') : ""
+            let formattedStartDate =started_at ? Moment(started_at).format('d.MM.YYYY hh:mm:ss') : ""
             return (
                <TableRow key={id}>
                   <TableCell>{id}</TableCell>
@@ -65,8 +67,8 @@ class ProcessesList extends React.Component {
                   <TableCell>{algorithm_name}</TableCell>
                   <TableCell>{evaluation}</TableCell>
                   <TableCell>{state}</TableCell>
-                  <TableCell>{Moment(started_at).format('d.MM.YYYY hh:mm:ss')}</TableCell>
-                  <TableCell>{Moment(finished_at).format('d.MM.YYYY hh:mm:ss')}</TableCell>
+                  <TableCell>{formattedStartDate}</TableCell>
+                  <TableCell>{formattedFinishDate}</TableCell>
                   <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
                </TableRow>
             )
