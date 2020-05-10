@@ -17,7 +17,7 @@ class Evaluation extends React.Component {
         return (
         <ExpansionPanel expanded={true}>
             <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom> Evaluation</Typography>
+                <Typography variant="h4" component="h1" gutterBottom>EVALUATION</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <Grid container >
@@ -32,17 +32,9 @@ class Evaluation extends React.Component {
                     <Grid item xs={12} sm={12}>
                     <ExpansionPanel>
                         <ExpansionPanelSummary >
-                            <Typography>Advanced  Parameters</Typography>
+                            <Typography variant="h5">Advanced  Parameters</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Pretrain Size: 
-                                <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Maximum Sample: 
                                 <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
@@ -67,7 +59,7 @@ class Evaluation extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
-                        
+                        { this.renderEvaluation(this.props.selected_evaluation) }
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </Grid>
@@ -76,6 +68,23 @@ class Evaluation extends React.Component {
         </ExpansionPanel>
         );
     }
+
+    renderEvaluation(evaluation) {
+        if(evaluation==="prequential"){
+            return this.renderPretrain() ;
+        }
+    }
+
+    renderPretrain() {
+        return (
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Pretrain Size: 
+                    <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
+                </FormControl>
+            </Grid>
+        )
+    }
+
 }
 
 export default Evaluation;

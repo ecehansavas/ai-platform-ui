@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
-import TextField from "@material-ui/core/TextField";
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
@@ -13,17 +12,15 @@ class Dataset extends React.Component {
         super(props);
     }   
 
-    
-
     render(){
         return (
         <ExpansionPanel expanded={true}>
             <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom>Dataset</Typography>
+                <Typography variant="h4" component="h1" gutterBottom>DATASET</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanel onChange={(e,expanded)=>{this.props.onDatasetTypeSelected("predefined",expanded)}} expanded={!this.props.is_dataset_generated}>
                 <ExpansionPanelSummary>
-                    <Typography>Predefined Dataset</Typography>
+                    <Typography variant="h5">Predefined Dataset</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
@@ -86,7 +83,7 @@ class Dataset extends React.Component {
         
             <ExpansionPanel onChange={(e,expanded)=>{this.props.onDatasetTypeSelected("generated",expanded)}} expanded={this.props.is_dataset_generated}>
                 <ExpansionPanelSummary >
-                    <Typography>Dataset Generator</Typography>
+                    <Typography variant="h5">Dataset Generator</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid container>
@@ -110,10 +107,10 @@ class Dataset extends React.Component {
     }
 
     renderGenerator(generator) {
-        if (generator == "hyperplane") {
+        if (generator === "hyperplane") {
             return this.renderHyperplaneParameters()
         }
-        else if (generator == "sea") {
+        else if (generator === "sea") {
             return this.renderSeaParameters()
         }
         else {

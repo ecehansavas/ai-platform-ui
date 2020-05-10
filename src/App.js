@@ -41,16 +41,19 @@ const KNOWN_DATASETS = {
   },
 
   "sea" : {
+    fundamental_parameters: {'noise_percentage': 0.0}, 
     valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
   },
   "hyperplane" : {
+    fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1}, 
     valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
   }
 }
 
-// TODO: fundamental paramları ve defaultları ekle
+
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0}
   },
   "d3" : {
     fundamental_parameters: {'rho': 0.1}, 
@@ -76,7 +79,7 @@ const KNOWN_ALGORITHMS = {
 
 }
 
-const EVALUATION = {
+const KNOWN_EVALUATION = {
   "holdout" : {
     fundamental_parameters : { 'max_sample':100000 , 'batch_size':1 ,'n_wait':10000 }
   },
@@ -110,7 +113,9 @@ class App extends React.Component {
   }
 
   handleGeneratorChange(event) {
-    this.setState({selected_generator: event.target.value})
+    let generator = event.target.value
+    let parameters = {...KNOWN_DATASETS[generator].fundamental_parameters}
+    this.setState({selected_generator: generator, dataset_parameters:parameters})
   }
 
   handleDatasetParameterChange(name, value){
@@ -136,7 +141,9 @@ class App extends React.Component {
   }
 
   handleEvaluationChange(event){
-    this.setState({selected_evaluation: event.target.value})
+    let evaluation = event.target.value
+    let parameters = {...KNOWN_EVALUATION[evaluation].fundamental_parameters}
+    this.setState({selected_evaluation: evaluation, evaluation_parameters: parameters})
   }
 
   handleEvaluationParameterChange(name, value){
@@ -149,7 +156,7 @@ class App extends React.Component {
   }
 
   onDatasetTypeSelected(datasetType,expanded){
-    if (datasetType=="predefined")
+    if (datasetType==="predefined")
       this.setState({is_dataset_generated: false, dataset_parameters: {}})
     else
       this.setState({is_dataset_generated: true, dataset_parameters: {}})
@@ -196,8 +203,6 @@ class App extends React.Component {
   }
 
   validate(){
-    let intregex = /^([+-]?[1-9]\d*|0)$/;
-    
     let errors = []
   
 // TODO: phase 2: kural fonksiyonlari yaz
@@ -223,8 +228,31 @@ class App extends React.Component {
     if (this.exists('ds','start_value') && this.exists('ds','stop_value') && 
     this.state.dataset_parameters['start_value'] > this.state.dataset_parameters['stop_value'])
       errors.push('Start can not be bigger than stop')
+
+    //TODO Generator areas
+    
     
     // Algorithms areas
+    //hoeffding tree
+    if(this.exists('alg', 'grace_period')){
+      if(this.isLessThanZero('alg', 'grace_period'))
+        errors.push('Grace Period can not be less than zero')
+      if(!this.isInteger('alg','grace_period') )
+        errors.push('Grace Period count must be integer') 
+    }
+    if(this.exists('alg', 'tie_threshold')){
+      if(this.isLessThanZero('alg', 'tie_threshold'))
+        errors.push('Tie Threshold can not be less than zero')
+      if(!this.isFloat('alg','tie_threshold') )
+        errors.push('Tie Threshold count must be integer') 
+    }
+    if(this.exists('alg', 'nb_threshold')){
+      if(this.isLessThanZero('alg', 'nb_threshold'))
+        errors.push('Naive Bayes Threshold can not be less than zero')
+      if(!this.isInteger('alg','nb_threshold') )
+        errors.push('Naive Bayes Threshold count must be integer') 
+    }
+
     // knn
     if(this.exists('alg','neighbors')){
       if(this.isLessThanZero('alg','neighbors'))
@@ -311,13 +339,14 @@ class App extends React.Component {
 
     this.setState({errors:errors})
     console.log(errors)
-    return errors.length == 0
+    return errors.length === 0
   }
 
   startProcess(event){
+    this.setState({loading: true})
     let new_process = {}
     
-    if (this.state.is_dataset_generated == false)
+    if (this.state.is_dataset_generated === false)
       if(this.state.selected_dataset === "")
         return
       else
@@ -345,10 +374,11 @@ class App extends React.Component {
       cache: 'no-cache'
     })
     .then((data) => {
-      this.setState({loading: false})
+      this.fetchAllJobs()
     })
     .catch((error) => {
       console.log(error)
+      this.setState({loading: false})
     })
   }
 
@@ -356,6 +386,25 @@ class App extends React.Component {
     let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
     this.setState({selected_process: selectedprocess[0]})
     window.scrollTo(0, this.myRef.current.offsetTop);
+  }
+
+  deleteItem(id){
+    this.setState({loading: true})
+    fetch(`http://localhost:8000/api/delete_job/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      cache: 'no-cache'
+    })
+    .then((data) => {
+      this.fetchAllJobs()
+    })
+    .catch((error) => {
+      console.log(error)
+      this.setState({loading: false})
+    })
   }
 
 
@@ -404,7 +453,8 @@ class App extends React.Component {
         <Box>
           <ProcessesList process_list={this.state.process_list}
                         selected_generator = {this.state.selected_generator} 
-                        showDetails={this.handleShowDetails.bind(this)}/>
+                        showDetails={this.handleShowDetails.bind(this)}
+                        delete = {this.deleteItem.bind(this)}/>
         </Box>
         <br />
         <Divider />

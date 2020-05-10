@@ -24,12 +24,13 @@ class ProcessesList extends React.Component {
                         state:'State',
                         start_time:'Start Time',
                         finish_time: 'Finish Time',
-                        details: 'Details'}
+                        details: 'Details',
+                        delete: 'Delete'}
         return (
         <form>
             <Grid container spacing={5}>
                 <Grid item sm={12}>
-                    <Typography variant="h4" component="h1" gutterBottom>Processes</Typography>
+                    <Typography variant="h4" component="h1" gutterBottom>PROCESSES</Typography>
                 </Grid>
             </Grid>
             <TableContainer style={{maxHeight:400}}>
@@ -44,6 +45,7 @@ class ProcessesList extends React.Component {
                             <TableCell>{header.start_time}</TableCell>
                             <TableCell>{header.finish_time}</TableCell>
                             <TableCell>{header.details}</TableCell>
+                            <TableCell>{header.delete}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -57,7 +59,7 @@ class ProcessesList extends React.Component {
     
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
-            const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at, details } = item //destructuring
+            const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at} = item //destructuring
             let formattedFinishDate= finished_at ? Moment(finished_at).format('d.MM.YYYY hh:mm:ss') : ""
             let formattedStartDate =started_at ? Moment(started_at).format('d.MM.YYYY hh:mm:ss') : ""
             return (
@@ -70,6 +72,7 @@ class ProcessesList extends React.Component {
                   <TableCell>{formattedStartDate}</TableCell>
                   <TableCell>{formattedFinishDate}</TableCell>
                   <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
+                  <TableCell><Button onClick={(e) => this.props.delete(id)}>Delete</Button></TableCell>
                </TableRow>
             )
          })

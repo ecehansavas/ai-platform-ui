@@ -19,23 +19,23 @@ class DetailedView extends React.Component {
         }
        
         var output
-        if(this.props.selected_process.algorithm_name=="d3")
+        if(this.props.selected_process.algorithm_name==="d3")
         {
             output = this.props.selected_process.results.output
         }
-        else if(this.props.selected_process.algorithm_name=="hoeffding_tree")
+        else if(this.props.selected_process.algorithm_name==="hoeffding_tree")
         {
             output = JSON.stringify(this.props.selected_process.results,null,2)
         }
-        else if(this.props.selected_process.algorithm_name=="knn")
+        else if(this.props.selected_process.algorithm_name==="knn")
         {
             output = JSON.stringify(this.props.selected_process.results,null,2)
         }
-        else if(this.props.selected_process.algorithm_name=="k_means") 
+        else if(this.props.selected_process.algorithm_name==="k_means") 
         {
             output = JSON.stringify(this.props.selected_process.results,null,2)
         }
-        else if(this.props.selected_process.algorithm_name=="denstream")
+        else if(this.props.selected_process.algorithm_name==="denstream")
         {
             output = JSON.stringify(this.props.selected_process.results,null,2)
         }
@@ -43,16 +43,22 @@ class DetailedView extends React.Component {
         return (
         <ExpansionPanel expanded={true}>
             <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom> Details</Typography>
+                <Typography variant="h4" component="h1" gutterBottom>DETAILS</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <div style={{ maxHeight:400, width:'100%', overflow:'auto'}}>
                     <Grid container>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Selected Dataset: {this.props.selected_process.dataset_name} </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Selected Algorithm: {this.props.selected_process.algorithm_name}</FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth> Selected Evaluation: {this.props.selected_process.evaluation}</FormControl>
+                        </Grid>
+                        <Grid item sm={1}>
+                            &nbsp;
                         </Grid>
                         <Grid item xs={12} sm={12}>
                         Results:<code style={{whiteSpace:"pre-wrap"}}>{output}</code>
