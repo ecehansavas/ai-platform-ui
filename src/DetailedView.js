@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { LineChart, Line, XAxis, YAxis, ZAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
 
 
 class DetailedView extends React.Component {
@@ -60,6 +61,7 @@ class DetailedView extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
+                        {this.renderCharts(this.props.selected_process.algorithm_name) }
                         <Grid item xs={12} sm={12}>
                         Results:<code style={{whiteSpace:"pre-wrap"}}>{output}</code>
                         </Grid>
@@ -69,6 +71,140 @@ class DetailedView extends React.Component {
         </ExpansionPanel> 
         );
     }
+
+    renderCharts(algorithm) {
+        if (algorithm === "knn") {
+            return this.renderKNNParameters()
+        }
+        else if (algorithm === "k_means") {
+            return this.renderKMeans()
+        }
+        else if(algorithm === "hoeffding_tree"){
+            return this.renderHoeffdingTree()
+        }
+        else if(algorithm === "denstream"){
+            return this.renderDenstream()
+        }
+        else if(algorithm === "clustream"){
+            return this.renderClustream()
+        }
+        else if(algorithm === "d3"){
+            return this.renderD3()
+        }
+        else if(algorithm === "half_space_tree"){
+            return this.renderHalfSpaceTree()
+        }
+        else {
+            return "";
+        }
+    }
+
+    renderKNNParameters() {
+        return (
+            <Grid container>  
+                <Grid item xs={12} sm={4}>
+                  
+                </Grid>
+               
+            </Grid>
+        )
+    }
+
+    renderKMeans(){
+        return (
+            <Grid container> 
+                <Grid item xs={12} sm={6}>
+                    <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
+                        <XAxis type="number" dataKey='cluster' />
+                        <YAxis type="number" dataKey='src_bytes' />
+                        <ZAxis type="number" dataKey='dst_bytes' />
+                        <Tooltip trigger="click" />
+                        <Tooltip />
+                        <Legend/>
+                        <Scatter name="Clusters" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'cluster'}} />
+                    </ScatterChart>
+                </Grid>
+            </Grid>   
+        )
+    }
+
+    renderHoeffdingTree(){
+        return(
+            <Grid container> 
+                <Grid item xs={12} sm={6}>
+                    <p>True vs. Expected Value</p>
+                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis dataKey="id" label="Id"/>
+                        <YAxis />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="true_value" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="predicted_value_[M0]" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <p>Accuracy</p>
+                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis dataKey="id" label="Id"/>
+                        <YAxis  />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="current_acc_[M0]" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                <p>Kappa</p>
+                    <LineChart width={1000} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis dataKey="id" label="Id"/>
+                        <YAxis  />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
+                        <Line type="monotone" dataKey="mean_kappa_m_[M0]" stroke="#387908" />
+                        <Line type="monotone" dataKey="current_kappa_m_[M0]" stroke='#d37f89'/>
+                        <Line type="monotone" dataKey="mean_kappa_t_[M0]" stroke="#1b6a73" />
+                        <Line type="monotone" dataKey="current_kappa_t_[M0]" stroke='#960018'/>
+                    </LineChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    renderDenstream(){
+        return(
+           "denstream"
+        )
+    }
+
+    renderClustream(){
+        return(
+            "clustream"
+        )
+    }
+
+    renderD3(){
+        return (
+            "d3"
+        )
+    }
+
+    renderHalfSpaceTree(){
+        return(
+          "halfspace"
+        )
+    }
+
 }
 
 export default DetailedView;
