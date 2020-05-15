@@ -2,6 +2,8 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import { LineChart, Line, XAxis, YAxis, ZAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
 
@@ -9,6 +11,10 @@ import { LineChart, Line, XAxis, YAxis, ZAxis, Legend, Tooltip, CartesianGrid, S
 class DetailedView extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {     
+            scatter_xaxis: '',
+            scatter_yaxis: ''
+        }
         
     }
     
@@ -110,21 +116,45 @@ class DetailedView extends React.Component {
         )
     }
 
+    onAxisChanged(axis, value) {
+        if (axis == 'x') {
+            this.setState({scatter_xaxis: value});
+        }
+        else {
+            this.setState({scatter_yaxis: value});
+        }
+    }
+
     renderKMeans(){
-        return (
+        return (   
             <Grid container> 
+                <Grid item xs={12} sm={3}>
+                    <p>X-Axis: </p>
+                    <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
+                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                            return( <MenuItem value={item}>{item} </MenuItem>)
+                        })}
+                    </Select>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <p>Y-Axis: </p>
+                    <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
+                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                            return( <MenuItem value={item}>{item} </MenuItem>)
+                        })}
+                    </Select>
+                </Grid>
                 <Grid item xs={12} sm={6}>
-                    <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 0, left: 20 }}>
-                        <XAxis type="number" dataKey='cluster' />
-                        <YAxis type="number" dataKey='src_bytes' />
-                        <ZAxis type="number" dataKey='dst_bytes' />
+                    <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                        <XAxis type="number" dataKey={this.state.scatter_xaxis} />
+                        <YAxis type="number" dataKey={this.state.scatter_yaxis} />
                         <Tooltip trigger="click" />
                         <Tooltip />
                         <Legend/>
                         <Scatter name="Clusters" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'cluster'}} />
                     </ScatterChart>
                 </Grid>
-            </Grid>   
+            </Grid> 
         )
     }
 
