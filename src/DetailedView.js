@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { LineChart, Line, XAxis, YAxis, ZAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
 
 
 class DetailedView extends React.Component {
@@ -25,27 +25,7 @@ class DetailedView extends React.Component {
             return null;
         }
        
-        var output
-        if(this.props.selected_process.algorithm_name==="d3")
-        {
-            output = this.props.selected_process.results.output
-        }
-        else if(this.props.selected_process.algorithm_name==="hoeffding_tree")
-        {
-            output = JSON.stringify(this.props.selected_process.results,null,2)
-        }
-        else if(this.props.selected_process.algorithm_name==="knn")
-        {
-            output = JSON.stringify(this.props.selected_process.results,null,2)
-        }
-        else if(this.props.selected_process.algorithm_name==="k_means") 
-        {
-            output = JSON.stringify(this.props.selected_process.results,null,2)
-        }
-        else if(this.props.selected_process.algorithm_name==="denstream")
-        {
-            output = JSON.stringify(this.props.selected_process.results,null,2)
-        }
+        var output = JSON.stringify(this.props.selected_process.results,null,2)        
 
         return (
         <ExpansionPanel expanded={true}>
@@ -82,6 +62,9 @@ class DetailedView extends React.Component {
         if (algorithm === "knn") {
             return this.renderKNNParameters()
         }
+        else if (algorithm === "samknn") {
+            return this.renderSamKNNParameters()
+        }
         else if (algorithm === "k_means") {
             return this.renderKMeans()
         }
@@ -105,17 +88,6 @@ class DetailedView extends React.Component {
         }
     }
 
-    renderKNNParameters() {
-        return (
-            <Grid container>  
-                <Grid item xs={12} sm={4}>
-                  
-                </Grid>
-               
-            </Grid>
-        )
-    }
-
     onAxisChanged(axis, value) {
         if (axis == 'x') {
             this.setState({scatter_xaxis: value});
@@ -124,6 +96,47 @@ class DetailedView extends React.Component {
             this.setState({scatter_yaxis: value});
         }
     }
+
+
+    renderSamKNNParameters() {
+        return (
+            <Grid container>  
+                <Grid item xs={12} sm={12}>
+                    <p>Accuracy-Kappa</p>
+                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
+                        <XAxis dataKey="id"/>
+                        <YAxis />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
+                        <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#387908" />
+                        <Line type="monotone" dataKey="current_acc_[M0]" stroke='#d37f89'/>
+                    </LineChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    // TODO: datakeyleri duzelt sonucu aldiginda
+    renderKNNParameters(){
+        return(
+            <Grid container>
+                <Grid item xs={12} sm={6}>
+                    <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
+                        <XAxis type="number" dataKey={this.state.scatter_xaxis} />
+                        <YAxis type="number" dataKey={this.state.scatter_yaxis} />
+                        <Tooltip trigger="click" />
+                        <Tooltip />
+                        <Legend/>
+                        <Scatter name="Clusters" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'cluster'}} />
+                    </ScatterChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
 
     renderKMeans(){
         return (   
@@ -145,7 +158,7 @@ class DetailedView extends React.Component {
                     </Select>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <ScatterChart width={400} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                    <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
                         <XAxis type="number" dataKey={this.state.scatter_xaxis} />
                         <YAxis type="number" dataKey={this.state.scatter_yaxis} />
                         <Tooltip trigger="click" />
@@ -164,7 +177,7 @@ class DetailedView extends React.Component {
                 <Grid item xs={12} sm={6}>
                     <p>True vs. Expected Value</p>
                     <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis dataKey="id" label="Id"/>
+                        <XAxis />
                         <YAxis />
                         <Legend />
                         <Tooltip />
@@ -176,7 +189,7 @@ class DetailedView extends React.Component {
                 <Grid item xs={12} sm={6}>
                 <p>Accuracy</p>
                     <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis dataKey="id" label="Id"/>
+                        <XAxis dataKey="datacount" label="Data Count"/>
                         <YAxis  />
                         <Legend />
                         <Tooltip />
@@ -194,7 +207,7 @@ class DetailedView extends React.Component {
                 <Grid item xs={12} sm={12}>
                 <p>Kappa</p>
                     <LineChart width={1000} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis dataKey="id" label="Id"/>
+                        <XAxis label="Data Count"/>
                         <YAxis  />
                         <Legend />
                         <Tooltip />
@@ -225,7 +238,18 @@ class DetailedView extends React.Component {
 
     renderD3(){
         return (
-            "d3"
+            <Grid container>  
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
+                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
+                        <YAxis dataKey="acc" label="Accuracy"/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                    </LineChart>
+                </Grid>
+            </Grid>
         )
     }
 

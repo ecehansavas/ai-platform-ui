@@ -28,10 +28,10 @@ function Copyright() {
 
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'samknn', 'knn','half_space_tree']
   },
   "kdd99raw" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'samknn', 'knn', 'half_space_tree']
   },
   "pnts_drifted" : {
     valid_algorithms: ['d3']
@@ -42,11 +42,11 @@ const KNOWN_DATASETS = {
 
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0}, 
-    valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
   },
   "hyperplane" : {
     fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1}, 
-    valid_algorithms: ['hoeffding_tree', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
   }
 }
 
@@ -63,8 +63,11 @@ const KNOWN_ALGORITHMS = {
     fundamental_parameters:{'n_cluster': 8},
     extra_parameters : { 'max_iter':300,'n_init':10}
   },
-  "knn" : {
+  "samknn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000}, 
+  },
+  "knn" : {
+    fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
   "denstream" : {
     extra_parameters : []
@@ -253,7 +256,7 @@ class App extends React.Component {
         errors.push('Naive Bayes Threshold count must be integer') 
     }
 
-    // knn
+    // samknn
     if(this.exists('alg','neighbors')){
       if(this.isLessThanZero('alg','neighbors'))
         errors.push('Neighbors can not be less than zero')
@@ -264,6 +267,20 @@ class App extends React.Component {
       if(this.isLessThanZero('alg','max_window_size'))
         errors.push('Max Window Size can not be less than zero')
       if(!this.isInteger('alg','max_window_size'))
+      errors.push('Fields must be integer') 
+    }
+
+    // knn
+    if(this.exists('alg','pretrain_size')){
+      if(this.isLessThanZero('alg','pretrain_size'))
+        errors.push('Pretrain Size can not be less than zero')
+      if(!this.isInteger('alg','pretrain_size') )
+        errors.push('Pretrain Size count must be integer') 
+    }
+    if(this.exists('alg','leaf_size')){
+      if(this.isLessThanZero('alg','leaf_size'))
+        errors.push('Leaf Size can not be less than zero')
+      if(!this.isInteger('alg','leaf_size'))
       errors.push('Fields must be integer') 
     }
 

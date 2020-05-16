@@ -28,7 +28,8 @@ class Algorithm extends React.Component {
                             <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
                                 <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
                                 <MenuItem value="k_means">K-Means</MenuItem>
-                                <MenuItem value="knn">knn</MenuItem>
+                                <MenuItem value="knn">Knn- Calismiyor</MenuItem>
+                                <MenuItem value="samknn">SAM Knn-Dene</MenuItem>
                                 <MenuItem value="d3">D3</MenuItem>
                                 <MenuItem value="denstream">DenStream-Calismiyor</MenuItem>
                                 <MenuItem value="clustream">CluStream-Calismiyor</MenuItem>
@@ -53,8 +54,11 @@ class Algorithm extends React.Component {
     }
 
     renderParameters(algorithm) {
-        if (algorithm === "knn") {
-            return this.renderKNNParameters()
+        if (algorithm === "samknn") {
+            return this.renderSamKNNParameters()
+        }
+        else if (algorithm === "knn") {
+            return this.renderKnnParameters()
         }
         else if (algorithm === "k_means") {
             return this.renderKMeans()
@@ -79,7 +83,7 @@ class Algorithm extends React.Component {
         }
     }
 
-    renderKNNParameters() {
+    renderSamKNNParameters() {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={4}>
@@ -95,10 +99,48 @@ class Algorithm extends React.Component {
                         <Input type="number" value={this.props.parameters.max_window_size} onChange={(e) => this.props.onParameterChange("max_window_size", e.target.value)}/>
                     </FormControl>
                 </Grid>
-               
             </Grid>
         )
     }
+
+
+    renderKnnParameters() {
+        return (
+            <Grid container>  
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Neighbors: 
+                        <Input type="number" value={this.props.parameters.neighbors} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Maximum Window Size: 
+                        <Input type="number" value={this.props.parameters.max_window_size} onChange={(e) => this.props.onParameterChange("max_window_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Leaf Size: 
+                        <Input type="number" value={this.props.parameters.leaf_size} onChange={(e) => this.props.onParameterChange("leaf_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Pretrain Size: 
+                        <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+            </Grid>
+        )
+    }
+
+
 
     renderKMeans(){
         return (
