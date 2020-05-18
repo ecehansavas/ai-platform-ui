@@ -28,9 +28,9 @@ class Algorithm extends React.Component {
                             <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
                                 <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
                                 <MenuItem value="k_means">K-Means</MenuItem>
-                                <MenuItem value="knn">Knn- Calismiyor</MenuItem>
-                                <MenuItem value="samknn">SAM Knn-Dene</MenuItem>
                                 <MenuItem value="d3">D3</MenuItem>
+                                <MenuItem value="knn">Knn</MenuItem>
+                                <MenuItem value="samknn">SAM Knn</MenuItem>
                                 <MenuItem value="denstream">DenStream-Calismiyor</MenuItem>
                                 <MenuItem value="clustream">CluStream-Calismiyor</MenuItem>
                                 <MenuItem value="half_space_tree">Half Space Trees-Sonuclarini alamadik</MenuItem>

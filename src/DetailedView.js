@@ -89,7 +89,7 @@ class DetailedView extends React.Component {
     }
 
     onAxisChanged(axis, value) {
-        if (axis == 'x') {
+        if (axis === 'x') {
             this.setState({scatter_xaxis: value});
         }
         else {
@@ -119,10 +119,25 @@ class DetailedView extends React.Component {
         )
     }
 
-    // TODO: datakeyleri duzelt sonucu aldiginda
     renderKNNParameters(){
         return(
             <Grid container>
+                <Grid item xs={12} sm={3}>
+                    <p>X-Axis: </p>
+                    <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
+                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                            return( <MenuItem value={item}>{item} </MenuItem>)
+                        })}
+                    </Select>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <p>Y-Axis: </p>
+                    <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
+                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                            return( <MenuItem value={item}>{item} </MenuItem>)
+                        })}
+                    </Select>
+                </Grid>
                 <Grid item xs={12} sm={6}>
                     <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
                         <XAxis type="number" dataKey={this.state.scatter_xaxis} />
@@ -130,7 +145,7 @@ class DetailedView extends React.Component {
                         <Tooltip trigger="click" />
                         <Tooltip />
                         <Legend/>
-                        <Scatter name="Clusters" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'cluster'}} />
+                        <Scatter name="Class" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'class'}} />
                     </ScatterChart>
                 </Grid>
             </Grid>

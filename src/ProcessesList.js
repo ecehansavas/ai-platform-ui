@@ -14,6 +14,7 @@ import Moment from 'moment';
 class ProcessesList extends React.Component {
     constructor(props) {
         super(props);
+        
     }
 
     render(){
@@ -72,11 +73,12 @@ class ProcessesList extends React.Component {
                   <TableCell>{formattedStartDate}</TableCell>
                   <TableCell>{formattedFinishDate}</TableCell>
                   <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
-                  <TableCell><Button onClick={(e) => this.props.delete(id)}>Delete</Button></TableCell>
+                  <TableCell><Button onClick={() => {if(window.confirm('Delete the item?')){this.props.delete(id)};}}>Delete</Button></TableCell>
                </TableRow>
             )
          })
-    }
+    } 
+    
 }
 
 export default ProcessesList;
