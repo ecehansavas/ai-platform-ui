@@ -160,6 +160,14 @@ class Dataset extends React.Component {
                         <Input type="number" value={this.props.parameters.sigma_percentage} onChange={(e) => this.props.onParameterChange("sigma_percentage", e.target.value)}/>
                     </FormControl>
                 </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Sample Size: 
+                        <Input type="number" value={this.props.parameters.sample_size} onChange={(e) => this.props.onParameterChange("sample_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
             </Grid>
         )
     }
@@ -177,6 +185,11 @@ class Dataset extends React.Component {
             <Grid item sm={1}>
                 &nbsp;
             </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Sample Size: 
+                        <Input type="number" value={this.props.parameters.sample_size} onChange={(e) => this.props.onParameterChange("sample_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
         </Grid>
         )
     }

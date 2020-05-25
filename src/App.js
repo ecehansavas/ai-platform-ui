@@ -41,11 +41,11 @@ const KNOWN_DATASETS = {
   },
 
   "sea" : {
-    fundamental_parameters: {'noise_percentage': 0.0}, 
+    fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
     valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
   },
   "hyperplane" : {
-    fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1}, 
+    fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1, 'sample_size':300}, 
     valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
   }
 }
@@ -232,7 +232,82 @@ class App extends React.Component {
     this.state.dataset_parameters['start_value'] > this.state.dataset_parameters['stop_value'])
       errors.push('Start can not be bigger than stop')
 
-    //TODO Generator areas
+    if (this.exists('ds','sample_size')) {
+      if (!this.isInteger('ds','sample_size')) {
+        errors.push('Sample Size must be integer') 
+      }
+      if (this.isLessThanZero('ds','sample_size')) {
+        errors.push('Sample Size can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','n_features')) {
+      if (!this.isInteger('ds','n_features')) {
+        errors.push('Feature Count must be integer') 
+      }
+      if (this.isLessThanZero('ds','n_features')) {
+        errors.push('Feature Count can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','n_drift_features')) {
+      if (!this.isInteger('ds','n_drift_features')) {
+        errors.push('Drifted Feature Count must be integer') 
+      }
+      if (this.isLessThanZero('ds','n_drift_features')) {
+        errors.push('Drifted Feature Count can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','n_drift_features') & this.exists('ds','n_features')) {
+      if(this.getParams('ds')['n_drift_features'] > this.getParams('ds')['n_features'] )
+        errors.push('Drifted Feature Count can not be bigger than Feature Count')
+    }
+
+    if (this.exists('ds','start_value')) {
+      if (!this.isInteger('ds','start_value')) {
+        errors.push('Start must be integer') 
+      }
+      if (this.isLessThanZero('ds','start_value')) {
+        errors.push('Start can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','start_value')) {
+      if (!this.isInteger('ds','start_value')) {
+        errors.push('Start must be integer') 
+      }
+      if (this.isLessThanZero('ds','start_value')) {
+        errors.push('Start can not be less than zero')
+      }
+    }
+    
+    if (this.exists('ds','noise_percentage')) {
+      if (!this.isFloat('ds','noise_percentage')) {
+        errors.push('Noise Percentage must be integer') 
+      }
+      if (this.isLessThanZero('ds','noise_percentage')) {
+        errors.push('Noise Percentage can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','sigma_percentage')) {
+      if (!this.isFloat('ds','sigma_percentage')) {
+        errors.push('Sigma Percentage must be integer') 
+      }
+      if (this.isLessThanZero('ds','sigma_percentage')) {
+        errors.push('Sigma Percentage can not be less than zero')
+      }
+    }
+
+    if (this.exists('ds','mag_change')) {
+      if (!this.isFloat('ds','mag_change')) {
+        errors.push('Mag Change must be integer') 
+      }
+      if (this.isLessThanZero('ds','mag_change')) {
+        errors.push('Mag Change can not be less than zero')
+      }
+    }
     
     
     // Algorithms areas
