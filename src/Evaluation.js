@@ -22,9 +22,15 @@ class Evaluation extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <Grid container >
+                    { !this.props.enabled &&
+                        <Typography color="primary" variant="h6" component="h1" gutterBottom>This property is not applicaple for the selected algorithm</Typography>
+                    }
+                    <Grid item sm={12}>
+                        &nbsp;
+                    </Grid>
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth>Evaluation Type:
-                            <Select labelId="algorithm" id="select" value={this.props.selected_evaluation} onChange={this.props.onEvaluationChange}>
+                            <Select disabled={!this.props.enabled} labelId="algorithm" id="select" value={this.props.selected_evaluation} onChange={this.props.onEvaluationChange}>
                                 <MenuItem value="prequential">Prequential</MenuItem>
                                 <MenuItem value="holdout">Holdout</MenuItem>
                             </Select>
@@ -47,7 +53,7 @@ class Evaluation extends React.Component {
                         <ExpansionPanelDetails>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Maximum Sample: 
-                                <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                                <Input disabled={!this.props.enabled} type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
                             </FormControl>
                         </Grid>
                         <Grid item sm={1}>
@@ -55,7 +61,7 @@ class Evaluation extends React.Component {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Batch Size: 
-                                <Input type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
+                                <Input disabled={!this.props.enabled} type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
                             </FormControl>
                         </Grid>
                         <Grid item sm={1}>
@@ -63,7 +69,7 @@ class Evaluation extends React.Component {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> n_wait: 
-                                <Input type="number" value={this.props.parameters.n_wait} onChange={(e) => this.props.onParameterChange("n_wait", e.target.value)}/>
+                                <Input disabled={!this.props.enabled} type="number" value={this.props.parameters.n_wait} onChange={(e) => this.props.onParameterChange("n_wait", e.target.value)}/>
                             </FormControl>
                         </Grid>
                         <Grid item sm={1}>
@@ -89,7 +95,7 @@ class Evaluation extends React.Component {
         return (
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth> Pretrain Size: 
-                    <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
+                    <Input disabled={!this.props.enabled} type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
                 </FormControl>
             </Grid>
         )

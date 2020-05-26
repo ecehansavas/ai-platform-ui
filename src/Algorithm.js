@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -13,7 +14,6 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@m
 class Algorithm extends React.Component {
     constructor(props) {
         super(props);
-        
     }
 
     render(){
@@ -28,8 +28,8 @@ class Algorithm extends React.Component {
                         <FormControl fullWidth>Use Predefined Algorithm:
                             <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
                                 <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
-                                <MenuItem value="k_means">K-Means</MenuItem>
-                                <MenuItem value="d3">D3</MenuItem>
+                                <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
+                                <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
                                 <MenuItem value="knn">Knn</MenuItem>
                                 <MenuItem value="samknn">SAM Knn</MenuItem>
                                 <MenuItem value="denstream">DenStream-Calismiyor</MenuItem>
@@ -42,12 +42,6 @@ class Algorithm extends React.Component {
                         &nbsp;
                     </Grid>
                     { this.renderParameters(this.props.selected_algorithm) }
-                    {/* <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor="description">Description of {this.props.selected_algorithm}</InputLabel>
-                        <Input id="description"/>
-                    </FormControl>
-                    </Grid> */}   
                 </Grid>  
             </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -110,7 +104,6 @@ class Algorithm extends React.Component {
         )
     }
 
-
     renderKnnParameters() {
         return (
             <Grid container>  
@@ -152,8 +145,6 @@ class Algorithm extends React.Component {
             </Grid>
         )
     }
-
-
 
     renderKMeans(){
         return (
@@ -244,22 +235,22 @@ class Algorithm extends React.Component {
                 &nbsp;
             </Grid> 
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Remove Poor Attributes: 
-                    <Checkbox color="primary" onChange={(e) => this.props.onParameterChange("remove_poor_atts", e.target.value)} value={this.props.parameters.remove_poor_atts}  />
-                </FormControl>
+                <FormControlLabel 
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("remove_poor_atts", e.target.value)} value={this.props.parameters.remove_poor_atts}  />}
+                    label = "Remove Poor Attributes" />
             </Grid>
             <Grid item sm={1}>
                 &nbsp;
             </Grid> 
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Disable Preprune: 
-                    <Checkbox color="primary" onChange={(e) => this.props.onParameterChange("no_preprune", e.target.value)} value={this.props.parameters.no_preprune}  />
-                </FormControl>
+                <FormControlLabel
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("no_preprune", e.target.value)} value={this.props.parameters.no_preprune}  />}
+                    label = "Disable Preprune"/>
             </Grid>
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Binary Split: 
-                    <Checkbox color="primary" onChange={(e) => this.props.onParameterChange("binary_split", e.target.value)} value={this.props.parameters.binary_split}  />
-                </FormControl>
+                <FormControlLabel
+                    control={<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("binary_split", e.target.value)} value={this.props.parameters.binary_split}  />}
+                    label="Binary Split"/>
             </Grid>
         </Grid>
         )

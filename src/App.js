@@ -499,8 +499,14 @@ class App extends React.Component {
     })
   }
 
+  shouldEnableEvaluation(){
+    return ! ["k_means", "knn", "d3", "denstream", "clustream"].includes(this.state.selected_algorithm)
+  }
+
 
   render(){
+    var evaluation_enabled = this.shouldEnableEvaluation();
+
     return (
       <Container>
         <Box>
@@ -524,6 +530,7 @@ class App extends React.Component {
         <Divider />
         <Box>
           <Algorithm selected_algorithm={this.state.selected_algorithm}
+                  is_dataset_generated = {this.state.is_dataset_generated}
                   parameters = {this.state.algorithm_parameters}
                   onAlgorithmChange={this.handleAlgorithmChange.bind(this)}
                   onParameterChange={this.handleAlgorithmParameterChange.bind(this)}/>
@@ -531,7 +538,9 @@ class App extends React.Component {
         <br />
         <Divider />
         <Box>
-          <Evaluation selected_evaluation={this.state.selected_evaluation}
+          <Evaluation 
+                  selected_evaluation={this.state.selected_evaluation}
+                  enabled = {evaluation_enabled}
                   parameters= {this.state.evaluation_parameters}
                   onEvaluationChange={this.handleEvaluationChange.bind(this)}
                   onParameterChange={this.handleEvaluationParameterChange.bind(this)}/>
