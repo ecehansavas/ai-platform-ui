@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
+import Link from '@material-ui/core/Link';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 class Evaluation extends React.Component {
@@ -28,6 +29,15 @@ class Evaluation extends React.Component {
                                 <MenuItem value="holdout">Holdout</MenuItem>
                             </Select>
                         </FormControl>
+                    </Grid>
+                    <Grid item sm={12}>
+                        &nbsp;
+                    </Grid>
+                    <Link href="https://scikit-multiflow.github.io/scikit-multiflow/documentation.html#module-skmultiflow.evaluation" target="_blank">
+                        Learn More
+                    </Link>
+                    <Grid item sm={12}>
+                        &nbsp;
                     </Grid>
                     <Grid item xs={12} sm={12}>
                     <ExpansionPanel>

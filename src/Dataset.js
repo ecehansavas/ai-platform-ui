@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 class Dataset extends React.Component {
@@ -95,9 +96,6 @@ class Dataset extends React.Component {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
                         { this.renderGenerator(this.props.selected_generator) }
                     </Grid>
                 </ExpansionPanelDetails>
@@ -118,11 +116,16 @@ class Dataset extends React.Component {
         }
     }
 
-   // https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.hyper_plane_generator.html
     // (random_state=None, n_features=10, n_drift_features=2, mag_change=0.0, noise_percentage=0.05, sigma_percentage=0.1)
     renderHyperplaneParameters(){
         return(
             <Grid container>  
+                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.hyper_plane_generator.html"  target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Feature Count: 
                         <Input type="number" value={this.props.parameters.n_features} onChange={(e) => this.props.onParameterChange("n_features", e.target.value)}/>
@@ -172,11 +175,16 @@ class Dataset extends React.Component {
         )
     }
 
-    // https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.sea_generator.html
     // (classification_function=0, random_state=None, balance_classes=False, noise_percentage=0.0)
     renderSeaParameters(){
         return(
             <Grid container>  
+            <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.sea_generator.html" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid>
             <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Noise Percentage: 
                         <Input type="number" value={this.props.parameters.noise_percentage} onChange={(e) => this.props.onParameterChange("noise_percentage", e.target.value)}/>

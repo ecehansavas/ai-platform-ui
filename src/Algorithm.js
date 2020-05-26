@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 
@@ -86,6 +87,12 @@ class Algorithm extends React.Component {
     renderSamKNNParameters() {
         return (
             <Grid container>  
+                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/_autosummary/skmultiflow.lazy.SAMKNN.html?highlight=kmeans" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Neighbors: 
                         <Input type="number" value={this.props.parameters.neighbors} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
@@ -107,6 +114,12 @@ class Algorithm extends React.Component {
     renderKnnParameters() {
         return (
             <Grid container>  
+                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/_autosummary/skmultiflow.lazy.KNN.html#skmultiflow.lazy.KNN" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Neighbors: 
                         <Input type="number" value={this.props.parameters.neighbors} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
@@ -145,6 +158,12 @@ class Algorithm extends React.Component {
     renderKMeans(){
         return (
             <Grid container>
+                 <Link href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Cluster Count: 
                         <Input type="number" value={this.props.parameters.n_cluster} onChange={(e) => this.props.onParameterChange("n_cluster", e.target.value)}/>
@@ -184,7 +203,13 @@ class Algorithm extends React.Component {
 
     renderHoeffdingTree(){
         return(
-        <Grid container>  
+        <Grid container> 
+            <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.classification.trees.hoeffding_tree.html" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid> 
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth> Grace Period: 
                     <Input type="number" value={this.props.parameters.grace_period} onChange={(e) => this.props.onParameterChange("grace_period", e.target.value)}/>
@@ -242,7 +267,13 @@ class Algorithm extends React.Component {
 
     renderDenstream(){
         return(
-            <Grid container>  
+            <Grid container> 
+                <Link href="https://github.com/issamemari/DenStream" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid> 
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Epsilon: 
                         <Input type="number" value={this.props.parameters.epsilon} onChange={(e) => this.props.onParameterChange("epsilon", e.target.value)}/>
@@ -275,13 +306,26 @@ class Algorithm extends React.Component {
 
     renderClustream(){
         return(
-            "clustream"
+            <Grid container>  
+                <Link href="https://github.com/narjes23/Clustream-algorithm" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid> 
+            </Grid>
         )
     }
 
     renderD3(){
         return (
             <Grid container>  
+            <Link href="https://github.com/ogozuacik/d3-discriminative-drift-detector-concept-drift/ " target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid> 
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth> Rho: 
                     <Input type="number" value={this.props.parameters.rho} onChange={(e) => this.props.onParameterChange("rho", e.target.value)}/>
@@ -319,6 +363,12 @@ class Algorithm extends React.Component {
     renderHalfSpaceTree(){
         return(
             <Grid container>  
+                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/api/generated/skmultiflow.anomaly_detection.HalfSpaceTrees.html#skmultiflow.anomaly_detection.HalfSpaceTrees" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid> 
                 <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Feature Size: 
                         <Input type="number" value={this.props.parameters.n_features} onChange={(e) => this.props.onParameterChange("n_features", e.target.value)}/>
