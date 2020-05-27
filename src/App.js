@@ -39,7 +39,6 @@ const KNOWN_DATASETS = {
   "pnts_stable" : {
     valid_algorithms: ['d3']
   },
-
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
     valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
@@ -49,7 +48,6 @@ const KNOWN_DATASETS = {
     valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
   }
 }
-
 
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
@@ -132,6 +130,8 @@ class App extends React.Component {
   handleAlgorithmChange(event){
     let algorithm = event.target.value
     let parameters = {...KNOWN_ALGORITHMS[algorithm].fundamental_parameters, ...KNOWN_ALGORITHMS[algorithm].extra_parameters}
+    if(!this.shouldEnableEvaluation(algorithm))
+      this.setState({selected_evaluation: '', evaluation_parameters: {}})
     this.setState({selected_algorithm: algorithm, algorithm_parameters: parameters})
   }
 
@@ -499,13 +499,13 @@ class App extends React.Component {
     })
   }
 
-  shouldEnableEvaluation(){
-    return ! ["k_means", "knn", "d3", "denstream", "clustream"].includes(this.state.selected_algorithm)
+  shouldEnableEvaluation(algorithm){
+    return ! ["k_means", "knn", "d3", "denstream", "clustream"].includes(algorithm)
   }
 
 
   render(){
-    var evaluation_enabled = this.shouldEnableEvaluation();
+    var evaluation_enabled = this.shouldEnableEvaluation(this.state.selected_algorithm);
 
     return (
       <Container>

@@ -3,6 +3,12 @@ import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
@@ -20,12 +26,13 @@ class DetailedView extends React.Component {
     
 
     render(){
+       
         if(!this.props.selected_process)
         {
             return null;
         }
        
-        var output = JSON.stringify(this.props.selected_process.results,null,2)        
+        var output = JSON.stringify(this.props.selected_process.results,null,2)      
 
         return (
         <ExpansionPanel expanded={true}>
@@ -44,6 +51,15 @@ class DetailedView extends React.Component {
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Selected Evaluation: {this.props.selected_process.evaluation}</FormControl>
                         </Grid>
+                        <Grid container spacing={5}>
+                            <Grid item sm={12}>
+                                <FormControl fullWidth> Data Summary</FormControl>
+                            </Grid>
+                        </Grid>
+                        <Grid item sm={12}>
+                            &nbsp;
+                        </Grid>
+                        {this.renderTableData(this.props.selected_process.data_summary)}       
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
@@ -57,6 +73,57 @@ class DetailedView extends React.Component {
         </ExpansionPanel> 
         );
     }
+
+    renderTableData(data){
+        const header = {feature: 'Feature',
+                        min: 'Minimum',
+                        max: 'Maximum',
+                        std: 'Standard Deviation',
+                        mean: 'Mean',
+                        first_quarter:'First Quarter',
+                        second_quarter:'Second Quarter (Median)',
+                        third_quarter: 'Third Quarter',
+                        count:'Count'
+                        }
+
+        return (
+            <TableContainer style={{maxHeight:400}}>
+            <Table aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>{header.feature}</TableCell>
+                        <TableCell>{header.min}</TableCell>
+                        <TableCell>{header.max}</TableCell>
+                        <TableCell>{header.std}</TableCell>
+                        <TableCell>{header.mean}</TableCell>
+                        <TableCell>{header.first_quarter}</TableCell>
+                        <TableCell>{header.second_quarter}</TableCell>
+                        <TableCell>{header.third_quarter}</TableCell>
+                        <TableCell>{header.count}</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {Object.keys(data).map((item,index)=>{                    
+                    let value = data[item]
+                    return (
+                    <TableRow key={item}>
+                        <TableCell>{item}</TableCell>
+                        <TableCell>{value['min']}</TableCell>
+                        <TableCell>{value['max']}</TableCell>
+                        <TableCell>{value['std']}</TableCell>
+                        <TableCell>{value['mean']}</TableCell>
+                        <TableCell>{value['25%']}</TableCell>
+                        <TableCell>{value['50%']}</TableCell>
+                        <TableCell>{value['75%']}</TableCell>
+                        <TableCell>{value['count']}</TableCell>
+                    </TableRow>
+                    )
+                })}
+                </TableBody>
+            </Table>                    
+        </TableContainer>
+        )
+    } 
 
     renderCharts(algorithm) {
         if (algorithm === "knn") {
