@@ -53,7 +53,7 @@ class DetailedView extends React.Component {
                         </Grid>
                         <Grid container spacing={5}>
                             <Grid item sm={12}>
-                                <FormControl fullWidth> Data Summary</FormControl>
+                                <Typography variant="h5" gutterBottom>Data Summary</Typography>
                             </Grid>
                         </Grid>
                         <Grid item sm={12}>
@@ -64,10 +64,17 @@ class DetailedView extends React.Component {
                             &nbsp;
                         </Grid>
                         {this.renderCharts(this.props.selected_process.algorithm_name) }
-                        <Grid item xs={12} sm={12}>
-                        Results:<code style={{whiteSpace:"pre-wrap"}}>{output}</code>
-                        </Grid>
                     </Grid>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary>
+                            <Typography variant="h5" gutterBottom>Results</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <div style={{ maxHeight:400, width:'100%', overflow:'auto'}}>
+                                <code style={{whiteSpace:"pre-wrap"}}>{output}</code>
+                            </div>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
                 </div>
             </ExpansionPanelDetails>
         </ExpansionPanel> 
@@ -187,13 +194,24 @@ class DetailedView extends React.Component {
     }
 
     renderKNNParameters(){
+        let dataByClass = {};
+        for(let i = 0; i < this.props.selected_process.results.length; i++)
+        {
+            let item = this.props.selected_process.results[i];
+            if (!dataByClass[item["found_label"]])
+            {
+                dataByClass[item["found_label"]] = [];
+            }
+            dataByClass[item["found_label"]].push(item)
+        }
+
         return(
             <Grid container>
                 <Grid item xs={12} sm={3}>
                     <p>X-Axis: </p>
                     <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
                         {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem value={item}>{item} </MenuItem>)
+                            return( <MenuItem key={"x" + item} value={item}>{item} </MenuItem>)
                         })}
                     </Select>
                 </Grid>
@@ -201,7 +219,7 @@ class DetailedView extends React.Component {
                     <p>Y-Axis: </p>
                     <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
                         {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem value={item}>{item} </MenuItem>)
+                            return( <MenuItem key={"y" + item} value={item}>{item} </MenuItem>)
                         })}
                     </Select>
                 </Grid>
@@ -212,7 +230,12 @@ class DetailedView extends React.Component {
                         <Tooltip trigger="click" />
                         <Tooltip />
                         <Legend/>
-                        <Scatter name="Class" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'class'}} />
+                        {
+                            Object.keys(dataByClass).map((label,index)=>{
+                                let randomColor = this.getRandomColor();
+                                return( <Scatter name={"Class-"+label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'class'}} />)
+                            })
+                        }
                     </ScatterChart>
                 </Grid>
             </Grid>
@@ -221,6 +244,17 @@ class DetailedView extends React.Component {
 
 
     renderKMeans(){
+        let dataByClass = {};
+        for(let i = 0; i < this.props.selected_process.results.length; i++)
+        {
+            let item = this.props.selected_process.results[i];
+            if (!dataByClass[item["cluster"]])
+            {
+                dataByClass[item["cluster"]] = [];
+            }
+            dataByClass[item["cluster"]].push(item)
+        }
+
         return (   
             <Grid container> 
                 <Grid item xs={12} sm={3}>
@@ -246,7 +280,12 @@ class DetailedView extends React.Component {
                         <Tooltip trigger="click" />
                         <Tooltip />
                         <Legend/>
-                        <Scatter name="Clusters" data={this.props.selected_process.results} fill="#ff7300" label={{ dataKey: 'cluster'}} />
+                        {
+                            Object.keys(dataByClass).map((label,index)=>{
+                                let randomColor = this.getRandomColor();
+                                return( <Scatter name={"Cluster-" + label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'cluster'}} />)
+                            })}
+                        }
                     </ScatterChart>
                 </Grid>
             </Grid> 
@@ -339,6 +378,15 @@ class DetailedView extends React.Component {
         return(
           "halfspace"
         )
+    }
+
+    getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
 
 }

@@ -6,6 +6,8 @@ import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
+import ReactFileReader from 'react-file-reader';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 class Dataset extends React.Component {
@@ -38,22 +40,6 @@ class Dataset extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
-                        {/* <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor="description">Description of {this.props.selected_dataset}</InputLabel>
-                                <Input id="description"/>
-                            </FormControl>
-                        </Grid> */}
-                        {/* <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Stream Period: 
-                                <Input type="number" value={this.props.parameters.stream_period} onChange={(e) => this.props.onParameterChange("stream_period", e.target.value)}/>
-                            </FormControl>
-                        </Grid> */}
-                        {/* <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Window Length: 
-                                <Input type="number" value={this.props.parameters.window_length} onChange={(e) => this.props.onParameterChange("window_length", e.target.value)}/>
-                            </FormControl>
-                        </Grid> */}
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
@@ -73,11 +59,6 @@ class Dataset extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
-                        {/* <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Repeat Count for Each Instance:
-                                <Input type="number" value={this.props.parameters.repeat_count} onChange={(e) => this.props.onParameterChange("repeat_count", e.target.value)} />
-                            </FormControl>
-                        </Grid> */}
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -100,9 +81,37 @@ class Dataset extends React.Component {
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
+
+            {/* TODO: Dataset upload olacaksa burayi ac */}
+            {/* <ExpansionPanel onChange={(e,expanded)=>{this.props.onDatasetTypeSelected("uploaded",expanded)}} expanded={!this.props.is_dataset_generated}>
+                <ExpansionPanelSummary >
+                    <Typography variant="h5">Dataset Upload</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <Grid container>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl fullWidth>
+                                <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+                                    <Button variant="contained">File Upload</Button>
+                                </ReactFileReader>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                </ExpansionPanelDetails>
+            </ExpansionPanel> */}
         </ExpansionPanel>
         );
     }
+
+    // Dataset upload kismi. Silme burayi simdilik
+    // handleFiles = files => {
+    //     var reader = new FileReader();
+    //     reader.onload = function(e) {
+    //         // Use reader.result
+    //         alert(reader.result)
+    //     }
+    //     reader.readAsText(files[0]);
+    // }
 
     renderGenerator(generator) {
         if (generator === "hyperplane") {

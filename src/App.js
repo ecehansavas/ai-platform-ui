@@ -159,7 +159,7 @@ class App extends React.Component {
   }
 
   onDatasetTypeSelected(datasetType,expanded){
-    if (datasetType==="predefined")
+    if (datasetType==="predefined" || datasetType==="uploaded")
       this.setState({is_dataset_generated: false, dataset_parameters: {}})
     else
       this.setState({is_dataset_generated: true, dataset_parameters: {}})
