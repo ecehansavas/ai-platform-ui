@@ -59,7 +59,7 @@ class DetailedView extends React.Component {
                         <Grid item sm={12}>
                             &nbsp;
                         </Grid>
-                        {this.renderTableData(this.props.selected_process.data_summary)}       
+                        {this.renderDataSummaryTable(this.props.selected_process.data_summary)}       
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
@@ -81,7 +81,7 @@ class DetailedView extends React.Component {
         );
     }
 
-    renderTableData(data){
+    renderDataSummaryTable(data){
         const header = {feature: 'Feature',
                         min: 'Minimum',
                         max: 'Maximum',
@@ -93,6 +93,9 @@ class DetailedView extends React.Component {
                         count:'Count'
                         }
 
+        if (Object.keys(data).length == 0){
+            return
+        }
         return (
             <TableContainer style={{maxHeight:400}}>
             <Table aria-label="simple table">
@@ -134,28 +137,28 @@ class DetailedView extends React.Component {
 
     renderCharts(algorithm) {
         if (algorithm === "knn") {
-            return this.renderKNNParameters()
+            return this.renderKNNCharts()
         }
         else if (algorithm === "samknn") {
-            return this.renderSamKNNParameters()
+            return this.renderSamKNNCharts()
         }
         else if (algorithm === "k_means") {
-            return this.renderKMeans()
+            return this.renderKMeansCharts()
         }
         else if(algorithm === "hoeffding_tree"){
-            return this.renderHoeffdingTree()
+            return this.renderHoeffdingTreeCharts()
         }
         else if(algorithm === "denstream"){
-            return this.renderDenstream()
+            return this.renderDenstreamCharts()
         }
         else if(algorithm === "clustream"){
-            return this.renderClustream()
+            return this.renderClustreamCharts()
         }
         else if(algorithm === "d3"){
-            return this.renderD3()
+            return this.renderD3Charts()
         }
         else if(algorithm === "half_space_tree"){
-            return this.renderHalfSpaceTree()
+            return this.renderHalfSpaceTreeCharts()
         }
         else {
             return "";
@@ -172,7 +175,7 @@ class DetailedView extends React.Component {
     }
 
 
-    renderSamKNNParameters() {
+    renderSamKNNCharts() {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
@@ -193,7 +196,7 @@ class DetailedView extends React.Component {
         )
     }
 
-    renderKNNParameters(){
+    renderKNNCharts(){
         let dataByClass = {};
         for(let i = 0; i < this.props.selected_process.results.length; i++)
         {
@@ -243,7 +246,7 @@ class DetailedView extends React.Component {
     }
 
 
-    renderKMeans(){
+    renderKMeansCharts(){
         let dataByClass = {};
         for(let i = 0; i < this.props.selected_process.results.length; i++)
         {
@@ -292,7 +295,7 @@ class DetailedView extends React.Component {
         )
     }
 
-    renderHoeffdingTree(){
+    renderHoeffdingTreeCharts(){
         return(
             <Grid container> 
                 <Grid item xs={12} sm={6}>
@@ -345,19 +348,19 @@ class DetailedView extends React.Component {
         )
     }
 
-    renderDenstream(){
+    renderDenstreamCharts(){
         return(
            "denstream"
         )
     }
 
-    renderClustream(){
+    renderClustreamCharts(){
         return(
             "clustream"
         )
     }
 
-    renderD3(){
+    renderD3Charts(){
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
@@ -374,7 +377,7 @@ class DetailedView extends React.Component {
         )
     }
 
-    renderHalfSpaceTree(){
+    renderHalfSpaceTreeCharts(){
         return(
           "halfspace"
         )
