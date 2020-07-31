@@ -10,8 +10,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter, BarChart, Bar } from 'recharts';
 
 
 class DetailedView extends React.Component {
@@ -40,7 +41,7 @@ class DetailedView extends React.Component {
                 <Typography variant="h4" component="h1" gutterBottom>DETAILS</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <div style={{ maxHeight:400, width:'100%', overflow:'auto'}}>
+                <div style={{ maxHeight:500, width:'100%', overflow:'auto'}}>
                     <Grid container>
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth> Selected Dataset: {this.props.selected_process.dataset_name} </FormControl>
@@ -53,6 +54,7 @@ class DetailedView extends React.Component {
                         </Grid>
                         <Grid container spacing={5}>
                             <Grid item sm={12}>
+                            <Divider />
                                 <Typography variant="h5" gutterBottom>Data Summary</Typography>
                             </Grid>
                         </Grid>
@@ -118,13 +120,13 @@ class DetailedView extends React.Component {
                     return (
                     <TableRow key={item}>
                         <TableCell>{item}</TableCell>
-                        <TableCell>{value['min']}</TableCell>
-                        <TableCell>{value['max']}</TableCell>
-                        <TableCell>{value['std']}</TableCell>
-                        <TableCell>{value['mean']}</TableCell>
-                        <TableCell>{value['25%']}</TableCell>
-                        <TableCell>{value['50%']}</TableCell>
-                        <TableCell>{value['75%']}</TableCell>
+                        <TableCell>{value['min'].toFixed(2)}</TableCell>
+                        <TableCell>{value['max'].toFixed(2)}</TableCell>
+                        <TableCell>{value['std'].toFixed(2)}</TableCell>
+                        <TableCell>{value['mean'].toFixed(2)}</TableCell>
+                        <TableCell>{value['25%'].toFixed(2)}</TableCell>
+                        <TableCell>{value['50%'].toFixed(2)}</TableCell>
+                        <TableCell>{value['75%'].toFixed(2)}</TableCell>
                         <TableCell>{value['count']}</TableCell>
                     </TableRow>
                     )
@@ -258,13 +260,25 @@ class DetailedView extends React.Component {
             dataByClass[item["cluster"]].push(item)
         }
 
+    
+        let histogram = Object.keys(dataByClass).map((cls) => {return {"name": cls, "Count": dataByClass[cls].length}});
+       
         return (   
             <Grid container> 
+                <Grid container spacing={5}>
+                    <Grid item sm={12}>
+                    <Divider />
+                        <Typography variant="h5" gutterBottom>Data Clusters</Typography>
+                    </Grid>
+                </Grid>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
                 <Grid item xs={12} sm={3}>
                     <p>X-Axis: </p>
                     <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
                         {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem value={item}>{item} </MenuItem>)
+                            return( <MenuItem key={"key-"+item} value={item}>{item} </MenuItem>)
                         })}
                     </Select>
                 </Grid>
@@ -272,7 +286,7 @@ class DetailedView extends React.Component {
                     <p>Y-Axis: </p>
                     <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
                         {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem value={item}>{item} </MenuItem>)
+                            return( <MenuItem key={"key-"+item} value={item}>{item} </MenuItem>)
                         })}
                     </Select>
                 </Grid>
@@ -280,16 +294,33 @@ class DetailedView extends React.Component {
                     <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
                         <XAxis type="number" dataKey={this.state.scatter_xaxis} />
                         <YAxis type="number" dataKey={this.state.scatter_yaxis} />
-                        <Tooltip trigger="click" />
                         <Tooltip />
                         <Legend/>
                         {
                             Object.keys(dataByClass).map((label,index)=>{
                                 let randomColor = this.getRandomColor();
-                                return( <Scatter name={"Cluster-" + label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'cluster'}} />)
+                                return( <Scatter key={"key-"+label} name={"Cluster-" + label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'cluster'}} />)
                             })}
                         }
                     </ScatterChart>
+                </Grid>
+                <Grid container spacing={5}>
+                    <Grid item sm={12}>
+                    <Divider />
+                        <Typography variant="h5" gutterBottom>Cluster Histogram</Typography>
+                    </Grid>
+                </Grid>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <BarChart width={400} height={400} maxBarSize={10} barSize={10} margin={{ top: 5, right: 20, bottom: 10, left: 5 }} data={histogram}>
+                        <XAxis dataKey="name"/>
+                        <YAxis type="number" />
+                        <Tooltip />
+                        <Legend/>
+                        <Bar dataKey={"Count"} fill="#8884d8" />
+                    </BarChart>
                 </Grid>
             </Grid> 
         )

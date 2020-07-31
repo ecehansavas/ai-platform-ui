@@ -576,7 +576,7 @@ class App extends React.Component {
 
   componentDidMount(){
     this.fetchAllJobs()
-    // setInterval(this.fetchAllJobs.bind(this), 5000);
+      setInterval(this.fetchAllJobs.bind(this), 5000);
   }
 
   fetchAllJobs(){
