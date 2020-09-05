@@ -150,12 +150,6 @@ class DetailedView extends React.Component {
         else if(algorithm === "hoeffding_tree"){
             return this.renderHoeffdingTreeCharts()
         }
-        else if(algorithm === "denstream"){
-            return this.renderDenstreamCharts()
-        }
-        else if(algorithm === "clustream"){
-            return this.renderClustreamCharts()
-        }
         else if(algorithm === "d3"){
             return this.renderD3Charts()
         }
@@ -376,18 +370,6 @@ class DetailedView extends React.Component {
                     </LineChart>
                 </Grid>
             </Grid>
-        )
-    }
-
-    renderDenstreamCharts(){
-        return(
-           "denstream"
-        )
-    }
-
-    renderClustreamCharts(){
-        return(
-            "clustream"
         )
     }
 

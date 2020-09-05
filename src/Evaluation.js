@@ -33,6 +33,7 @@ class Evaluation extends React.Component {
                             <Select disabled={!this.props.enabled} labelId="algorithm" id="select" value={this.props.selected_evaluation} onChange={this.props.onEvaluationChange}>
                                 <MenuItem value="prequential">Prequential</MenuItem>
                                 <MenuItem value="holdout">Holdout</MenuItem>
+                                <MenuItem value="basic">Basic</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>

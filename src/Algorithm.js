@@ -31,10 +31,8 @@ class Algorithm extends React.Component {
                                 <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
                                 <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
                                 <MenuItem value="knn">Knn</MenuItem>
-                                <MenuItem value="samknn">SAM Knn</MenuItem>
-                                <MenuItem value="denstream">DenStream-Calismiyor</MenuItem>
-                                <MenuItem value="clustream">CluStream-Calismiyor</MenuItem>
-                                <MenuItem value="half_space_tree">Half Space Trees-Sonuclarini alamadik</MenuItem>
+                                {/* <MenuItem value="samknn">SAM Knn</MenuItem> */}
+                                {/* <MenuItem value="half_space_tree">Half Space Trees-Sonuclarini alamadik</MenuItem> */}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -60,12 +58,6 @@ class Algorithm extends React.Component {
         }
         else if(algorithm === "hoeffding_tree"){
             return this.renderHoeffdingTree()
-        }
-        else if(algorithm === "denstream"){
-            return this.renderDenstream()
-        }
-        else if(algorithm === "clustream"){
-            return this.renderClustream()
         }
         else if(algorithm === "d3"){
             return this.renderD3()
@@ -253,58 +245,6 @@ class Algorithm extends React.Component {
                     label="Binary Split"/>
             </Grid>
         </Grid>
-        )
-    }
-
-    renderDenstream(){
-        return(
-            <Grid container> 
-                <Link href="https://github.com/issamemari/DenStream" target="_blank">
-                    Learn More
-                </Link>
-                <Grid item sm={12}>
-                    &nbsp;
-                </Grid> 
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Epsilon: 
-                        <Input type="number" value={this.props.parameters.epsilon} onChange={(e) => this.props.onParameterChange("epsilon", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1}>
-                    &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Lambda: 
-                        <Input type="number" value={this.props.parameters.lambda} onChange={(e) => this.props.onParameterChange("lambda", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Beta: 
-                        <Input type="number" value={this.props.parameters.beta} onChange={(e) => this.props.onParameterChange("beta", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1}>
-                    &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Mu: 
-                        <Input type="number" value={this.props.parameters.mu} onChange={(e) => this.props.onParameterChange("mu", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-            </Grid>
-        )
-    }
-
-    renderClustream(){
-        return(
-            <Grid container>  
-                <Link href="https://github.com/narjes23/Clustream-algorithm" target="_blank">
-                    Learn More
-                </Link>
-                <Grid item sm={12}>
-                    &nbsp;
-                </Grid> 
-            </Grid>
         )
     }
 

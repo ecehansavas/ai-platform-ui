@@ -28,10 +28,10 @@ function Copyright() {
 
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'samknn', 'knn','half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'k_means', 'samknn', 'knn','half_space_tree']
   },
   "kdd99raw" : {
-    valid_algorithms: ['hoeffding_tree', 'denstream','k_means', 'samknn', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'k_means', 'samknn', 'knn', 'half_space_tree']
   },
   "pnts_drifted" : {
     valid_algorithms: ['d3']
@@ -67,12 +67,6 @@ const KNOWN_ALGORITHMS = {
   "knn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
-  "denstream" : {
-    extra_parameters : []
-  },
-  "clustream" : {
-    extra_parameters : []
-  },
   "half_space_tree":{
     fundamental_parameters: [], 
     extra_parameters : {'n_features':3, 'window_size': 250, 'depth':15, 'n_estimators':25, 'size_limit':50, 'anomaly_threshold':0.5}
@@ -86,6 +80,9 @@ const KNOWN_EVALUATION = {
   },
   "prequential": {
     fundamental_parameters : {'pretrain_size':200 , 'max_sample': 100000 , 'batch_size':1 , 'n_wait': 200 }
+  },
+  "basic": { 
+    fundamental_parameters : {'max_sample':100000 }
   }
 }
 
@@ -426,7 +423,7 @@ class App extends React.Component {
     }
     
     
-    // TODO: denstream, clustream, halfspace tree ekle
+    // TODO: halfspace tree ekle
 
 
     this.setState({errors:errors})
@@ -500,7 +497,7 @@ class App extends React.Component {
   }
 
   shouldEnableEvaluation(algorithm){
-    return ! ["k_means", "knn", "d3", "denstream", "clustream"].includes(algorithm)
+    return ! ["k_means", "knn", "d3"].includes(algorithm)
   }
 
 
