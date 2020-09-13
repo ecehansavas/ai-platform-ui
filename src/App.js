@@ -90,14 +90,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {     
-        selected_dataset: '',
+        selected_dataset: 'kdd99',
         selected_generator: '',
         dataset_parameters: {start_value:0, stop_value:300},
         selected_algorithm: '',
         algorithm_parameters: {},
         evaluation_parameters: {},
         process_list: [],
-        selected_evaluation: '',
+        selected_evaluation: 'basic',
         selected_process: '',
         loading: false,
         is_dataset_generated: false,
