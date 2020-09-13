@@ -92,7 +92,7 @@ class App extends React.Component {
     this.state = {     
         selected_dataset: '',
         selected_generator: '',
-        dataset_parameters: {},
+        dataset_parameters: {start_value:0, stop_value:300},
         selected_algorithm: '',
         algorithm_parameters: {},
         evaluation_parameters: {},
@@ -573,7 +573,7 @@ class App extends React.Component {
 
   componentDidMount(){
     this.fetchAllJobs()
-      setInterval(this.fetchAllJobs.bind(this), 5000);
+      setInterval(this.fetchAllJobs.bind(this), 2000);
   }
 
   fetchAllJobs(){
@@ -590,6 +590,8 @@ class App extends React.Component {
     .then(data => {
       this.setState({loading: false})
       this.setState({process_list: data.jobs})
+      let selectedprocess = data.jobs.filter((e) =>e.id === this.state.selected_process.id)
+      this.setState({selected_process: selectedprocess[0]})
     })
     .catch(e => {
       this.setState({loading: false})

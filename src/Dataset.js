@@ -4,8 +4,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import ReactFileReader from 'react-file-reader';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
@@ -39,6 +41,8 @@ class Dataset extends React.Component {
                         </Grid>
                         <Grid item sm={1}>
                             &nbsp;
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
                         </Grid>
                         <Grid item sm={1}>
                             &nbsp;

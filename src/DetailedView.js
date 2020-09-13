@@ -206,6 +206,17 @@ class DetailedView extends React.Component {
 
         return(
             <Grid container>
+                <Grid item xs={12} sm={12}>
+                    <p>Progress</p>
+                    <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis />
+                        <YAxis />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="accuracy" stroke="#8884d8" />
+                    </LineChart>
+                </Grid>
                 <Grid item xs={12} sm={3}>
                     <p>X-Axis: </p>
                     <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
@@ -323,6 +334,17 @@ class DetailedView extends React.Component {
     renderHoeffdingTreeCharts(){
         return(
             <Grid container> 
+                <Grid item xs={12} sm={12}>
+                    <p>Progress</p>
+                    <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis />
+                        <YAxis />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="accuracy" />
+                    </LineChart>
+                </Grid>
                 <Grid item xs={12} sm={6}>
                     <p>True vs. Expected Value</p>
                     <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
