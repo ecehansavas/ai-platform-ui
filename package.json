@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "@types/reactstrap": "^8.2.0"
+    "@types/reactstrap": "^8.2.0",
+    "eslint-plugin-react": "^7.21.5"
   }
 }

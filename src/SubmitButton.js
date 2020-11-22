@@ -20,6 +20,8 @@ class SubmitButton extends React.Component {
         );
     }
 
+    // eren: do we use this file? do we have plans to do so?
+
     startProcess(){
         console.log('Run Algo Run');
     }

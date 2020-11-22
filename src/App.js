@@ -13,6 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 
+// eren: You can extract this into a seperate file
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -26,12 +27,13 @@ function Copyright() {
   );
 }
 
+// eren: explain the structure in a comment
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree', 'k_means', 'samknn', 'knn','half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
   },
   "kdd99raw" : {
-    valid_algorithms: ['hoeffding_tree', 'k_means', 'samknn', 'knn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
   },
   "pnts_drifted" : {
     valid_algorithms: ['d3']
@@ -41,11 +43,11 @@ const KNOWN_DATASETS = {
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree']
   },
   "hyperplane" : {
     fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree', 'samknn', 'half_space_tree']
+    valid_algorithms: ['hoeffding_tree']
   }
 }
 
@@ -61,20 +63,13 @@ const KNOWN_ALGORITHMS = {
     fundamental_parameters:{'n_cluster': 8},
     extra_parameters : { 'max_iter':300,'n_init':10}
   },
-  "samknn" : {
-    fundamental_parameters: {'neighbors':5, 'max_window_size': 5000}, 
-  },
   "knn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
-  "half_space_tree":{
-    fundamental_parameters: [], 
-    extra_parameters : {'n_features':3, 'window_size': 250, 'depth':15, 'n_estimators':25, 'size_limit':50, 'anomaly_threshold':0.5}
-  }
-
 }
 
-const KNOWN_EVALUATION = {
+
+const KNOWN_EVALUATION_METHODS = {
   "holdout" : {
     fundamental_parameters : { 'max_sample':100000 , 'batch_size':1 ,'n_wait':10000 }
   },
@@ -103,8 +98,10 @@ class App extends React.Component {
         is_dataset_generated: false,
         errors:[]
     }
-    this.myRef=React.createRef();
+    this.myRef=React.createRef(); // eren: why is this necessary? document
   }
+
+  // eren: explain what each function does, why, etc.
 
   handleDatasetChange(event) {
     this.setState({selected_dataset: event.target.value, dataset_parameters: {}})
@@ -142,7 +139,7 @@ class App extends React.Component {
 
   handleEvaluationChange(event){
     let evaluation = event.target.value
-    let parameters = {...KNOWN_EVALUATION[evaluation].fundamental_parameters}
+    let parameters = {...KNOWN_EVALUATION_METHODS[evaluation].fundamental_parameters}
     this.setState({selected_evaluation: evaluation, evaluation_parameters: parameters})
   }
 
@@ -152,11 +149,16 @@ class App extends React.Component {
     }
     param[name] = value
     this.setState({evaluation_parameters: param})
+  }
 
+  handleShowDetails(id){ // eren: bunun yeri diger handleblabla fonksiyonlarinin yani
+    let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
+    this.setState({selected_process: selectedprocess[0]})
+    window.scrollTo(0, this.myRef.current.offsetTop);
   }
 
   onDatasetTypeSelected(datasetType,expanded){
-    if (datasetType==="predefined" || datasetType==="uploaded")
+    if (datasetType==="predefined" || datasetType==="uploaded") // eren: extract to constants
       this.setState({is_dataset_generated: false, dataset_parameters: {}})
     else
       this.setState({is_dataset_generated: true, dataset_parameters: {}})
@@ -166,7 +168,7 @@ class App extends React.Component {
     if(this.validate())
       this.startProcess(event)
     else
-      console.log("Invalid Area")
+      console.log("Invalid Area") // eren: needs to be developed
   }
 
   exists(context, x) {    
@@ -204,7 +206,8 @@ class App extends React.Component {
 
   validate(){
     let errors = []
-  
+
+// eren: complete it
 // TODO: phase 2: kural fonksiyonlari yaz
 //       phase 3: kural fonksiyonlarini on-the-fly kullan
 
@@ -328,20 +331,7 @@ class App extends React.Component {
         errors.push('Naive Bayes Threshold count must be integer') 
     }
 
-    // samknn
-    if(this.exists('alg','neighbors')){
-      if(this.isLessThanZero('alg','neighbors'))
-        errors.push('Neighbors can not be less than zero')
-      if(!this.isInteger('alg','neighbors') )
-        errors.push('Neighbor count must be integer') 
-    }
-    if(this.exists('alg','max_window_size')){
-      if(this.isLessThanZero('alg','max_window_size'))
-        errors.push('Max Window Size can not be less than zero')
-      if(!this.isInteger('alg','max_window_size'))
-      errors.push('Fields must be integer') 
-    }
-
+  
     // knn
     if(this.exists('alg','pretrain_size')){
       if(this.isLessThanZero('alg','pretrain_size'))
@@ -421,10 +411,6 @@ class App extends React.Component {
         if(!this.isInteger('eval','n_wait'))
           errors.push('Fields must be integer') 
     }
-    
-    
-    // TODO: halfspace tree ekle
-
 
     this.setState({errors:errors})
     console.log(errors)
@@ -437,7 +423,7 @@ class App extends React.Component {
     
     if (this.state.is_dataset_generated === false)
       if(this.state.selected_dataset === "")
-        return
+        return // eren: ugly
       else
         new_process.dataset_name = this.state.selected_dataset
     else
@@ -453,7 +439,7 @@ class App extends React.Component {
     new_process.evaluation_parameters = this.state.evaluation_parameters
     
     this.setState({loading: true})
-    fetch('http://localhost:8000/api/new_job', {
+    fetch('http://localhost:8000/api/new_job', { // eren: we need to change the url to an environment variable parameter value
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -471,11 +457,7 @@ class App extends React.Component {
     })
   }
 
-  handleShowDetails(id){
-    let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
-    this.setState({selected_process: selectedprocess[0]})
-    window.scrollTo(0, this.myRef.current.offsetTop);
-  }
+  
 
   deleteItem(id){
     this.setState({loading: true})
@@ -500,15 +482,17 @@ class App extends React.Component {
     return ! ["k_means", "knn", "d3"].includes(algorithm)
   }
 
+  // eren: run a linter
 
   render(){
     var evaluation_enabled = this.shouldEnableEvaluation(this.state.selected_algorithm);
 
+    // eren: let's give this app a name
     return (
       <Container>
         <Box>
           <Typography variant="h3" component="h1" gutterBottom>
-            APP_NAME
+            APP_NAME 
           </Typography>
         </Box>
         <Divider />
@@ -569,6 +553,8 @@ class App extends React.Component {
       
     );
   }
+
+  // eren: Organize the file into sections (event handler functions, API interaction functions, etc.)
 
 
   componentDidMount(){

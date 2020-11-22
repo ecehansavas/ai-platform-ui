@@ -9,10 +9,7 @@ import Link from '@material-ui/core/Link';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 class Evaluation extends React.Component {
-    constructor(props) {
-        super(props);
-        
-    }
+
 
     render(){
         return (
@@ -90,6 +87,7 @@ class Evaluation extends React.Component {
         if(evaluation==="prequential"){
             return this.renderPretrain() ;
         }
+        // eren: else?
     }
 
     renderPretrain() {

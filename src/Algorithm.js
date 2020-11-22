@@ -12,9 +12,6 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@m
 
 
 class Algorithm extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return (
@@ -31,8 +28,6 @@ class Algorithm extends React.Component {
                                 <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
                                 <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
                                 <MenuItem value="knn">Knn</MenuItem>
-                                {/* <MenuItem value="samknn">SAM Knn</MenuItem> */}
-                                {/* <MenuItem value="half_space_tree">Half Space Trees-Sonuclarini alamadik</MenuItem> */}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -47,10 +42,7 @@ class Algorithm extends React.Component {
     }
 
     renderParameters(algorithm) {
-        if (algorithm === "samknn") {
-            return this.renderSamKNNParameters()
-        }
-        else if (algorithm === "knn") {
+        if (algorithm === "knn") {
             return this.renderKnnParameters()
         }
         else if (algorithm === "k_means") {
@@ -62,38 +54,9 @@ class Algorithm extends React.Component {
         else if(algorithm === "d3"){
             return this.renderD3()
         }
-        else if(algorithm === "half_space_tree"){
-            return this.renderHalfSpaceTree()
-        }
         else {
             return "";
         }
-    }
-
-    renderSamKNNParameters() {
-        return (
-            <Grid container>  
-                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/_autosummary/skmultiflow.lazy.SAMKNN.html?highlight=kmeans" target="_blank">
-                    Learn More
-                </Link>
-                <Grid item sm={12}>
-                    &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Neighbors: 
-                        <Input type="number" value={this.props.parameters.neighbors} onChange={(e) => this.props.onParameterChange("neighbors", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1}>
-                    &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Maximum Window Size: 
-                        <Input type="number" value={this.props.parameters.max_window_size} onChange={(e) => this.props.onParameterChange("max_window_size", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-            </Grid>
-        )
     }
 
     renderKnnParameters() {
@@ -290,75 +253,7 @@ class Algorithm extends React.Component {
         </Grid>
         )
     }
-
-    renderHalfSpaceTree(){
-        return(
-            <Grid container>  
-                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/api/generated/skmultiflow.anomaly_detection.HalfSpaceTrees.html#skmultiflow.anomaly_detection.HalfSpaceTrees" target="_blank">
-                    Learn More
-                </Link>
-                <Grid item sm={12}>
-                    &nbsp;
-                </Grid> 
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Feature Size: 
-                        <Input type="number" value={this.props.parameters.n_features} onChange={(e) => this.props.onParameterChange("n_features", e.target.value)}/>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1}>
-                    &nbsp;
-                </Grid> 
-                <Grid item xs={12} sm={12}>
-                    <ExpansionPanel>
-                        <ExpansionPanelSummary >
-                            <Typography>Advanced Parameters</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Estimator Size: 
-                                <Input type="number" value={this.props.parameters.n_estimators} onChange={(e) => this.props.onParameterChange("n_estimators", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Window Size: 
-                                <Input type="number" value={this.props.parameters.window_size} onChange={(e) => this.props.onParameterChange("window_size", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Depth: 
-                                <Input type="number" value={this.props.parameters.depth} onChange={(e) => this.props.onParameterChange("depth", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Size Limit: 
-                                <Input type="number" value={this.props.parameters.size_limit} onChange={(e) => this.props.onParameterChange("size_limit", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Anomaly Threshold: 
-                                <Input type="number" value={this.props.parameters.anomaly_threshold} onChange={(e) => this.props.onParameterChange("anomaly_threshold", e.target.value)}/>
-                            </FormControl>
-                        </Grid>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                </Grid>
-            </Grid>
-        )
-    }
-
-    
+   
 }
 
 export default Algorithm;

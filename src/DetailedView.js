@@ -95,7 +95,7 @@ class DetailedView extends React.Component {
                         count:'Count'
                         }
 
-        if (Object.keys(data).length == 0){
+        if (Object.keys(data).length === 0){
             return
         }
         return (
@@ -334,7 +334,7 @@ class DetailedView extends React.Component {
     renderHoeffdingTreeCharts(){
         return(
             <Grid container> 
-                { this.props.selected_process.evaluation == "basic" && 
+                { this.props.selected_process.evaluation === "basic" && 
                   (
                     <Grid item xs={12} sm={12}>
                     <p>Progress</p>
@@ -350,7 +350,7 @@ class DetailedView extends React.Component {
                   )
                 }
 
-                { this.props.selected_process.evaluation != "basic" &&
+                { this.props.selected_process.evaluation !== "basic" &&
                   (
                     <Grid container>
                         <Grid item xs={12} sm={6}>
@@ -429,7 +429,7 @@ class DetailedView extends React.Component {
         )
     }
 
-    getRandomColor() {
+    getRandomColor() { // eren: we need to change this so that every time this function is called, we get the same color for the same data
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {

@@ -12,10 +12,6 @@ import Button from '@material-ui/core/Button';
 import Moment from 'moment';
 
 class ProcessesList extends React.Component {
-    constructor(props) {
-        super(props);
-        
-    }
 
     render(){
         const header = {id: 'ID',
