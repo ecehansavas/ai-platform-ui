@@ -141,9 +141,6 @@ class DetailedView extends React.Component {
         if (algorithm === "knn") {
             return this.renderKNNCharts()
         }
-        else if (algorithm === "samknn") {
-            return this.renderSamKNNCharts()
-        }
         else if (algorithm === "k_means") {
             return this.renderKMeansCharts()
         }
@@ -152,9 +149,6 @@ class DetailedView extends React.Component {
         }
         else if(algorithm === "d3"){
             return this.renderD3Charts()
-        }
-        else if(algorithm === "half_space_tree"){
-            return this.renderHalfSpaceTreeCharts()
         }
         else {
             return "";
@@ -171,27 +165,6 @@ class DetailedView extends React.Component {
     }
 
 
-    renderSamKNNCharts() {
-        return (
-            <Grid container>  
-                <Grid item xs={12} sm={12}>
-                    <p>Accuracy-Kappa</p>
-                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
-                        <XAxis dataKey="id"/>
-                        <YAxis />
-                        <Legend />
-                        <Tooltip />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
-                        <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
-                        <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#387908" />
-                        <Line type="monotone" dataKey="current_acc_[M0]" stroke='#d37f89'/>
-                    </LineChart>
-                </Grid>
-            </Grid>
-        )
-    }
-
     renderKNNCharts(){
         let dataByClass = {};
         for(let i = 0; i < this.props.selected_process.results.length; i++)
@@ -204,52 +177,70 @@ class DetailedView extends React.Component {
             dataByClass[item["found_label"]].push(item)
         }
 
-        return(
-            <Grid container>
-                <Grid item xs={12} sm={12}>
-                    <p>Progress</p>
-                    <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis />
-                        <YAxis />
-                        <Legend />
-                        <Tooltip />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="accuracy" stroke="#8884d8" />
-                    </LineChart>
+        if(!this.props.selected_process.finished_at){ // Knn immediate results
+            return(
+                <Grid container>
+                    <Grid item xs={12} sm={12}>
+                        <p>Progress</p>
+                        <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <XAxis />
+                            <YAxis />
+                            <Legend />
+                            <Tooltip />
+                            <CartesianGrid stroke="#f5f5f5" />
+                            <Line type="monotone" dataKey="accuracy" stroke="#8884d8" />
+                        </LineChart>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <p>X-Axis: </p>
-                    <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
-                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem key={"x" + item} value={item}>{item} </MenuItem>)
-                        })}
-                    </Select>
+            )
+        }else{ 
+            return(
+                <Grid container>
+                    <Grid item xs={12} sm={12}>
+                        <p>Progress</p>
+                        <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <XAxis />
+                            <YAxis />
+                            <Legend />
+                            <Tooltip />
+                            <CartesianGrid stroke="#f5f5f5" />
+                            <Line type="monotone" dataKey="accuracy" stroke="#8884d8" />
+                        </LineChart>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        <p>X-Axis: </p>
+                        <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
+                            {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                                return( <MenuItem key={"x" + item} value={item}>{item} </MenuItem>)
+                            })}
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                        <p>Y-Axis: </p>
+                        <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
+                            {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
+                                return( <MenuItem key={"y" + item} value={item}>{item} </MenuItem>)
+                            })}
+                        </Select>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
+                            <XAxis type="number" dataKey={this.state.scatter_xaxis} />
+                            <YAxis type="number" dataKey={this.state.scatter_yaxis} />
+                            <Tooltip trigger="click" />
+                            <Tooltip />
+                            <Legend/>
+                            {
+                                Object.keys(dataByClass).map((label,index)=>{
+                                    let randomColor = this.getRandomColor();
+                                    return( <Scatter name={"Class-"+label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'class'}} />)
+                                })
+                            }
+                        </ScatterChart>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} sm={3}>
-                    <p>Y-Axis: </p>
-                    <Select value={this.state.scatter_yaxis} onChange={(event) => this.onAxisChanged('y', event.target.value)}  >
-                        {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
-                            return( <MenuItem key={"y" + item} value={item}>{item} </MenuItem>)
-                        })}
-                    </Select>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <ScatterChart width={400} height={400} margin={{ top: 5, right: 20, bottom: 10, left: 5 }}>
-                        <XAxis type="number" dataKey={this.state.scatter_xaxis} />
-                        <YAxis type="number" dataKey={this.state.scatter_yaxis} />
-                        <Tooltip trigger="click" />
-                        <Tooltip />
-                        <Legend/>
-                        {
-                            Object.keys(dataByClass).map((label,index)=>{
-                                let randomColor = this.getRandomColor();
-                                return( <Scatter name={"Class-"+label} data={dataByClass[label]} fill={randomColor} label={{ dataKey: 'class'}} />)
-                            })
-                        }
-                    </ScatterChart>
-                </Grid>
-            </Grid>
-        )
+            )    
+        }
     }
 
 
@@ -420,12 +411,6 @@ class DetailedView extends React.Component {
                     </LineChart>
                 </Grid>
             </Grid>
-        )
-    }
-
-    renderHalfSpaceTreeCharts(){
-        return(
-          "halfspace"
         )
     }
 

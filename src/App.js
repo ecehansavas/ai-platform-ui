@@ -151,7 +151,7 @@ class App extends React.Component {
     this.setState({evaluation_parameters: param})
   }
 
-  handleShowDetails(id){ // eren: bunun yeri diger handleblabla fonksiyonlarinin yani
+  handleShowDetails(id){ 
     let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
     this.setState({selected_process: selectedprocess[0]})
     window.scrollTo(0, this.myRef.current.offsetTop);
