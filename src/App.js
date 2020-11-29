@@ -35,11 +35,11 @@ const KNOWN_DATASETS = {
   "kdd99raw" : {
     valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
   },
-  "pnts_drifted" : {
-    valid_algorithms: ['d3']
+  "synthesised-drifted1-rounded" : {
+    valid_algorithms: ['d3', 'denstream', 'clustream']
   },
-  "pnts_stable" : {
-    valid_algorithms: ['d3']
+  "synthesised-drifted3" : {
+    valid_algorithms: ['d3','denstream', 'clustream']
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
@@ -66,6 +66,12 @@ const KNOWN_ALGORITHMS = {
   "knn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
+  "denstream" : {
+    fundamental_parameters: {'class':10, 'epsilon': 0.05},
+  },
+  "clustream" : {
+    fundamental_parameters: {'class':10, 'horizon': 100, 'm':100},
+  }
 }
 
 

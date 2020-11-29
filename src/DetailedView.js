@@ -22,10 +22,8 @@ class DetailedView extends React.Component {
             scatter_xaxis: '',
             scatter_yaxis: ''
         }
-        
     }
     
-
     render(){
        
         if(!this.props.selected_process)
@@ -149,6 +147,12 @@ class DetailedView extends React.Component {
         }
         else if(algorithm === "d3"){
             return this.renderD3Charts()
+        }
+        else if(algorithm === "denstream"){
+            return this.renderDenstreamCharts()
+        }
+        else if(algorithm === "clustream"){
+            return this.renderClustreamCharts()
         }
         else {
             return "";
@@ -398,6 +402,40 @@ class DetailedView extends React.Component {
     }
 
     renderD3Charts(){
+        return (
+            <Grid container>  
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
+                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
+                        <YAxis dataKey="acc" label="Accuracy"/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                    </LineChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    renderDenstreamCharts(){
+        return (
+            <Grid container>  
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
+                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
+                        <YAxis dataKey="acc" label="Accuracy"/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                    </LineChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    renderClustreamCharts(){
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>

@@ -87,7 +87,7 @@ class Evaluation extends React.Component {
         if(evaluation==="prequential"){
             return this.renderPretrain() ;
         }
-        // eren: else?
+        // todo eren: else?
     }
 
     renderPretrain() {

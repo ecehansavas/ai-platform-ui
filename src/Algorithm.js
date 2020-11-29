@@ -28,6 +28,8 @@ class Algorithm extends React.Component {
                                 <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
                                 <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
                                 <MenuItem value="knn">Knn</MenuItem>
+                                <MenuItem value="clustream">CluStream</MenuItem>
+                                <MenuItem value="denstream">DenStream</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>
@@ -53,6 +55,12 @@ class Algorithm extends React.Component {
         }
         else if(algorithm === "d3"){
             return this.renderD3()
+        }
+        else if(algorithm === "denstream"){
+            return this.renderDenstream()
+        }
+        else if(algorithm === "clustream"){
+            return this.renderClustream()
         }
         else {
             return "";
@@ -249,6 +257,66 @@ class Algorithm extends React.Component {
                     </Grid>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
+            </Grid>
+        </Grid>
+        )
+    }
+
+    renderClustream(){
+        return (
+            <Grid container>  
+            <Link href="" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Class: 
+                    <Input type="number" value={this.props.parameters.class} onChange={(e) => this.props.onParameterChange("class", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Window Length: 
+                    <Input type="number" value={this.props.parameters.horizon} onChange={(e) => this.props.onParameterChange("horizon", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> m: 
+                    <Input type="number" value={this.props.parameters.m} onChange={(e) => this.props.onParameterChange("m", e.target.value)}/>
+                </FormControl>
+            </Grid>
+        </Grid>
+        )
+    }
+
+    renderDenstream(){
+        return (
+            <Grid container>  
+            <Link href="" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Class: 
+                    <Input type="number" value={this.props.parameters.class} onChange={(e) => this.props.onParameterChange("class", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Epsilon: 
+                    <Input type="number" value={this.props.parameters.epsilon} onChange={(e) => this.props.onParameterChange("epsilon", e.target.value)}/>
+                </FormControl>
             </Grid>
         </Grid>
         )

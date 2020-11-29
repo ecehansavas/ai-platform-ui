@@ -28,8 +28,8 @@ class Dataset extends React.Component {
                                 <Select labelId="dataset" id="select" value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
                                     <MenuItem value="kdd99">KDD Cup 99</MenuItem>
                                     <MenuItem value="electricity">ELECTRICITY</MenuItem>
-                                    <MenuItem value="synthesised-drifted1-rounded">SYNTHESISED DRIFTED DATASET-1</MenuItem>
-                                    <MenuItem value="synthesised-drifted3">SYNTHESISED DRIFTED DATASET-3</MenuItem>
+                                    <MenuItem value="stream1">SYNTHESISED DRIFTED DATASET-1</MenuItem>
+                                    <MenuItem value="stream3">SYNTHESISED DRIFTED DATASET-3</MenuItem>
                                     <MenuItem value="stable">SYNTHESISED STABLE</MenuItem>
                                 </Select>
                             </FormControl>
