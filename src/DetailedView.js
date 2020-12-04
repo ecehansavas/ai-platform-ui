@@ -405,8 +405,8 @@ class DetailedView extends React.Component {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
-                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
                         <YAxis dataKey="acc" label="Accuracy"/>
                         <Legend />
                         <Tooltip />
@@ -415,6 +415,8 @@ class DetailedView extends React.Component {
                     </LineChart>
                 </Grid>
             </Grid>
+
+
         )
     }
 
