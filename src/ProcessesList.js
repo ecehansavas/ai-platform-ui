@@ -15,14 +15,14 @@ class ProcessesList extends React.Component {
 
     render(){
         const header = {id: 'ID',
-                        dataset: 'Dataset',
-                        algorithm: 'Algorithm',
-                        evaluation: 'Evaluation',
-                        state:'State',
-                        start_time:'Start Time',
-                        finish_time: 'Finish Time',
-                        details: 'Details',
-                        delete: 'Delete'}
+                        dataset: 'DATA',
+                        algorithm: 'ALGORITHM',
+                        evaluation: 'EVALUATION',
+                        state:'STATE',
+                        start_time:'START TIME',
+                        finish_time: 'FINISH TIME',
+                        details: 'DETAILS',
+                        delete: 'DELETE'}
         return (
         <form>
             <Grid container spacing={5}>
@@ -57,8 +57,8 @@ class ProcessesList extends React.Component {
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
             const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at} = item //destructuring
-            let formattedFinishDate= finished_at ? Moment(finished_at).format('d.MM.YYYY hh:mm:ss') : ""
-            let formattedStartDate =started_at ? Moment(started_at).format('d.MM.YYYY hh:mm:ss') : ""
+            let formattedFinishDate= finished_at ? Moment(finished_at).format('DD.MM.YYYY hh:mm:ss') : ""
+            let formattedStartDate =started_at ? Moment(started_at).format('DD.MM.YYYY hh:mm:ss') : ""
             return (
                <TableRow key={id}>
                   <TableCell>{id}</TableCell>

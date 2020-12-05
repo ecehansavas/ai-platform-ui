@@ -407,11 +407,11 @@ class DetailedView extends React.Component {
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
                         <XAxis dataKey="percentage" label="Data Percentage"/>
-                        <YAxis dataKey="acc" label="Accuracy"/>
+                        <YAxis dataKey="accuracy" label="Accuracy"/>
                         <Legend />
                         <Tooltip />
                         <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="accuracy" stroke="#ff7300" />
                     </LineChart>
                 </Grid>
             </Grid>
@@ -424,13 +424,13 @@ class DetailedView extends React.Component {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
-                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
-                        <YAxis dataKey="acc" label="Accuracy"/>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <YAxis dataKey="mean_accuracy" label="Mean Accuracy"/>
                         <Legend />
                         <Tooltip />
                         <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="mean_accuracy" stroke="#ff7300" />
                     </LineChart>
                 </Grid>
             </Grid>
@@ -441,13 +441,13 @@ class DetailedView extends React.Component {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.results}>
-                        <XAxis dataKey="data_percentage" label="Data Percentage"/>
-                        <YAxis dataKey="acc" label="Accuracy"/>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <YAxis dataKey="mean_accuracy" label="Mean Accuracy"/>
                         <Legend />
                         <Tooltip />
                         <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="acc" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="mean_accuracy" stroke="#ff7300" />
                     </LineChart>
                 </Grid>
             </Grid>
