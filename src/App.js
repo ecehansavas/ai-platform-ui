@@ -36,10 +36,10 @@ const KNOWN_DATASETS = {
     valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
   },
   "synthesised-drifted1-rounded" : {
-    valid_algorithms: ['d3', 'denstream', 'clustream']
+    valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm']
   },
   "synthesised-drifted3" : {
-    valid_algorithms: ['d3','denstream', 'clustream']
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm']
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
@@ -63,14 +63,17 @@ const KNOWN_ALGORITHMS = {
     fundamental_parameters:{'n_cluster': 8},
     extra_parameters : { 'max_iter':300,'n_init':10}
   },
+  "streamkm": {
+    fundamental_parameters:{'n_cluster': 10, 'size_coreset':10000, 'part_size':1000}
+  },
   "knn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
   "denstream" : {
-    fundamental_parameters: {'class':10, 'epsilon': 0.05},
+    fundamental_parameters: {'class':10, 'epsilon': 0.05, 'part_size':1000},
   },
   "clustream" : {
-    fundamental_parameters: {'class':10, 'horizon': 100, 'm':100},
+    fundamental_parameters: {'class':10, 'horizon': 100, 'm':100, 'part_size':1000},
   }
 }
 

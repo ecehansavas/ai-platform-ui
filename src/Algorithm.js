@@ -26,6 +26,7 @@ class Algorithm extends React.Component {
                             <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
                                 <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
                                 <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
+                                <MenuItem value="streamkm">Stream KM++</MenuItem> 
                                 <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
                                 <MenuItem value="knn">Knn</MenuItem>
                                 <MenuItem value="clustream">CluStream</MenuItem>
@@ -49,6 +50,9 @@ class Algorithm extends React.Component {
         }
         else if (algorithm === "k_means") {
             return this.renderKMeans()
+        }
+        else if(algorithm === "streamkm"){
+            return this.renderStreamKM()
         }
         else if(algorithm === "hoeffding_tree"){
             return this.renderHoeffdingTree()
@@ -151,6 +155,40 @@ class Algorithm extends React.Component {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </Grid>
+            </Grid>
+        )
+    }
+
+    renderStreamKM(){
+        return (
+            <Grid container>
+                 <Link href="https://rdrr.io/cran/streamMOA/man/DSC_streamkm.html" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Cluster Count: 
+                        <Input type="number" value={this.props.parameters.n_cluster} onChange={(e) => this.props.onParameterChange("n_cluster", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Size Coreset: 
+                        <Input type="number" value={this.props.parameters.size_coreset} onChange={(e) => this.props.onParameterChange("size_coreset", e.target.value)}/>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Part Size: 
+                        <Input type="number" value={this.props.parameters.part_size} onChange={(e) => this.props.onParameterChange("part_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>     
             </Grid>
         )
     }
@@ -272,7 +310,7 @@ class Algorithm extends React.Component {
                 &nbsp;
             </Grid> 
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Class: 
+                <FormControl fullWidth> k: 
                     <Input type="number" value={this.props.parameters.class} onChange={(e) => this.props.onParameterChange("class", e.target.value)}/>
                 </FormControl>
             </Grid>
@@ -280,7 +318,7 @@ class Algorithm extends React.Component {
                 &nbsp;
             </Grid>
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Window Length: 
+                <FormControl fullWidth> Horizon: 
                     <Input type="number" value={this.props.parameters.horizon} onChange={(e) => this.props.onParameterChange("horizon", e.target.value)}/>
                 </FormControl>
             </Grid>
@@ -292,6 +330,14 @@ class Algorithm extends React.Component {
                     <Input type="number" value={this.props.parameters.m} onChange={(e) => this.props.onParameterChange("m", e.target.value)}/>
                 </FormControl>
             </Grid>
+            <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Part Size: 
+                        <Input type="number" value={this.props.parameters.part_size} onChange={(e) => this.props.onParameterChange("part_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
         </Grid>
         )
     }
@@ -306,7 +352,7 @@ class Algorithm extends React.Component {
                 &nbsp;
             </Grid>
             <Grid item xs={12} sm={4}>
-                <FormControl fullWidth> Class: 
+                <FormControl fullWidth> k: 
                     <Input type="number" value={this.props.parameters.class} onChange={(e) => this.props.onParameterChange("class", e.target.value)}/>
                 </FormControl>
             </Grid>
@@ -318,6 +364,14 @@ class Algorithm extends React.Component {
                     <Input type="number" value={this.props.parameters.epsilon} onChange={(e) => this.props.onParameterChange("epsilon", e.target.value)}/>
                 </FormControl>
             </Grid>
+            <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Part Size: 
+                        <Input type="number" value={this.props.parameters.part_size} onChange={(e) => this.props.onParameterChange("part_size", e.target.value)}/>
+                    </FormControl>
+                </Grid>
         </Grid>
         )
     }

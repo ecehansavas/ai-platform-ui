@@ -28,9 +28,9 @@ class Dataset extends React.Component {
                                 <Select labelId="dataset" id="select" value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
                                     <MenuItem value="kdd99">KDD Cup 99</MenuItem>
                                     <MenuItem value="electricity">ELECTRICITY</MenuItem>
-                                    <MenuItem value="stream1">SYNTHESISED DRIFTED DATASET-1</MenuItem>
-                                    <MenuItem value="stream3">SYNTHESISED DRIFTED DATASET-3</MenuItem>
-                                    <MenuItem value="stable">SYNTHESISED STABLE</MenuItem>
+                                    <MenuItem value="stream1">SYNTHESISED DATASET-1 (DRIFTED)</MenuItem>
+                                    <MenuItem value="stream2">SYNTHESISED DATASET-2 (DRIFTED)</MenuItem>
+                                    <MenuItem value="stable">SYNTHESISED DATASET-3 (STABLE)</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -100,7 +100,7 @@ class Dataset extends React.Component {
     renderHyperplaneParameters(){
         return(
             <Grid container>  
-                <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.hyper_plane_generator.html"  target="_blank">
+                <Link href="https://scikit-multiflow.readthedocs.io/en/stable/api/generated/skmultiflow.data.HyperplaneGenerator.html#skmultiflow.data.HyperplaneGenerator"  target="_blank">
                     Learn More
                 </Link>
                 <Grid item sm={12}>
@@ -146,11 +146,6 @@ class Dataset extends React.Component {
                 <Grid item sm={1}>
                     &nbsp;
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Sample Size: 
-                        <Input type="number" value={this.props.parameters.sample_size} onChange={(e) => this.props.onParameterChange("sample_size", e.target.value)}/>
-                    </FormControl>
-                </Grid>
             </Grid>
         )
     }
@@ -159,26 +154,21 @@ class Dataset extends React.Component {
     renderSeaParameters(){
         return(
             <Grid container>  
-            <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.data.generators.sea_generator.html" target="_blank">
-                Learn More
-            </Link>
-            <Grid item sm={12}>
-                &nbsp;
-            </Grid>
-            <Grid item xs={12} sm={4}>
+                <Link href="https://scikit-multiflow.readthedocs.io/en/stable/api/generated/skmultiflow.data.SEAGenerator.html#skmultiflow.data.SEAGenerator" target="_blank">
+                    Learn More
+                </Link>
+                <Grid item sm={12}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
                     <FormControl fullWidth> Noise Percentage: 
                         <Input type="number" value={this.props.parameters.noise_percentage} onChange={(e) => this.props.onParameterChange("noise_percentage", e.target.value)}/>
                     </FormControl>
-            </Grid>
-            <Grid item sm={1}>
-                &nbsp;
-            </Grid>
-                <Grid item xs={12} sm={4}>
-                    <FormControl fullWidth> Sample Size: 
-                        <Input type="number" value={this.props.parameters.sample_size} onChange={(e) => this.props.onParameterChange("sample_size", e.target.value)}/>
-                    </FormControl>
                 </Grid>
-        </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+            </Grid>
         )
     }
 
