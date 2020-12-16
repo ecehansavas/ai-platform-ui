@@ -303,7 +303,7 @@ class Algorithm extends React.Component {
     renderClustream(){
         return (
             <Grid container>  
-            <Link href="" target="_blank">
+            <Link href="https://rdrr.io/cran/streamMOA/man/DSC_CluStream.html" target="_blank">
                 Learn More
             </Link>
             <Grid item sm={12}>
@@ -345,7 +345,7 @@ class Algorithm extends React.Component {
     renderDenstream(){
         return (
             <Grid container>  
-            <Link href="" target="_blank">
+            <Link href="https://rdrr.io/cran/streamMOA/man/DSC_DenStream.html" target="_blank">
                 Learn More
             </Link>
             <Grid item sm={12}>

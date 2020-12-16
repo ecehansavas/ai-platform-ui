@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 // eren: You can extract this into a seperate file
 function Copyright() {
@@ -537,7 +538,9 @@ class App extends React.Component {
         </Box>
         <br />
         <Grid item xs={12} sm={2}>
-          <Button fullWidth variant="contained" onClick={this.validateAndRun.bind(this)}>Run</Button>
+          <Button fullWidth variant="contained" onClick={this.validateAndRun.bind(this)}>Run
+            <PlayArrowIcon />
+          </Button>
         </Grid>
         <hr />
 

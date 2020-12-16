@@ -10,6 +10,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Moment from 'moment';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
+import SyncIcon from '@material-ui/icons/Sync';
 
 class ProcessesList extends React.Component {
 
@@ -17,7 +23,6 @@ class ProcessesList extends React.Component {
         const header = {id: 'ID',
                         dataset: 'DATA',
                         algorithm: 'ALGORITHM',
-                        evaluation: 'EVALUATION',
                         state:'STATE',
                         start_time:'START TIME',
                         finish_time: 'FINISH TIME',
@@ -28,6 +33,7 @@ class ProcessesList extends React.Component {
             <Grid container spacing={5}>
                 <Grid item sm={12}>
                     <Typography variant="h4" component="h1" gutterBottom>PROCESSES</Typography>
+                    <AssignmentIcon />
                 </Grid>
             </Grid>
             <TableContainer style={{maxHeight:400}}>
@@ -37,7 +43,6 @@ class ProcessesList extends React.Component {
                             <TableCell>{header.id}</TableCell>
                             <TableCell>{header.dataset}</TableCell>
                             <TableCell>{header.algorithm}</TableCell>
-                            <TableCell>{header.evaluation}</TableCell>
                             <TableCell>{header.state}</TableCell>
                             <TableCell>{header.start_time}</TableCell>
                             <TableCell>{header.finish_time}</TableCell>
@@ -56,7 +61,7 @@ class ProcessesList extends React.Component {
     
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
-            const { id, dataset_name, algorithm_name, evaluation, state, started_at, finished_at} = item //destructuring
+            const { id, dataset_name, algorithm_name, state, started_at, finished_at} = item //destructuring
             let formattedFinishDate= finished_at ? Moment(finished_at).format('DD.MM.YYYY hh:mm:ss') : ""
             let formattedStartDate =started_at ? Moment(started_at).format('DD.MM.YYYY hh:mm:ss') : ""
             return (
@@ -64,17 +69,32 @@ class ProcessesList extends React.Component {
                   <TableCell>{id}</TableCell>
                   <TableCell>{dataset_name}</TableCell>
                   <TableCell>{algorithm_name}</TableCell>
-                  <TableCell>{evaluation}</TableCell>
-                  <TableCell>{state}</TableCell>
+                  <TableCell>{this.setStateIcon(state)}</TableCell>
                   <TableCell>{formattedStartDate}</TableCell>
                   <TableCell>{formattedFinishDate}</TableCell>
-                  <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button></TableCell>
-                  <TableCell><Button onClick={() => {if(window.confirm('Delete the item?')){this.props.delete(id)};}}>Delete</Button></TableCell>
+                  <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button> 
+                    <BarChartIcon />
+                  </TableCell>
+                  <TableCell><Button onClick={() => {if(window.confirm('Delete the item?')){this.props.delete(id)};}}>
+                        <DeleteForeverIcon />
+                      </Button>
+                  </TableCell>
                </TableRow>
             )
          })
     } 
-    
+
+    setStateIcon(state){
+        if (state === "finished") {
+            return (<CheckIcon />)
+        }
+        else if (state === "failed") {
+            return (<CloseIcon />)
+        }
+        else {
+            return (<SyncIcon />)
+        }
+    }
 }
 
 export default ProcessesList;

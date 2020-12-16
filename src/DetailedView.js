@@ -41,14 +41,11 @@ class DetailedView extends React.Component {
             <ExpansionPanelDetails>
                 <div style={{ maxHeight:500, width:'100%', overflow:'auto'}}>
                     <Grid container>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <FormControl fullWidth> Selected Dataset: {this.props.selected_process.dataset_name} </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <FormControl fullWidth> Selected Algorithm: {this.props.selected_process.algorithm_name}</FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Selected Evaluation: {this.props.selected_process.evaluation}</FormControl>
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <FormControl fullWidth> Selected Parameters??: {this.props.selected_process.algorithm_parameters}</FormControl>
