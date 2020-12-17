@@ -4,7 +4,6 @@ import Dataset from './Dataset';
 import Algorithm from './Algorithm';
 import ProcessesList from './ProcessesList';
 import DetailedView from './DetailedView';
-import Evaluation from './Evaluation';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -31,10 +30,7 @@ function Copyright() {
 // eren: explain the structure in a comment
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
-  },
-  "kdd99raw" : {
-    valid_algorithms: ['hoeffding_tree', 'k_means', 'knn']
+    valid_algorithms: ['hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'k_means', 'knn']
   },
   "synthesised-drifted1-rounded" : {
     valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm']
@@ -44,17 +40,23 @@ const KNOWN_DATASETS = {
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree']
+    valid_algorithms: ['hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout']
   },
   "hyperplane" : {
     fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree']
+    valid_algorithms: ['hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout']
   }
 }
 
 const KNOWN_ALGORITHMS = {
-  "hoeffding_tree" : {
-    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0}
+  "hoeffding_tree_basic" : {
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000 }
+  },
+  "hoeffding_tree_prequential" : {
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'pretrain_size':200 , 'max_sample': 100000, 'batch_size':1 , 'n_wait': 200 }
+  },
+  "hoeffding_tree_holdout" : {
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000, 'max_sample':100000 , 'batch_size':1 ,'n_wait':10000 }
   },
   "d3" : {
     fundamental_parameters: {'rho': 0.1}, 
@@ -78,19 +80,6 @@ const KNOWN_ALGORITHMS = {
   }
 }
 
-
-const KNOWN_EVALUATION_METHODS = {
-  "holdout" : {
-    fundamental_parameters : { 'max_sample':100000 , 'batch_size':1 ,'n_wait':10000 }
-  },
-  "prequential": {
-    fundamental_parameters : {'pretrain_size':200 , 'max_sample': 100000 , 'batch_size':1 , 'n_wait': 200 }
-  },
-  "basic": { 
-    fundamental_parameters : {'max_sample':100000 }
-  }
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -100,9 +89,7 @@ class App extends React.Component {
         dataset_parameters: {start_value:0, stop_value:300},
         selected_algorithm: '',
         algorithm_parameters: {},
-        evaluation_parameters: {},
         process_list: [],
-        selected_evaluation: 'basic',
         selected_process: '',
         loading: false,
         is_dataset_generated: false,
@@ -134,8 +121,6 @@ class App extends React.Component {
   handleAlgorithmChange(event){
     let algorithm = event.target.value
     let parameters = {...KNOWN_ALGORITHMS[algorithm].fundamental_parameters, ...KNOWN_ALGORITHMS[algorithm].extra_parameters}
-    if(!this.shouldEnableEvaluation(algorithm))
-      this.setState({selected_evaluation: '', evaluation_parameters: {}})
     this.setState({selected_algorithm: algorithm, algorithm_parameters: parameters})
   }
 
@@ -145,20 +130,6 @@ class App extends React.Component {
     }
     param[name] = value
     this.setState({algorithm_parameters: param})
-  }
-
-  handleEvaluationChange(event){
-    let evaluation = event.target.value
-    let parameters = {...KNOWN_EVALUATION_METHODS[evaluation].fundamental_parameters}
-    this.setState({selected_evaluation: evaluation, evaluation_parameters: parameters})
-  }
-
-  handleEvaluationParameterChange(name, value){
-    let param = {
-      ...this.state.evaluation_parameters
-    }
-    param[name] = value
-    this.setState({evaluation_parameters: param})
   }
 
   handleShowDetails(id){ 
@@ -191,8 +162,6 @@ class App extends React.Component {
         return this.state.dataset_parameters;   
       case 'alg':
         return this.state.algorithm_parameters;
-      case 'eval':
-        return this.state.evaluation_parameters;
       default:
         return [];
     }
@@ -396,29 +365,29 @@ class App extends React.Component {
         errors.push('Fields must be float')
     }
 
-     // evaluation params
-     if(this.exists('eval','pretrain_size')) {
-      if(this.isLessThanZero('eval','pretrain_size'))
+    // hoeffding tree prequential and holdout params
+     if(this.exists('alg','pretrain_size')) {
+      if(this.isLessThanZero('alg','pretrain_size'))
         errors.push('Pretrain Size can not be less than zero')
-      if(!this.isInteger('eval','pretrain_size'))
+      if(!this.isInteger('alg','pretrain_size'))
         errors.push('Pretrain Size must be integer') 
     }
-    if(this.exists('eval','max_sample')){
-      if(this.isLessThanZero('eval','max_sample'))
+    if(this.exists('alg','max_sample')){
+      if(this.isLessThanZero('alg','max_sample'))
         errors.push('Max Sample can not be less than zero')
-      if(!this.isInteger('eval','max_sample'))
+      if(!this.isInteger('alg','max_sample'))
         errors.push('Max Sample must be integer') 
     }
-    if(this.exists('eval','batch_size')){ 
-      if(this.isLessThanZero('eval','batch_size'))
+    if(this.exists('alg','batch_size')){ 
+      if(this.isLessThanZero('alg','batch_size'))
         errors.push('Batch Size can not be less than zero')
-      if(!this.isInteger('eval','batch_size'))
+      if(!this.isInteger('alg','batch_size'))
         errors.push('Batch Size must be integer')
     }
-      if(this.exists('eval','n_wait')){ 
-        if(this.isLessThanZero('eval','n_wait'))
+      if(this.exists('alg','n_wait')){ 
+        if(this.isLessThanZero('alg','n_wait'))
           errors.push('N Wait can not be less than zero')
-        if(!this.isInteger('eval','n_wait'))
+        if(!this.isInteger('alg','n_wait'))
           errors.push('Fields must be integer') 
     }
 
@@ -445,8 +414,6 @@ class App extends React.Component {
     new_process.algorithm_name = this.state.selected_algorithm
     new_process.dataset_parameters = this.state.dataset_parameters
     new_process.algorithm_parameters = this.state.algorithm_parameters
-    new_process.selected_evaluation = this.state.selected_evaluation
-    new_process.evaluation_parameters = this.state.evaluation_parameters
     
     this.setState({loading: true})
     fetch('http://localhost:8000/api/new_job', { // eren: we need to change the url to an environment variable parameter value
@@ -488,14 +455,10 @@ class App extends React.Component {
     })
   }
 
-  shouldEnableEvaluation(algorithm){
-    return ! ["k_means", "knn", "d3"].includes(algorithm)
-  }
 
   // eren: run a linter
 
   render(){
-    var evaluation_enabled = this.shouldEnableEvaluation(this.state.selected_algorithm);
 
     // eren: let's give this app a name
     return (
@@ -528,14 +491,6 @@ class App extends React.Component {
         </Box>
         <br />
         <Divider />
-        <Box>
-          <Evaluation 
-                  selected_evaluation={this.state.selected_evaluation}
-                  enabled = {evaluation_enabled}
-                  parameters= {this.state.evaluation_parameters}
-                  onEvaluationChange={this.handleEvaluationChange.bind(this)}
-                  onParameterChange={this.handleEvaluationParameterChange.bind(this)}/>
-        </Box>
         <br />
         <Grid item xs={12} sm={2}>
           <Button fullWidth variant="contained" onClick={this.validateAndRun.bind(this)}>Run
@@ -543,7 +498,6 @@ class App extends React.Component {
           </Button>
         </Grid>
         <hr />
-
         <Box>
           <ProcessesList process_list={this.state.process_list}
                         selected_generator = {this.state.selected_generator} 
@@ -588,8 +542,12 @@ class App extends React.Component {
     .then(data => {
       this.setState({loading: false})
       this.setState({process_list: data.jobs})
-      let selectedprocess = data.jobs.filter((e) =>e.id === this.state.selected_process.id)
-      this.setState({selected_process: selectedprocess[0]})
+      if (this.state.selected_process)
+      {
+        let selectedprocess = data.jobs.filter((e) =>e.id === this.state.selected_process.id)
+        if (selectedprocess.length > 0)
+          this.setState({selected_process: selectedprocess[0]})
+      }
     })
     .catch(e => {
       this.setState({loading: false})

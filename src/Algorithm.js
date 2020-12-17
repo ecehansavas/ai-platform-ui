@@ -24,7 +24,9 @@ class Algorithm extends React.Component {
                     <Grid item xs={12} sm={4}>
                         <FormControl fullWidth>Use Predefined Algorithm:
                             <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
-                                <MenuItem value="hoeffding_tree">Hoeffding Tree </MenuItem>
+                                <MenuItem value="hoeffding_tree_basic">Hoeffding Tree</MenuItem>
+                                <MenuItem value="hoeffding_tree_prequential">Hoeffding Tree Prequential</MenuItem>
+                                <MenuItem value="hoeffding_tree_holdout">Hoeffding Tree Holdout</MenuItem>
                                 <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
                                 <MenuItem value="streamkm">Stream KM++</MenuItem> 
                                 <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
@@ -54,8 +56,14 @@ class Algorithm extends React.Component {
         else if(algorithm === "streamkm"){
             return this.renderStreamKM()
         }
-        else if(algorithm === "hoeffding_tree"){
+        else if(algorithm === "hoeffding_tree_basic"){
             return this.renderHoeffdingTree()
+        }
+        else if(algorithm === "hoeffding_tree_prequential"){
+            return this.renderHoeffdingTreePrequential()
+        }
+        else if(algorithm === "hoeffding_tree_holdout"){
+            return this.renderHoeffdingTreeHoldout();
         }
         else if(algorithm === "d3"){
             return this.renderD3()
@@ -252,6 +260,197 @@ class Algorithm extends React.Component {
                 <FormControlLabel
                     control={<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("binary_split", e.target.value)} value={this.props.parameters.binary_split}  />}
                     label="Binary Split"/>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Maximum Sample: 
+                    <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                </FormControl>
+            </Grid>
+        </Grid>
+        )
+    }
+
+    //https://scikit-multiflow.github.io/scikit-multiflow/documentation.html#module-skmultiflow.evaluation 
+    renderHoeffdingTreePrequential(){
+        return(
+        <Grid container> 
+            <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.classification.trees.hoeffding_tree.html" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Grace Period: 
+                    <Input type="number" value={this.props.parameters.grace_period} onChange={(e) => this.props.onParameterChange("grace_period", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Tie Threshold: 
+                    <Input type="number" value={this.props.parameters.tie_threshold} onChange={(e) => this.props.onParameterChange("tie_threshold", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Naive Bayes Threshold: 
+                    <Input type="number" value={this.props.parameters.nb_threshold} onChange={(e) => this.props.onParameterChange("nb_threshold", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+            <   FormControl fullWidth> Leaf Prediction: 
+                    <Select labelId="leaf_prediction" value={this.props.parameters.leaf_prediction} onChange={(e) => this.props.onParameterChange("leaf_prediction", e.target.value)}>
+                        <MenuItem value="nba">Naive Bayes Adaptive</MenuItem>
+                        <MenuItem value="nb">Naive Bayes</MenuItem>
+                        <MenuItem value="mc">Majority Class</MenuItem>
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel 
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("remove_poor_atts", e.target.value)} value={this.props.parameters.remove_poor_atts}  />}
+                    label = "Remove Poor Attributes" />
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("no_preprune", e.target.value)} value={this.props.parameters.no_preprune}  />}
+                    label = "Disable Preprune"/>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel
+                    control={<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("binary_split", e.target.value)} value={this.props.parameters.binary_split}  />}
+                    label="Binary Split"/>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Maximum Sample: 
+                    <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Batch Size: 
+                    <Input type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> n_wait: 
+                    <Input type="number" value={this.props.parameters.n_wait} onChange={(e) => this.props.onParameterChange("n_wait", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Pretrain Size: 
+                    <Input type="number" value={this.props.parameters.pretrain_size} onChange={(e) => this.props.onParameterChange("pretrain_size", e.target.value)}/>
+                </FormControl>
+            </Grid>
+        </Grid>
+        )
+    }
+
+    //https://scikit-multiflow.github.io/scikit-multiflow/documentation.html#module-skmultiflow.evaluation 
+    renderHoeffdingTreeHoldout(){
+        return(
+        <Grid container> 
+            <Link href="https://scikit-multiflow.github.io/scikit-multiflow/skmultiflow.classification.trees.hoeffding_tree.html" target="_blank">
+                Learn More
+            </Link>
+            <Grid item sm={12}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Grace Period: 
+                    <Input type="number" value={this.props.parameters.grace_period} onChange={(e) => this.props.onParameterChange("grace_period", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Tie Threshold: 
+                    <Input type="number" value={this.props.parameters.tie_threshold} onChange={(e) => this.props.onParameterChange("tie_threshold", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Naive Bayes Threshold: 
+                    <Input type="number" value={this.props.parameters.nb_threshold} onChange={(e) => this.props.onParameterChange("nb_threshold", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+            <   FormControl fullWidth> Leaf Prediction: 
+                    <Select labelId="leaf_prediction" value={this.props.parameters.leaf_prediction} onChange={(e) => this.props.onParameterChange("leaf_prediction", e.target.value)}>
+                        <MenuItem value="nba">Naive Bayes Adaptive</MenuItem>
+                        <MenuItem value="nb">Naive Bayes</MenuItem>
+                        <MenuItem value="mc">Majority Class</MenuItem>
+                    </Select>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel 
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("remove_poor_atts", e.target.value)} value={this.props.parameters.remove_poor_atts}  />}
+                    label = "Remove Poor Attributes" />
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid> 
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel
+                    control= {<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("no_preprune", e.target.value)} value={this.props.parameters.no_preprune}  />}
+                    label = "Disable Preprune"/>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControlLabel
+                    control={<Checkbox color="primary" onChange={(e) => this.props.onParameterChange("binary_split", e.target.value)} value={this.props.parameters.binary_split}  />}
+                    label="Binary Split"/>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Maximum Sample: 
+                    <Input type="number" value={this.props.parameters.max_sample} onChange={(e) => this.props.onParameterChange("max_sample", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> Batch Size: 
+                    <Input type="number" value={this.props.parameters.batch_size} onChange={(e) => this.props.onParameterChange("batch_size", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <FormControl fullWidth> n_wait: 
+                    <Input type="number" value={this.props.parameters.n_wait} onChange={(e) => this.props.onParameterChange("n_wait", e.target.value)}/>
+                </FormControl>
+            </Grid>
+            <Grid item sm={1}>
+                &nbsp;
             </Grid>
         </Grid>
         )

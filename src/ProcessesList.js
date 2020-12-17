@@ -32,8 +32,7 @@ class ProcessesList extends React.Component {
         <form>
             <Grid container spacing={5}>
                 <Grid item sm={12}>
-                    <Typography variant="h4" component="h1" gutterBottom>PROCESSES</Typography>
-                    <AssignmentIcon />
+                    <Typography variant="h4" component="h1" gutterBottom>PROCESSES<AssignmentIcon /></Typography>
                 </Grid>
             </Grid>
             <TableContainer style={{maxHeight:400}}>
@@ -72,8 +71,7 @@ class ProcessesList extends React.Component {
                   <TableCell>{this.setStateIcon(state)}</TableCell>
                   <TableCell>{formattedStartDate}</TableCell>
                   <TableCell>{formattedFinishDate}</TableCell>
-                  <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Click for Details</Button> 
-                    <BarChartIcon />
+                  <TableCell><Button onClick={(e) => this.props.showDetails(id)}>Details<BarChartIcon /></Button> 
                   </TableCell>
                   <TableCell><Button onClick={() => {if(window.confirm('Delete the item?')){this.props.delete(id)};}}>
                         <DeleteForeverIcon />

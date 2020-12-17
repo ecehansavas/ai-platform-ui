@@ -146,8 +146,14 @@ class DetailedView extends React.Component {
         else if (algorithm === "streamkm") {
             return this.renderStreamKMCharts()
         }
-        else if(algorithm === "hoeffding_tree"){
-            return this.renderHoeffdingTreeCharts()
+        else if(algorithm === "hoeffding_tree_basic"){
+            return this.renderHoeffdingTreeStreamCharts()
+        }
+        else if(algorithm === "hoeffding_tree_prequential"){
+            return this.renderHoeffdingTreeBatchCharts()
+        }
+        else if(algorithm === "hoeffding_tree_holdout"){
+            return this.renderHoeffdingTreeBatchCharts()
         }
         else if(algorithm === "d3"){
             return this.renderD3Charts()
@@ -330,79 +336,75 @@ class DetailedView extends React.Component {
         )
     }
 
-    renderHoeffdingTreeCharts(){
+    renderHoeffdingTreeStreamCharts(){
         return(
             <Grid container> 
-                { this.props.selected_process.evaluation === "basic" && 
-                  (
-                    <Grid item xs={12} sm={12}>
-                    <p>Progress</p>
-                    <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                <Grid item xs={12} sm={12}>
+                <p>Progress</p>
+                <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                    <XAxis />
+                    <YAxis />
+                    <Legend />
+                    <Tooltip />
+                    <CartesianGrid stroke="#f5f5f5" />
+                    <Line type="monotone" dataKey="accuracy" />
+                </LineChart>
+                </Grid>
+            </Grid>
+        )
+    }
+
+    renderHoeffdingTreeBatchCharts(){
+        return( 
+            <Grid container>
+                <Grid item xs={12} sm={6}>
+                    <p>True vs. Expected Value</p>
+                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
                         <XAxis />
                         <YAxis />
                         <Legend />
                         <Tooltip />
                         <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="accuracy" />
+                        <Line type="monotone" dataKey="true_value" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="predicted_value_[M0]" stroke="#38abc8" />
                     </LineChart>
-                    </Grid>
-                  )
-                }
-
-                { this.props.selected_process.evaluation !== "basic" &&
-                  (
-                    <Grid container>
-                        <Grid item xs={12} sm={6}>
-                            <p>True vs. Expected Value</p>
-                            <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                                <XAxis />
-                                <YAxis />
-                                <Legend />
-                                <Tooltip />
-                                <CartesianGrid stroke="#f5f5f5" />
-                                <Line type="monotone" dataKey="true_value" stroke="#ff7300" />
-                                <Line type="monotone" dataKey="predicted_value_[M0]" stroke="#38abc8" />
-                            </LineChart>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                        <p>Accuracy</p>
-                            <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                                <XAxis dataKey="datacount" label="Data Count"/>
-                                <YAxis  />
-                                <Legend />
-                                <Tooltip />
-                                <CartesianGrid stroke="#f5f5f5" />
-                                <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#ff7300" />
-                                <Line type="monotone" dataKey="current_acc_[M0]" stroke="#38abc8" />
-                            </LineChart>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={12}>
-                        <p>Kappa</p>
-                            <LineChart width={1000} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                                <XAxis label="Data Count"/>
-                                <YAxis  />
-                                <Legend />
-                                <Tooltip />
-                                <CartesianGrid stroke="#f5f5f5" />
-                                <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
-                                <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
-                                <Line type="monotone" dataKey="mean_kappa_m_[M0]" stroke="#387908" />
-                                <Line type="monotone" dataKey="current_kappa_m_[M0]" stroke='#d37f89'/>
-                                <Line type="monotone" dataKey="mean_kappa_t_[M0]" stroke="#1b6a73" />
-                                <Line type="monotone" dataKey="current_kappa_t_[M0]" stroke='#960018'/>
-                            </LineChart>
-                        </Grid>
-                    </Grid>
-                  )
-                }
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <p>Accuracy</p>
+                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis dataKey="datacount" label="Data Count"/>
+                        <YAxis  />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="current_acc_[M0]" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                <p>Kappa</p>
+                    <LineChart width={1000} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                        <XAxis label="Data Count"/>
+                        <YAxis  />
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
+                        <Line type="monotone" dataKey="mean_kappa_m_[M0]" stroke="#387908" />
+                        <Line type="monotone" dataKey="current_kappa_m_[M0]" stroke='#d37f89'/>
+                        <Line type="monotone" dataKey="mean_kappa_t_[M0]" stroke="#1b6a73" />
+                        <Line type="monotone" dataKey="current_kappa_t_[M0]" stroke='#960018'/>
+                    </LineChart>
+                </Grid>
             </Grid>
-        )
+            )
     }
 
     renderD3Charts(){
