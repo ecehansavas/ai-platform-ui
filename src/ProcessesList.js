@@ -32,7 +32,7 @@ class ProcessesList extends React.Component {
         <form>
             <Grid container spacing={5}>
                 <Grid item sm={12}>
-                    <Typography variant="h4" component="h1" gutterBottom>PROCESSES<AssignmentIcon /></Typography>
+                    <Typography variant="h4" component="h1" gutterBottom><AssignmentIcon />PROCESSES</Typography>
                 </Grid>
             </Grid>
             <TableContainer style={{maxHeight:400}}>

@@ -421,8 +421,6 @@ class DetailedView extends React.Component {
                     </LineChart>
                 </Grid>
             </Grid>
-
-
         )
     }
 
@@ -438,6 +436,23 @@ class DetailedView extends React.Component {
                         <CartesianGrid stroke="#f5f5f5" />
                         <Line type="monotone" dataKey="mean_accuracy" stroke="#ff7300" />
                         <Line type="monotone" dataKey="accuracy" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_purity" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="purity" stroke="#38abc8" />
                     </LineChart>
                 </Grid>
             </Grid>
@@ -458,6 +473,23 @@ class DetailedView extends React.Component {
                         <Line type="monotone" dataKey="accuracy" stroke="#38abc8" />
                     </LineChart>
                 </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_purity" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="purity" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
             </Grid>
         )
     }
@@ -474,6 +506,23 @@ class DetailedView extends React.Component {
                         <CartesianGrid stroke="#f5f5f5" />
                         <Line type="monotone" dataKey="mean_accuracy" stroke="#ff7300" />
                         <Line type="monotone" dataKey="accuracy" stroke="#38abc8" />
+                    </LineChart>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
+                        <Legend />
+                        <Tooltip />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Line type="monotone" dataKey="mean_purity" stroke="#ff7300" />
+                        <Line type="monotone" dataKey="purity" stroke="#38abc8" />
                     </LineChart>
                 </Grid>
             </Grid>

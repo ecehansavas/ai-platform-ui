@@ -32,11 +32,20 @@ const KNOWN_DATASETS = {
   "kdd99" : {
     valid_algorithms: ['hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'k_means', 'knn']
   },
-  "synthesised-drifted1-rounded" : {
-    valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm']
+  "stream1" : {
+    valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm', 'hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
   },
-  "synthesised-drifted3" : {
-    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm']
+  "stream2" : {
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm', 'hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+  },
+  "stable" : {
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+  },
+  "electricity" : {
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+  },
+  "covtype" : {
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
@@ -56,7 +65,7 @@ const KNOWN_ALGORITHMS = {
     extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'pretrain_size':200 , 'max_sample': 100000, 'batch_size':1 , 'n_wait': 200 }
   },
   "hoeffding_tree_holdout" : {
-    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000, 'max_sample':100000 , 'batch_size':1 ,'n_wait':10000 }
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000, 'batch_size':1 ,'n_wait':10000 }
   },
   "d3" : {
     fundamental_parameters: {'rho': 0.1}, 
