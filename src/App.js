@@ -424,8 +424,10 @@ class App extends React.Component {
     new_process.dataset_parameters = this.state.dataset_parameters
     new_process.algorithm_parameters = this.state.algorithm_parameters
     
+    console.log("backend is " + process.env.REACT_APP_BACKEND_URL)
+
     this.setState({loading: true})
-    fetch('http://localhost:8000/api/new_job', { // eren: we need to change the url to an environment variable parameter value
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/new_job', { // eren: we need to change the url to an environment variable parameter value
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -447,7 +449,7 @@ class App extends React.Component {
 
   deleteItem(id){
     this.setState({loading: true})
-    fetch(`http://localhost:8000/api/delete_job/${id}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/delete_job/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -538,8 +540,10 @@ class App extends React.Component {
   }
 
   fetchAllJobs(){
+    console.log("backend is " + process.env.REACT_APP_BACKEND_URL)
+
     this.setState({loading: true})
-    fetch('http://localhost:8000/api/jobs', {
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/jobs', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
