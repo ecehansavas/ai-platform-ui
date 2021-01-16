@@ -476,7 +476,7 @@ class App extends React.Component {
       <Container>
         <Box>
           <Typography variant="h3" component="h1" gutterBottom>
-            APP_NAME 
+            ESTRA 
           </Typography>
         </Box>
         <Divider />
