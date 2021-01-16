@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter, BarChart, Bar, ResponsiveContainer } from 'recharts';
 
 
 class DetailedView extends React.Component {
@@ -41,19 +41,20 @@ class DetailedView extends React.Component {
             <ExpansionPanelDetails>
                 <div style={{ maxHeight:500, width:'100%', overflow:'auto'}}>
                     <Grid container>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={12}>
                             <FormControl fullWidth> Selected Dataset: {this.props.selected_process.dataset_name} </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={12}>
                             <FormControl fullWidth> Selected Algorithm: {this.props.selected_process.algorithm_name}</FormControl>
                         </Grid>
                         <Grid item xs={12} sm={12}>
                             <FormControl fullWidth> Selected Parameters??: {this.props.selected_process.algorithm_parameters}</FormControl>
                         </Grid>
+
+                        <Divider />
                         
                         <Grid container spacing={5}>
                             <Grid item sm={12}>
-                            <Divider />
                                 <Typography variant="h5" gutterBottom>Data Summary</Typography>
                             </Grid>
                         </Grid>
@@ -64,6 +65,7 @@ class DetailedView extends React.Component {
                         <Grid item sm={1}>
                             &nbsp;
                         </Grid>
+
                         {this.renderCharts(this.props.selected_process.algorithm_name) }
                     </Grid>
                     <ExpansionPanel>
@@ -357,51 +359,50 @@ class DetailedView extends React.Component {
     renderHoeffdingTreeBatchCharts(){
         return( 
             <Grid container>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                     <p>True vs. Expected Value</p>
-                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis />
-                        <YAxis />
-                        <Legend />
-                        <Tooltip />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="true_value" stroke="#ff7300" />
-                        <Line type="monotone" dataKey="predicted_value_[M0]" stroke="#38abc8" />
-                    </LineChart>
+                    <ResponsiveContainer width="90%" height={400}>
+                        <LineChart data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <XAxis />
+                            <YAxis />
+                            <Legend />
+                            <Tooltip />
+                            <CartesianGrid stroke="#f5f5f5" />
+                            <Line type="monotone" dataKey="true_value" stroke="#ff7300" />
+                            <Line type="monotone" dataKey="predicted_value_[M0]" stroke="#38abc8" />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                <p>Accuracy</p>
-                    <LineChart width={500} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis dataKey="datacount" label="Data Count"/>
-                        <YAxis  />
-                        <Legend />
-                        <Tooltip />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#ff7300" />
-                        <Line type="monotone" dataKey="current_acc_[M0]" stroke="#38abc8" />
-                    </LineChart>
+                <Grid item xs={12}>
+                    <p>Accuracy</p>
+                    <ResponsiveContainer width="90%" height={400}>
+                        <LineChart data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <XAxis dataKey="datacount" label="Data Count"/>
+                            <YAxis  />
+                            <Legend />
+                            <Tooltip />
+                            <CartesianGrid stroke="#f5f5f5" />
+                            <Line type="monotone" dataKey="mean_acc_[M0]" stroke="#ff7300" />
+                            <Line type="monotone" dataKey="current_acc_[M0]" stroke="#38abc8" />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </Grid>
-                <Grid item sm={1}>
+                <Grid item xs={12}>
                     &nbsp;
                 </Grid>
-                <Grid item sm={1}>
-                    &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                <p>Kappa</p>
-                    <LineChart width={1000} height={350} data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                        <XAxis label="Data Count"/>
-                        <YAxis  />
-                        <Legend />
-                        <Tooltip />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
-                        <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
-                        <Line type="monotone" dataKey="mean_kappa_m_[M0]" stroke="#387908" />
-                        <Line type="monotone" dataKey="current_kappa_m_[M0]" stroke='#d37f89'/>
-                        <Line type="monotone" dataKey="mean_kappa_t_[M0]" stroke="#1b6a73" />
-                        <Line type="monotone" dataKey="current_kappa_t_[M0]" stroke='#960018'/>
-                    </LineChart>
+                <Grid item xs={12}>
+                    <p>Kappa</p>
+                    <ResponsiveContainer width="90%" height={400}>
+                        <LineChart data={this.props.selected_process.results} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+                            <XAxis label="Data Count"/>
+                            <YAxis type="number" domain={['dataMin - 10', 'dataMax + 10']}/>
+                            <Legend />
+                            <Tooltip />
+                            <CartesianGrid stroke="#f5f5f5" />
+                            <Line type="monotone" dataKey="mean_kappa_[M0]" stroke="#ff7300" />
+                            <Line type="monotone" dataKey="current_kappa_[M0]" stroke='#38abc8'/>
+                        </LineChart>
+                    </ResponsiveContainer>
                 </Grid>
             </Grid>
             )
@@ -516,7 +517,7 @@ class DetailedView extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label="Data Percentage" />
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
