@@ -26,8 +26,7 @@ class Dataset extends React.Component {
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth>Use Predefined Dataset:
                                 <Select labelId="dataset" id="select" value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
-                                    <MenuItem value="kdd99">KDD Cup 99</MenuItem>
-                                    <MenuItem value="kdd99_full_labeled">KDD Cup 99 Full</MenuItem>
+                                    <MenuItem value="kdd99_full_labeled">KDD Cup 99</MenuItem>
                                     <MenuItem value="electricity">ELECTRICITY</MenuItem>
                                     <MenuItem value="covtype">COVTYPE</MenuItem>
                                     <MenuItem value="stream1">SYNTHESISED DATASET-1 (DRIFTED)</MenuItem>

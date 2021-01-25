@@ -30,62 +30,56 @@ function Copyright() {
 // eren: explain the structure in a comment
 const KNOWN_DATASETS = {  
   "kdd99" : {
-    valid_algorithms: ['hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'k_means', 'knn']
+    valid_algorithms: ['hoeffding_tree','k_means', 'knn']
   },
   "stream1" : {
-    valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm', 'hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+    valid_algorithms: ['d3', 'denstream', 'clustream', 'streamkm', 'hoeffding_tree',  'knn', 'k_means']
   },
   "stream2" : {
-    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm', 'hoeffding_tree_basic', 'hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm', 'hoeffding_tree', 'knn', 'k_means']
   },
   "stable" : {
-    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree','knn', 'k_means']
   },
   "electricity" : {
-    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree', 'knn', 'k_means']
   },
   "covtype" : {
-    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout', 'knn', 'k_means']
+    valid_algorithms: ['d3','denstream', 'clustream', 'streamkm','hoeffding_tree','knn', 'k_means']
   },
   "sea" : {
     fundamental_parameters: {'noise_percentage': 0.0, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout']
+    valid_algorithms: ['hoeffding_tree']
   },
   "hyperplane" : {
     fundamental_parameters: {'n_features': 10, 'n_drift_features':2, 'mag_change':0.0, 'noise_percentage':0.05, 'sigma_percentage':0.1, 'sample_size':300}, 
-    valid_algorithms: ['hoeffding_tree_basic','hoeffding_tree_prequential', 'hoeffding_tree_holdout']
+    valid_algorithms: ['hoeffding_tree']
   }
 }
 
 const KNOWN_ALGORITHMS = {
-  "hoeffding_tree_basic" : {
-    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000 }
-  },
-  "hoeffding_tree_prequential" : {
-    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'pretrain_size':200 , 'max_sample': 100000, 'batch_size':1 , 'n_wait': 200 }
-  },
-  "hoeffding_tree_holdout" : {
-    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'binary_split':false, 'remove_poor_atts': false, 'no_preprune':false, 'leaf_prediction': 'nba', 'nb_threshold': 0, 'max_sample':100000, 'batch_size':1 ,'n_wait':10000 }
+  "hoeffding_tree" : {
+    extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'nb_threshold': 0 }
   },
   "d3" : {
     fundamental_parameters: {'rho': 0.1}, 
-    extra_parameters : {'w':100,'auc':0.70}
+    extra_parameters : {'w':100, 'auc':0.70}
   },
   "k_means" : {
     fundamental_parameters:{'n_cluster': 8},
-    extra_parameters : { 'max_iter':300,'n_init':10}
+    extra_parameters : { 'max_iter':300, 'n_init':10}
   },
   "streamkm": {
-    fundamental_parameters:{'n_cluster': 10, 'size_coreset':10000, 'part_size':1000}
+    fundamental_parameters:{'n_cluster': 10, 'size_coreset':10000}
   },
   "knn" : {
     fundamental_parameters: {'neighbors':5, 'max_window_size': 5000, 'leaf_size': 30, 'pretrain_size':200}, 
   },
   "denstream" : {
-    fundamental_parameters: {'class':10, 'epsilon': 0.05, 'part_size':1000},
+    fundamental_parameters: {'class':10, 'epsilon': 0.05, 'outlier_threshold':0.2},
   },
   "clustream" : {
-    fundamental_parameters: {'class':10, 'horizon': 100, 'm':100, 'part_size':1000},
+    fundamental_parameters: {'class':10, 'horizon': 100, 'm':100},
   }
 }
 
@@ -195,7 +189,7 @@ class App extends React.Component {
   validate(){
     let errors = []
 
-// eren: complete it
+
 // TODO: phase 2: kural fonksiyonlari yaz
 //       phase 3: kural fonksiyonlarini on-the-fly kullan
 
@@ -321,11 +315,11 @@ class App extends React.Component {
 
   
     // knn
-    if(this.exists('alg','pretrain_size')){
-      if(this.isLessThanZero('alg','pretrain_size'))
-        errors.push('Pretrain Size can not be less than zero')
-      if(!this.isInteger('alg','pretrain_size') )
-        errors.push('Pretrain Size count must be integer') 
+    if(this.exists('alg','n_neighbors)')){
+      if(this.isLessThanZero('alg','n_neighbors'))
+        errors.push('Neighbor Size can not be less than zero')
+      if(!this.isInteger('alg','n_neighbors') )
+        errors.push('Neighbor Size count must be integer') 
     }
     if(this.exists('alg','leaf_size')){
       if(this.isLessThanZero('alg','leaf_size'))
@@ -374,32 +368,7 @@ class App extends React.Component {
         errors.push('Fields must be float')
     }
 
-    // hoeffding tree prequential and holdout params
-     if(this.exists('alg','pretrain_size')) {
-      if(this.isLessThanZero('alg','pretrain_size'))
-        errors.push('Pretrain Size can not be less than zero')
-      if(!this.isInteger('alg','pretrain_size'))
-        errors.push('Pretrain Size must be integer') 
-    }
-    if(this.exists('alg','max_sample')){
-      if(this.isLessThanZero('alg','max_sample'))
-        errors.push('Max Sample can not be less than zero')
-      if(!this.isInteger('alg','max_sample'))
-        errors.push('Max Sample must be integer') 
-    }
-    if(this.exists('alg','batch_size')){ 
-      if(this.isLessThanZero('alg','batch_size'))
-        errors.push('Batch Size can not be less than zero')
-      if(!this.isInteger('alg','batch_size'))
-        errors.push('Batch Size must be integer')
-    }
-      if(this.exists('alg','n_wait')){ 
-        if(this.isLessThanZero('alg','n_wait'))
-          errors.push('N Wait can not be less than zero')
-        if(!this.isInteger('alg','n_wait'))
-          errors.push('Fields must be integer') 
-    }
-
+  
     this.setState({errors:errors})
     console.log(errors)
     return errors.length === 0
