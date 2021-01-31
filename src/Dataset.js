@@ -1,87 +1,97 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Container from '@material-ui/core/Container';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 class Dataset extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    handleTabChange(event, newValue){
+        let selectedDatasetType = newValue === 1 ? "generated" : "predefined"
+        this.props.onDatasetTypeSelected(selectedDatasetType)
+    }
 
     render(){
+        let currentTabIndex = this.props.is_dataset_generated ? 1 : 0
         return (
-        <ExpansionPanel expanded={true}>
-            <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom>DATASET</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanel onChange={(e,expanded)=>{this.props.onDatasetTypeSelected("predefined",expanded)}} expanded={!this.props.is_dataset_generated}>
-                <ExpansionPanelSummary>
-                    <Typography variant="h5">Predefined Dataset</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <Grid container>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth>Use Predefined Dataset:
-                                <Select labelId="dataset" id="select" value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
-                                    <MenuItem value="kdd99_full_labeled">KDD Cup 99</MenuItem>
-                                    <MenuItem value="electricity">ELECTRICITY</MenuItem>
-                                    <MenuItem value="covtype">COVTYPE</MenuItem>
-                                    <MenuItem value="stream1">SYNTHESISED DATASET-1 (DRIFTED)</MenuItem>
-                                    <MenuItem value="stream2">SYNTHESISED DATASET-2 (DRIFTED)</MenuItem>
-                                    <MenuItem value="stable">SYNTHESISED DATASET-3 (STABLE)</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Start:
-                                <Input type="number" value={this.props.parameters.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth> Stop:
-                                <Input type="number" value={this.props.parameters.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
-                            </FormControl>
-                        </Grid>
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
-                    </Grid>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-        
-            <ExpansionPanel onChange={(e,expanded)=>{this.props.onDatasetTypeSelected("generated",expanded)}} expanded={this.props.is_dataset_generated}>
-                <ExpansionPanelSummary >
-                    <Typography variant="h5">Dataset Generator</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <Grid container>
-                        <Grid item xs={12} sm={4}>
-                            <FormControl fullWidth>Generator:
-                                <Select value={this.props.selected_generator} onChange={this.props.onGeneratorChange}>
-                                    <MenuItem value="hyperplane">Hyper Plane Generator</MenuItem>
-                                    <MenuItem value="sea">Sea Generator</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        { this.renderGenerator(this.props.selected_generator) }
-                    </Grid>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-        </ExpansionPanel>
+            <Container>
+                <Tabs value={currentTabIndex} onChange={this.handleTabChange.bind(this)} aria-label="wrapped label tabs example">
+                    <Tab label="Predefined Dataset" id="tab-0" aria-controls="tabpanel-0" />
+                    <Tab label="Dataset Generator" id="tab-1" aria-controls="tabpanel-1"/>
+                </Tabs>
+               
+                {currentTabIndex === 0 && this.renderPredefinedDatasetPanel()}
+                {currentTabIndex === 1 && this.renderGeneratorPanel()}
+               
+            </Container>     
+        );
+    }
+
+
+    renderPredefinedDatasetPanel(){
+        return (
+            <Grid container >
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>Use Predefined Dataset:
+                        <Select labelId="dataset" id="select" value={this.props.selected_dataset} onChange={this.props.onDatasetChange}>
+                            <MenuItem value="kdd99_full_labeled">KDD Cup'99</MenuItem>
+                            <MenuItem value="electricity">Electricity</MenuItem>
+                            <MenuItem value="covtype">Covertype</MenuItem>
+                            <MenuItem value="stream1">Synthesised Dataset-1 (Drifted)</MenuItem>
+                            <MenuItem value="stream2">Synthesised Dataset-2 (Drifted)</MenuItem>
+                            <MenuItem value="stable">Synthesised Dataset-3 (Stable)</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Start:
+                        <Input type="number" value={this.props.parameters.start_value} onChange={(e) => this.props.onParameterChange("start_value", e.target.value)} />
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth> Stop:
+                        <Input type="number" value={this.props.parameters.stop_value} onChange={(e) => this.props.onParameterChange("stop_value", e.target.value)} />
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+            </Grid>
+        );
+    }
+
+    renderGeneratorPanel(){
+        return (           
+            <Grid container>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>Generator:
+                        <Select value={this.props.selected_generator} onChange={this.props.onGeneratorChange}>
+                            <MenuItem value="hyperplane">Hyperplane Generator</MenuItem>
+                            <MenuItem value="sea">Sea Generator</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                { this.renderGenerator(this.props.selected_generator) }
+            </Grid>
         );
     }
 

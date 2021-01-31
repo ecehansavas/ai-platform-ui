@@ -1,7 +1,17 @@
 import React from 'react';
+import './App.css';
+import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
+import Dialog from '@material-ui/core/Dialog';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Select from '@material-ui/core/Select';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,77 +20,93 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import { LineChart, Line, XAxis, YAxis, Legend, Tooltip, CartesianGrid, ScatterChart, Scatter, BarChart, Bar, ResponsiveContainer } from 'recharts';
 
 
-class DetailedView extends React.Component {
+class ProcessDetails extends React.Component {
     constructor(props) {
         super(props);
         this.state = {     
             scatter_xaxis: '',
-            scatter_yaxis: ''
+            scatter_yaxis: '',
+            current_tab: 0
         }
+  }
+
+
+    HUMAN_READABLE_ALGORITHM_NAMES = {
+        "hoeffding_tree": "Hoeffding Tree",
+        "d3": "D3",
+        "k_means":"K-Means",
+        "streamkm":"Stream KM++",
+        "knn":"kNN",
+        "clustream":"CluStream",
+        "denstream":"DenStream"
     }
-    
+  
+    HUMAN_READABLE_DATASET_NAMES ={
+        "kdd99_full_labeled":"KDD Cup'99",
+        "electricity":"Electricity",
+        "covtype":"Covertype",
+        "stream1":"Synthesised Dataset-1 (Drifted)",
+        "stream2":"Synthesised Dataset-2 (Drifted)",
+        "stable":"Synthesised Dataset--3 (Stable)",
+        "hyperplane":"Hyperplane Generator",
+        "sea":"Sea Generator"
+    }
+
+  handleTabChange(event, newValue){
+    this.setState({current_tab: newValue});
+    console.log(newValue)
+  }
+
     render(){
-       
         if(!this.props.selected_process)
         {
             return null;
         }
-       
-        var output = JSON.stringify(this.props.selected_process.results,null,2)      
-
+        
         return (
-        <ExpansionPanel expanded={true}>
-            <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom>DETAILS</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <div style={{ maxHeight:500, width:'100%', overflow:'auto'}}>
-                    <Grid container>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth> Selected Dataset: {this.props.selected_process.dataset_name} </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth> Selected Algorithm: {this.props.selected_process.algorithm_name}</FormControl>
-                        </Grid>
-                        <Divider />
-                        
-                        <Grid container spacing={5}>
-                            <Grid item sm={12}>
-                                <Typography variant="h5" gutterBottom>Data Summary</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item sm={12}>
-                            &nbsp;
-                        </Grid>
-                        {this.renderDataSummaryTable(this.props.selected_process.data_summary)}       
-                        <Grid item sm={1}>
-                            &nbsp;
-                        </Grid>
+            
+            <Dialog open={this.props.open}
+                    onClose={this.props.onClose}
+                    fullWidth={true}
+                    maxWidth='lg'
+                    aria-labelledby="details-dialog-title" >
 
-                        {this.renderCharts(this.props.selected_process.algorithm_name) }
-                    </Grid>
-                    <ExpansionPanel>
-                        <ExpansionPanelSummary>
-                            <Typography variant="h5" gutterBottom>Results</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <div style={{ maxHeight:400, width:'100%', overflow:'auto'}}>
-                                <code style={{whiteSpace:"pre-wrap"}}>{output}</code>
-                            </div>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                </div>
-            </ExpansionPanelDetails>
-        </ExpansionPanel> 
+                <DialogTitle id="details-dialog-title">See the details of the process</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            You can see the {this.HUMAN_READABLE_DATASET_NAMES[this.props.selected_process.dataset_name]} dataset analysis results on {this.HUMAN_READABLE_ALGORITHM_NAMES[this.props.selected_process.algorithm_name]} algorithm.
+                        </DialogContentText>
+
+                        <Container>
+                            <Tabs value={this.state.current_tab} onChange={this.handleTabChange.bind(this)} aria-label="wrapped label tabs example">
+                                <Tab label="Data Summary" id="tab-0" aria-controls="tabpanel-0" />
+                                <Tab label="Graphs" id="tab-1" aria-controls="tabpanel-1"/>
+                                <Tab label="Raw Results" id="tab-2" aria-controls="tabpanel-2"/>
+                            </Tabs>
+
+                            {this.state.current_tab === 0 && this.renderDataSummaryTable()}
+
+                            {this.state.current_tab === 1 && this.renderCharts()}
+
+                            {this.state.current_tab === 2 && this.renderRawData()}
+
+                        </Container>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={this.props.onClose} color="primary">
+                    Close
+                </Button>
+                </DialogActions>
+            </Dialog>      
         );
-    }
+  }
 
-    renderDataSummaryTable(data){
+
+    renderDataSummaryTable(){
+        let data = this.props.selected_process.data_summary;
         const header = {feature: 'Feature',
                         min: 'Minimum',
                         max: 'Maximum',
@@ -97,44 +123,56 @@ class DetailedView extends React.Component {
         }
         return (
             <TableContainer style={{maxHeight:400}}>
-            <Table aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>{header.feature}</TableCell>
-                        <TableCell>{header.min}</TableCell>
-                        <TableCell>{header.max}</TableCell>
-                        <TableCell>{header.std}</TableCell>
-                        <TableCell>{header.mean}</TableCell>
-                        <TableCell>{header.first_quarter}</TableCell>
-                        <TableCell>{header.second_quarter}</TableCell>
-                        <TableCell>{header.third_quarter}</TableCell>
-                        <TableCell>{header.count}</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                {Object.keys(data).map((item,index)=>{                    
-                    let value = data[item]
-                    return (
-                    <TableRow key={item}>
-                        <TableCell>{item}</TableCell>
-                        <TableCell>{value['min'].toFixed(2)}</TableCell>
-                        <TableCell>{value['max'].toFixed(2)}</TableCell>
-                        <TableCell>{value['std'].toFixed(2)}</TableCell>
-                        <TableCell>{value['mean'].toFixed(2)}</TableCell>
-                        <TableCell>{value['25%'].toFixed(2)}</TableCell>
-                        <TableCell>{value['50%'].toFixed(2)}</TableCell>
-                        <TableCell>{value['75%'].toFixed(2)}</TableCell>
-                        <TableCell>{value['count']}</TableCell>
-                    </TableRow>
-                    )
-                })}
-                </TableBody>
-            </Table>                    
-        </TableContainer>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>{header.feature}</TableCell>
+                            <TableCell>{header.min}</TableCell>
+                            <TableCell>{header.max}</TableCell>
+                            <TableCell>{header.std}</TableCell>
+                            <TableCell>{header.mean}</TableCell>
+                            <TableCell>{header.first_quarter}</TableCell>
+                            <TableCell>{header.second_quarter}</TableCell>
+                            <TableCell>{header.third_quarter}</TableCell>
+                            <TableCell>{header.count}</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {Object.keys(data).map((item,index)=>{                    
+                        let value = data[item]
+                        return (
+                        <TableRow key={item}>
+                            <TableCell>{item}</TableCell>
+                            <TableCell>{value['min'].toFixed(2)}</TableCell>
+                            <TableCell>{value['max'].toFixed(2)}</TableCell>
+                            <TableCell>{value['std'].toFixed(2)}</TableCell>
+                            <TableCell>{value['mean'].toFixed(2)}</TableCell>
+                            <TableCell>{value['25%'].toFixed(2)}</TableCell>
+                            <TableCell>{value['50%'].toFixed(2)}</TableCell>
+                            <TableCell>{value['75%'].toFixed(2)}</TableCell>
+                            <TableCell>{value['count']}</TableCell>
+                        </TableRow>
+                        )
+                    })}
+                    </TableBody>
+                </Table>                    
+            </TableContainer>
         )
     } 
 
-    renderCharts(algorithm) {
+    renderRawData()
+    {
+        return (
+            <Grid container>                    
+                <div style={{ maxHeight:400, width:'100%', overflow:'auto'}}>
+                    <code style={{whiteSpace:"pre-wrap"}}>{JSON.stringify(this.props.selected_process.results,null,2) }</code>
+                </div>
+            </Grid>
+        )      
+    }
+
+    renderCharts() {
+        let algorithm = this.props.selected_process.algorithm_name;
         if (algorithm === "knn") {
             return this.renderKNNCharts()
         }
@@ -262,9 +300,9 @@ class DetailedView extends React.Component {
             dataByClass[item["cluster"]].push(item)
         }
 
-    
+
         let histogram = Object.keys(dataByClass).map((cls) => {return {"name": cls, "Count": dataByClass[cls].length}});
-       
+    
         return (   
             <Grid container> 
                 <Grid container spacing={5}>
@@ -346,7 +384,7 @@ class DetailedView extends React.Component {
         )
     }
 
-   
+
     renderD3Charts(){
         return (
             <Grid container>  
@@ -473,11 +511,11 @@ class DetailedView extends React.Component {
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
+        color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
     }
 
 }
 
-export default DetailedView;
+export default ProcessDetails;

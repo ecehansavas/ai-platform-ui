@@ -16,8 +16,31 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import SyncIcon from '@material-ui/icons/Sync';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import { Tooltip } from '@material-ui/core';
 
 class ProcessesList extends React.Component {
+
+    HUMAN_READABLE_ALGORITHM_NAMES = {
+        "hoeffding_tree": "Hoeffding Tree",
+        "d3": "D3",
+        "k_means":"K-Means",
+        "streamkm":"Stream KM++",
+        "knn":"kNN",
+        "clustream":"CluStream",
+        "denstream":"DenStream"
+    }
+
+    HUMAN_READABLE_DATASET_NAMES ={
+       "kdd99_full_labeled":"KDD Cup'99",
+       "electricity":"Electricity",
+       "covtype":"Covertype",
+       "stream1":"Synthesised Dataset-1 (Drifted)",
+       "stream2":"Synthesised Dataset-2 (Drifted)",
+       "stable":"Synthesised Dataset--3 (Stable)",
+       "hyperplane":"Hyperplane Generator",
+       "sea":"Sea Generator"
+    }
 
     render(){
         const header = {id: 'ID',
@@ -30,11 +53,18 @@ class ProcessesList extends React.Component {
                         delete: 'DELETE'}
         return (
         <form>
+            <br />
             <Grid container spacing={5}>
-                <Grid item sm={12}>
+                <Grid item sm={9}>
                     <Typography variant="h4" component="h1" gutterBottom><AssignmentIcon />PROCESSES</Typography>
                 </Grid>
+                <Grid item sm={3}>
+                    <Button fullWidth variant="contained" onClick={()=>{this.props.newProcess()}}>
+                        Start new Process
+                    </Button>
+                </Grid>
             </Grid>
+            <br />
             <TableContainer style={{maxHeight:400}}>
                 <Table aria-label="simple table">
                     <TableHead>
@@ -66,8 +96,8 @@ class ProcessesList extends React.Component {
             return (
                <TableRow key={id}>
                   <TableCell>{id}</TableCell>
-                  <TableCell>{dataset_name}</TableCell>
-                  <TableCell>{algorithm_name}</TableCell>
+                  <TableCell>{this.HUMAN_READABLE_DATASET_NAMES[dataset_name]}</TableCell>
+                  <TableCell>{this.HUMAN_READABLE_ALGORITHM_NAMES[algorithm_name]}</TableCell>
                   <TableCell>{this.setStateIcon(state)}</TableCell>
                   <TableCell>{formattedStartDate}</TableCell>
                   <TableCell>{formattedFinishDate}</TableCell>
@@ -84,13 +114,16 @@ class ProcessesList extends React.Component {
 
     setStateIcon(state){
         if (state === "finished") {
-            return (<CheckIcon />)
+            return (<Tooltip title="Completed"><CheckIcon /></Tooltip>)
         }
         else if (state === "failed") {
-            return (<CloseIcon />)
+            return (<Tooltip title="Failed"><CloseIcon /></Tooltip>)
+        }
+        else if(state === "queued"){
+            return (<Tooltip title="Queued"><ScheduleIcon/></Tooltip>)
         }
         else {
-            return (<SyncIcon />)
+            return (<Tooltip title="In Progress"><SyncIcon /></Tooltip>)
         }
     }
 }

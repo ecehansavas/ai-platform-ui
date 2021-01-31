@@ -13,32 +13,25 @@ class Algorithm extends React.Component {
 
     render(){
         return (
-        <ExpansionPanel expanded={true}>
-            <ExpansionPanelSummary>
-                <Typography variant="h4" component="h1" gutterBottom>ALGORITHM</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <Grid container>
-                    <Grid item xs={12} sm={4}>
-                        <FormControl fullWidth>Use Predefined Algorithm:
-                            <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
-                                <MenuItem value="hoeffding_tree">Hoeffding Tree</MenuItem>
-                                <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
-                                <MenuItem value="streamkm">Stream KM++</MenuItem> 
-                                <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
-                                <MenuItem value="knn">Knn</MenuItem>
-                                <MenuItem value="clustream">CluStream</MenuItem>
-                                <MenuItem value="denstream">DenStream</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item sm={1}>
-                        &nbsp;
-                    </Grid>
-                    { this.renderParameters(this.props.selected_algorithm) }
-                </Grid>  
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            <Grid container>
+                <Grid item xs={12} sm={4}>
+                    <FormControl fullWidth>Algorithm:
+                        <Select labelId="algorithm" id="select" value={this.props.selected_algorithm} onChange={this.props.onAlgorithmChange}>
+                            <MenuItem value="hoeffding_tree">Hoeffding Tree</MenuItem>
+                            <MenuItem disabled={this.props.is_dataset_generated} value="k_means">K-Means</MenuItem> 
+                            <MenuItem value="streamkm">Stream KM++</MenuItem> 
+                            <MenuItem disabled={this.props.is_dataset_generated} value="d3">D3</MenuItem>
+                            <MenuItem value="knn">kNN</MenuItem>
+                            <MenuItem value="clustream">CluStream</MenuItem>
+                            <MenuItem value="denstream">DenStream</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item sm={1}>
+                    &nbsp;
+                </Grid>
+                { this.renderParameters(this.props.selected_algorithm) }
+            </Grid>  
         );
     }
 
