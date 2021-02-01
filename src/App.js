@@ -132,7 +132,7 @@ class App extends React.Component {
   render(){
     return (
       <Container>
-        <Backdrop style={{zIndex: 999999}} open={this.state.loading}>
+        <Backdrop style={{zIndex: 999999,color: '#fff'}} open={this.state.loading}>
           <CircularProgress color="inherit" />
         </Backdrop>
         <NewProcess 

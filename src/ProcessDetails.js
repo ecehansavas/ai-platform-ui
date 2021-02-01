@@ -50,7 +50,7 @@ class ProcessDetails extends React.Component {
         "covtype":"Covertype",
         "stream1":"Synthesised Dataset-1 (Drifted)",
         "stream2":"Synthesised Dataset-2 (Drifted)",
-        "stable":"Synthesised Dataset--3 (Stable)",
+        "stable":"Synthesised Dataset-3 (Stable)",
         "hyperplane":"Hyperplane Generator",
         "sea":"Sea Generator"
     }
@@ -389,8 +389,8 @@ class ProcessDetails extends React.Component {
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                    <LineChart width={800} height={400} data={this.props.selected_process.progress.progress}>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="accuracy" label={{value: "Accuracy", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -407,7 +407,7 @@ class ProcessDetails extends React.Component {
             <Grid container>  
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -424,7 +424,7 @@ class ProcessDetails extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -442,7 +442,7 @@ class ProcessDetails extends React.Component {
             <Grid container>  
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -459,7 +459,7 @@ class ProcessDetails extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -477,7 +477,7 @@ class ProcessDetails extends React.Component {
             <Grid container>  
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
-                        <XAxis dataKey="percentage" label="Data Percentage"/>
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />
@@ -494,7 +494,7 @@ class ProcessDetails extends React.Component {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                     <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
-                        <XAxis dataKey="percentage" label="Data Percentage" />
+                        <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65} />
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
                         <Tooltip />

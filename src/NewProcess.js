@@ -14,6 +14,7 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 // eren: explain the structure in a comment
 const KNOWN_DATASETS = {  
@@ -77,7 +78,7 @@ class NewProcess extends React.Component {
     current_step: 0,
     selected_dataset: 'kdd99_full_labeled',
     selected_generator: 'sea',
-    dataset_parameters: {start_value:0, stop_value:300},
+    dataset_parameters: {},
     selected_algorithm: 'hoeffding_tree',
     algorithm_parameters: {...KNOWN_ALGORITHMS['hoeffding_tree'].fundamental_parameters, ...KNOWN_ALGORITHMS['hoeffding_tree'].extra_parameters},
     is_dataset_generated: false,
@@ -141,6 +142,9 @@ class NewProcess extends React.Component {
 
   handleNext()
   {
+    if(this.state.current_step ===1){
+      this.validate() 
+    }    
     if(this.state.current_step === 2){
       this.validateAndRun();
     }
@@ -203,6 +207,9 @@ class NewProcess extends React.Component {
                     <StepLabel>Review</StepLabel>
                     </Step>
                 </Stepper>
+               
+                <Divider />
+                
                 <Container>
                     <br />
                     <Box >
@@ -242,6 +249,7 @@ class NewProcess extends React.Component {
                         </Button>
 
                         <Button
+                            disabled={this.state.current_step === 2 && this.state.errors.length > 0 }
                             variant="contained"
                             color="primary"
                             onClick={this.handleNext.bind(this)}
@@ -267,26 +275,6 @@ class NewProcess extends React.Component {
 //       phase 3: kural fonksiyonlarini on-the-fly kullan
 
     // Dataset areas
-    if (this.exists('ds','start_value')) {
-      if (!this.isInteger('ds','start_value')) {
-        errors.push('Start must be integer') 
-      }
-      if (this.isLessThanZero('ds','start_value')) {
-        errors.push('Start can not be less than zero')
-      }
-    }
-
-    if(this.exists('ds','stop_value')){
-      if(parseInt('stop_value')<0)
-        errors.push('Start can not be less than zero') 
-      if(!this.isInteger('ds','stop_value'))
-        errors.push('Stop must be integer')
-    }
-
-    if (this.exists('ds','start_value') && this.exists('ds','stop_value') && 
-    this.state.dataset_parameters['start_value'] > this.state.dataset_parameters['stop_value'])
-      errors.push('Start can not be bigger than stop')
-
     if (this.exists('ds','sample_size')) {
       if (!this.isInteger('ds','sample_size')) {
         errors.push('Sample Size must be integer') 
