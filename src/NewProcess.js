@@ -236,6 +236,8 @@ class NewProcess extends React.Component {
                         {this.state.current_step === 2 &&
                              <Review 
                              selected_dataset={this.state.selected_dataset}
+                             selected_generator = {this.state.selected_generator}
+                             is_dataset_generated = {this.state.is_dataset_generated}
                              selected_algorithm={this.state.selected_algorithm}
                              dataset_parameters={this.state.dataset_parameters}
                              algorithm_parameters = {this.state.algorithm_parameters}

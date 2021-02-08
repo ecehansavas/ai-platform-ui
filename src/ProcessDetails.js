@@ -290,31 +290,33 @@ class ProcessDetails extends React.Component {
 
     renderKMeansCharts(){
         let dataByClass = {};
-        for(let i = 0; i < this.props.selected_process.results.length; i++)
-        {
-            let item = this.props.selected_process.results[i];
-            if (!dataByClass[item["cluster"]])
+       
+        let data = this.props.selected_process.results["data"];
+            for(let i = 0; i < data.length; i++)
             {
-                dataByClass[item["cluster"]] = [];
+                let item = data[i] 
+                if (!dataByClass[item["cluster"]])
+                {
+                    dataByClass[item["cluster"]] = [];
+                }
+                dataByClass[item["cluster"]].push(item)
             }
-            dataByClass[item["cluster"]].push(item)
-        }
 
 
         let histogram = Object.keys(dataByClass).map((cls) => {return {"name": cls, "Count": dataByClass[cls].length}});
     
         return (   
             <Grid container> 
-                <Grid container spacing={5}>
-                    <Grid item sm={12}>
+                {/* <Grid container spacing={5}>
+                <Grid item sm={12}>
                     <Divider />
-                        <Typography variant="h5" gutterBottom>Data Clusters</Typography>
-                    </Grid>
+                    <Typography variant="h5" gutterBottom>Data Clusters</Typography>
+                </Grid>
                 </Grid>
                 <Grid item sm={12}>
                     &nbsp;
-                </Grid>
-                <Grid item xs={12} sm={3}>
+                </Grid> 
+                 <Grid item xs={12} sm={3}>
                     <p>X-Axis: </p>
                     <Select value={this.state.scatter_xaxis} onChange={(event) => this.onAxisChanged('x', event.target.value)}  >
                         {Object.keys(this.props.selected_process.results[0]).map((item,index)=>{
@@ -343,7 +345,7 @@ class ProcessDetails extends React.Component {
                             })}
                         }
                     </ScatterChart>
-                </Grid>
+                </Grid> */}
                 <Grid container spacing={5}>
                     <Grid item sm={12}>
                     <Divider />
@@ -386,10 +388,15 @@ class ProcessDetails extends React.Component {
 
 
     renderD3Charts(){
+        let modifiedData = this.props.selected_process.progress.progress.map( r => {
+            let c = Object.assign({}, r)
+            c.percentage = Math.floor(c.percentage * 100)
+            return c
+        })
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={400} data={this.props.selected_process.progress.progress}>
+                    <LineChart width={800} height={400} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="accuracy" label={{value: "Accuracy", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
@@ -403,10 +410,16 @@ class ProcessDetails extends React.Component {
     }
 
     renderDenstreamCharts(){
+        let modifiedData = this.props.selected_process.progress.progress.map( r => {
+            let c = Object.assign({}, r)
+            c.percentage = Math.floor(c.percentage * 100)
+            return c
+        })
+
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
@@ -423,7 +436,7 @@ class ProcessDetails extends React.Component {
                     &nbsp;
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }} >
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
@@ -438,12 +451,18 @@ class ProcessDetails extends React.Component {
     }
 
     renderClustreamCharts(){
+        let modifiedData = this.props.selected_process.progress.progress.map( r => {
+            let c = Object.assign({}, r)
+            c.percentage = Math.floor(c.percentage * 100)
+            return c
+        })
+
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
-                        <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
+                        <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft' }}/>
                         <Legend />
                         <Tooltip />
                         <CartesianGrid stroke="#f5f5f5" />
@@ -458,7 +477,7 @@ class ProcessDetails extends React.Component {
                     &nbsp;
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
@@ -473,10 +492,16 @@ class ProcessDetails extends React.Component {
     }
 
     renderStreamKMCharts(){
+        let modifiedData = this.props.selected_process.progress.progress.map( r => {
+            let c = Object.assign({}, r)
+            c.percentage = Math.floor(c.percentage * 100)
+            return c
+        })
+
         return (
             <Grid container>  
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress}>
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }}>
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65}/>
                         <YAxis dataKey="mean_ari" label={{value: "Adjusted Rand Index", angle: -90, position: 'insideLeft'}}/>
                         <Legend />
@@ -493,7 +518,7 @@ class ProcessDetails extends React.Component {
                     &nbsp;
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                    <LineChart width={800} height={350} data={this.props.selected_process.progress.progress} >
+                    <LineChart width={800} height={350} data={modifiedData} margin={{ top: 20, right: 20, left: 10, bottom: 5 }} >
                         <XAxis dataKey="percentage" label={{value: "Data Percentage", position: 'insidebottom'}} height={65} />
                         <YAxis dataKey="purity" label={{value: "Purity", angle: -90, position: 'insideLeft'}}/>
                         <Legend />

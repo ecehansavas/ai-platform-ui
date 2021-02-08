@@ -44,11 +44,12 @@ HUMAN_READABLE_ALGORITHM_NAMES = {
        
         let datasetVisibility = Object.keys(this.props.dataset_parameters).length>0 ? "visible" : "hidden"
         let errorVisibility = this.props.errors.length > 0 ? "visible" : "hidden"
+        let dataset = this.props.is_dataset_generated ? this.props.selected_generator : this.props.selected_dataset
 
         return (
             <Box>
                 <p>
-                    <strong>{this.HUMAN_READABLE_DATASET_NAMES[this.props.selected_dataset]}</strong> dataset will be analyzed with <strong>{this.HUMAN_READABLE_ALGORITHM_NAMES[this.props.selected_algorithm]}</strong> algorithm with the following parameters.
+                    <strong>{this.HUMAN_READABLE_DATASET_NAMES[dataset]}</strong> dataset will be analyzed with <strong>{this.HUMAN_READABLE_ALGORITHM_NAMES[this.props.selected_algorithm]}</strong> algorithm with the following parameters.
                 </p>
                 
                 <Grid container>
@@ -86,7 +87,7 @@ HUMAN_READABLE_ALGORITHM_NAMES = {
                     </Box>         
                                    
                     <Box width="45%" visibility={datasetVisibility}>
-                        {this.HUMAN_READABLE_DATASET_NAMES[this.props.selected_dataset]} Dataset Parameters
+                        {this.HUMAN_READABLE_DATASET_NAMES[dataset]} Dataset Parameters
                         <TableContainer component={Paper}>
                             <Table aria-label="simple table">
                                 <TableHead>
