@@ -374,7 +374,7 @@ class ProcessDetails extends React.Component {
                 <Grid item xs={12} sm={12}>
                 <p>Progress</p>
                 <LineChart width={700} height={350} data={this.props.selected_process.progress.progress} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
-                    <XAxis />
+                    <XAxis dataKey="n_samples" label={{value: "Sample Number", position: 'insidebottom'}} height={65}/>
                     <YAxis />
                     <Legend />
                     <Tooltip />
