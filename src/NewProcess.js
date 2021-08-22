@@ -16,7 +16,11 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-// eren: explain the structure in a comment
+/**
+ *  Available predefined datasets and dataset generators in ESTRA 
+ *  Each dataset's valid algorithms are given because any algorithm is not suitable for any dataset.
+ *  For dataset generators, available parameters and their default values are given.
+ */
 const KNOWN_DATASETS = {  
   "kdd99_full_labeled" : {
     valid_algorithms: ['hoeffding_tree','k_means', 'knn']
@@ -46,6 +50,10 @@ const KNOWN_DATASETS = {
   }
 }
 
+/**
+ *  Available algorithms in ESTRA with editable parameters
+ *  Default values of the parameters are given.
+ */
 const KNOWN_ALGORITHMS = {
   "hoeffding_tree" : {
     extra_parameters : {'grace_period':200, 'tie_threshold':0.05, 'nb_threshold': 0 }
@@ -74,6 +82,10 @@ const KNOWN_ALGORITHMS = {
 
 
 class NewProcess extends React.Component {
+  /**
+   * New process's state
+   * Default values are given
+   */
   DEFAULT_STATE = {
     current_step: 0,
     selected_dataset: 'kdd99_full_labeled',
@@ -90,9 +102,7 @@ class NewProcess extends React.Component {
     this.state = this.DEFAULT_STATE;
   }
 
-
-
-  // eren: explain what each function does, why, etc.
+  // -------------- Event Handlers --------------
 
   handleDatasetChange(event) {
     this.setState({selected_dataset: event.target.value, dataset_parameters: {}})
@@ -177,6 +187,7 @@ class NewProcess extends React.Component {
       console.log("Invalid Area") // eren: needs to be developed
   }
 
+   // ----------- End of Event Handlers ------------
 
   render(){
     return (
@@ -196,15 +207,15 @@ class NewProcess extends React.Component {
 
                 <Stepper activeStep={this.state.current_step} alternativeLabel>
                     <Step>
-                    <StepLabel>Select a dataset</StepLabel>
+                      <StepLabel>Select a dataset</StepLabel>
                     </Step>
 
                     <Step>
-                    <StepLabel>Select an algorithm</StepLabel>
+                      <StepLabel>Select an algorithm</StepLabel>
                     </Step>
 
                     <Step>
-                    <StepLabel>Review</StepLabel>
+                      <StepLabel>Review</StepLabel>
                     </Step>
                 </Stepper>
                
@@ -254,29 +265,25 @@ class NewProcess extends React.Component {
                             disabled={this.state.current_step === 2 && this.state.errors.length > 0 }
                             variant="contained"
                             color="primary"
-                            onClick={this.handleNext.bind(this)}
-                        >
+                            onClick={this.handleNext.bind(this)}>
                             {this.state.current_step === 2 ? 'Start the Process' : 'Next'}
                         </Button>
                     </Box>
                 </Container>
             </DialogContent>
+            
             <DialogActions>
-            <Button onClick={this.props.onClose} color="primary">
-                Close
-            </Button>
+              <Button onClick={this.props.onClose} color="primary">Close</Button>
             </DialogActions>
         </Dialog>      
     );
   }
 
+  // -------------------------- Input Validation ----------------------
   validate(){
     let errors = []
 
-// TODO: phase 2: kural fonksiyonlari yaz
-//       phase 3: kural fonksiyonlarini on-the-fly kullan
-
-    // Dataset areas
+    // Checks the dataset parameters
     if (this.exists('ds','sample_size')) {
       if (!this.isInteger('ds','sample_size')) {
         errors.push('Sample Size must be integer') 
@@ -355,7 +362,7 @@ class NewProcess extends React.Component {
     }
     
     
-    // Algorithms areas
+    // Checks the algorithms' parameters
     //hoeffding tree
     if(this.exists('alg', 'grace_period')){
       if(this.isLessThanZero('alg', 'grace_period'))
@@ -376,7 +383,6 @@ class NewProcess extends React.Component {
         errors.push('Naive Bayes Threshold count must be integer') 
     }
 
-  
     // knn
     if(this.exists('alg','n_neighbors)')){
       if(this.isLessThanZero('alg','n_neighbors'))
@@ -431,13 +437,17 @@ class NewProcess extends React.Component {
         errors.push('Fields must be float')
     }
 
-  
     this.setState({errors:errors})
+    // if there is any error, prints them
     console.log(errors)
     return errors.length === 0
   }
 
-
+  /**
+   * Checks the parameter existence between in the algorithm or dataset parameters
+   * @param {*} context 
+   * @param {*} x 
+   */
   exists(context, x) {    
     return !!this.getParams(context)[x];
   }
@@ -468,6 +478,8 @@ class NewProcess extends React.Component {
   isLessThanZero(context, x){
     return (this.getParams(context)[x]) <0
   }
+
+  // --------------------- End of Input Validation Methods -------------
 }
 
 export default NewProcess;

@@ -40,6 +40,9 @@ HUMAN_READABLE_ALGORITHM_NAMES = {
    "sea":"Sea Generator"
   }
 
+    /**
+     * Represents the all selections that made by user like dataset, algorithm, and their parameters.
+     */
     render(){
        
         let datasetVisibility = Object.keys(this.props.dataset_parameters).length>0 ? "visible" : "hidden"

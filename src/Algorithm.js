@@ -10,6 +10,9 @@ import Divider from '@material-ui/core/Divider';
 
 class Algorithm extends React.Component {
 
+    /**
+     * Shows the available algorithms
+     */
     render(){
         return (
             <Grid container>
@@ -34,6 +37,10 @@ class Algorithm extends React.Component {
         );
     }
 
+    /**
+     * Renders the selected algorithm
+     * @param {*} algorithm 
+     */
     renderParameters(algorithm) {
         if (algorithm === "knn") {
             return this.renderKnnParameters()
@@ -61,6 +68,9 @@ class Algorithm extends React.Component {
         }
     }
 
+    /**
+     * Shows the knn algorithm parameters
+     */
     renderKnnParameters() {
         return (
             <Grid container>  
@@ -113,6 +123,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Shows the k-means available parameters
+     */
     renderKMeans(){
         return (
             <Grid container>
@@ -157,6 +170,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Shows the streamKm parameters
+     */
     renderStreamKM(){
         return (
             <Grid container>
@@ -193,6 +209,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Shows the hoeffding tree parameters
+     */
     renderHoeffdingTree(){
         return(
         <Grid container> 
@@ -237,6 +256,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Represents the d3 parameters
+     */
     renderD3(){
         return (
             <Grid container>  
@@ -281,6 +303,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Shows the clustream parameters
+     */
     renderClustream(){
         return (
             <Grid container>  
@@ -325,6 +350,9 @@ class Algorithm extends React.Component {
         )
     }
 
+    /**
+     * Represents the denstream parameters
+     */
     renderDenstream(){
         return (
             <Grid container>  

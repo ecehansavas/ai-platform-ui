@@ -10,22 +10,32 @@ import Divider from '@material-ui/core/Divider';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+/**
+ * Front-end of the main application
+ * Application starts in here!
+ */
 class App extends React.Component {
   constructor(props) {
     super(props);
+    
+    // State of the application
     this.state = {     
-        process_list: null,
-        selected_process: '',
-        loading: false,
-        new_process_dialog_open: false,
-        details_dialog_open: false        
-
+      // holds the list of the requested processes  
+      process_list: null,
+      // holds the selected process that shown in details
+      selected_process: '',
+      // if there is any process running on the client side, it should be true
+      loading: false,
+      // if there is a request for starting a new process, it should be true
+      new_process_dialog_open: false,
+      // if there is a selected process then this flag should be true
+      details_dialog_open: false        
     }
     this.pollingProcess = null;
   }
 
-  // eren: explain what each function does, why, etc.
-
+ 
+  //--------------------- Event Handlers -----------------------
   handleShowDetails(id){ 
     let selectedprocess = this.state.process_list.filter((e) =>e.id ===id)
     this.setState({selected_process: selectedprocess[0], details_dialog_open: true})
@@ -59,6 +69,8 @@ class App extends React.Component {
           this.handleCloseNewProcessDialog();
         });
   }
+  //------------------- End of Event Handlers ---------------------
+
 
   startProcess( is_generated_dataset,
                 selected_dataset,
@@ -106,6 +118,10 @@ class App extends React.Component {
     })
   }
 
+  /**
+   * Deletes the selected item
+   * @param {*} id 
+   */
   deleteItem(id){
     this.setState({loading: true})
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/delete_job/${id}`, {
@@ -127,51 +143,6 @@ class App extends React.Component {
     })
   }
 
-  // eren: run a linter
-
-  render(){
-    return (
-      <Container>
-        <Backdrop style={{zIndex: 999999,color: '#fff'}} open={this.state.loading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        <NewProcess 
-          open={this.state.new_process_dialog_open}
-          onClose={this.handleCloseNewProcessDialog.bind(this)}
-          startProcess={this.handleStartProcess.bind(this)}/>   
-
-        <ProcessDetails 
-          open={this.state.details_dialog_open}
-          onClose={this.handleCloseDetailsDialog.bind(this)}
-          selected_process={this.state.selected_process}
-          />   
-
-        <Box>
-          <Typography variant="h3" component="h1" gutterBottom>
-            ESTRA 
-          </Typography>
-        </Box>
-        <Divider />
-        <Box>
-          {this.state.process_list === null && 
-            <div>Loading processes...</div>
-          }
-          {this.state.process_list !== null &&   
-            <ProcessesList process_list={this.state.process_list}
-              selected_generator = {this.state.selected_generator} 
-              showDetails={this.handleShowDetails.bind(this)}
-              newProcess={this.handleNewProcessDialog.bind(this)}
-              delete = {this.deleteItem.bind(this)}/>
-          }
-        </Box>
-        <br />
-        <Divider />
-      </Container>
-      
-    );
-  }
-
-  // eren: Organize the file into sections (event handler functions, API interaction functions, etc.)
   startPolling(){
     this.stopPolling();
     this.pollingProcess = setInterval(this.fetchAllJobs.bind(this), 10000);
@@ -213,7 +184,52 @@ class App extends React.Component {
       console.log(e)
       this.starPolling();
     });
-  }  
+  } 
+  
+   /**
+   * Represents the main user interface
+   */
+  render(){
+    return (
+      <Container>
+        <Backdrop style={{zIndex: 999999,color: '#fff'}} open={this.state.loading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <NewProcess 
+          open={this.state.new_process_dialog_open}
+          onClose={this.handleCloseNewProcessDialog.bind(this)}
+          startProcess={this.handleStartProcess.bind(this)}/>   
+
+        <ProcessDetails 
+          open={this.state.details_dialog_open}
+          onClose={this.handleCloseDetailsDialog.bind(this)}
+          selected_process={this.state.selected_process}
+          />   
+
+        <Box>
+          <Typography variant="h3" component="h1" gutterBottom>
+            ESTRA 
+          </Typography>
+        </Box>
+        <Divider />
+        <Box>
+          {this.state.process_list === null && 
+            <div>Loading processes...</div>
+          }
+          {this.state.process_list !== null &&   
+            <ProcessesList process_list={this.state.process_list}
+              selected_generator = {this.state.selected_generator} 
+              showDetails={this.handleShowDetails.bind(this)}
+              newProcess={this.handleNewProcessDialog.bind(this)}
+              delete = {this.deleteItem.bind(this)}/>
+          }
+        </Box>
+        <br />
+        <Divider />
+      </Container>
+      
+    );
+  }
 }
 
 export default App;

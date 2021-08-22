@@ -33,7 +33,6 @@ class ProcessDetails extends React.Component {
         }
   }
 
-
     HUMAN_READABLE_ALGORITHM_NAMES = {
         "hoeffding_tree": "Hoeffding Tree",
         "d3": "D3",
@@ -67,7 +66,6 @@ class ProcessDetails extends React.Component {
         }
         
         return (
-            
             <Dialog open={this.props.open}
                     onClose={this.props.onClose}
                     fullWidth={true}
@@ -92,19 +90,18 @@ class ProcessDetails extends React.Component {
                             {this.state.current_tab === 1 && this.renderCharts()}
 
                             {this.state.current_tab === 2 && this.renderRawData()}
-
                         </Container>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={this.props.onClose} color="primary">
-                    Close
-                </Button>
+                    <Button onClick={this.props.onClose} color="primary">Close</Button>
                 </DialogActions>
             </Dialog>      
         );
   }
 
-
+    /**
+     * Represent the data summary table that contains information about dataset
+     */
     renderDataSummaryTable(){
         let data = this.props.selected_process.data_summary;
         const header = {feature: 'Feature',
@@ -171,6 +168,9 @@ class ProcessDetails extends React.Component {
         )      
     }
 
+    /**
+     * Renders the selected algorithm's charts
+     */
     renderCharts() {
         let algorithm = this.props.selected_process.algorithm_name;
         if (algorithm === "knn") {
@@ -208,7 +208,9 @@ class ProcessDetails extends React.Component {
         }
     }
 
-
+    /**
+     * Represents the kNN algorithm's accuracy charts
+     */
     renderKNNCharts(){
         let dataByClass = {};
         for(let i = 0; i < this.props.selected_process.results.length; i++)
@@ -287,7 +289,10 @@ class ProcessDetails extends React.Component {
         }
     }
 
-
+    /**
+     * Represents the k-means algorithm's charts
+     * Currently only cluster histogram is exist 
+     */
     renderKMeansCharts(){
         let dataByClass = {};
        
@@ -368,6 +373,9 @@ class ProcessDetails extends React.Component {
         )
     }
 
+     /**
+     * Represents the hoeffding tree algorithm's accuracy chart
+     */
     renderHoeffdingTreeStreamCharts(){
         return(
             <Grid container> 
@@ -386,7 +394,9 @@ class ProcessDetails extends React.Component {
         )
     }
 
-
+    /**
+     * Represents the D3 algorithm's accuracy chart
+     */
     renderD3Charts(){
         let modifiedData = this.props.selected_process.progress.progress.map( r => {
             let c = Object.assign({}, r)
@@ -409,6 +419,9 @@ class ProcessDetails extends React.Component {
         )
     }
 
+     /**
+     * Represents the DenStream algorithm's adjusted rand index and purity charts
+     */
     renderDenstreamCharts(){
         let modifiedData = this.props.selected_process.progress.progress.map( r => {
             let c = Object.assign({}, r)
@@ -450,6 +463,9 @@ class ProcessDetails extends React.Component {
         )
     }
 
+    /**
+     * Represents the CluStream algorithm's adjusted rand index and purity charts
+     */
     renderClustreamCharts(){
         let modifiedData = this.props.selected_process.progress.progress.map( r => {
             let c = Object.assign({}, r)
@@ -491,6 +507,9 @@ class ProcessDetails extends React.Component {
         )
     }
 
+    /**
+     * Represents the StreamKm algorithm's adjusted rand index and purity charts
+     */
     renderStreamKMCharts(){
         let modifiedData = this.props.selected_process.progress.progress.map( r => {
             let c = Object.assign({}, r)
@@ -532,7 +551,7 @@ class ProcessDetails extends React.Component {
         )
     }
 
-    getRandomColor() { // eren: we need to change this so that every time this function is called, we get the same color for the same data
+    getRandomColor() { // TODO: we need to change this so that every time this function is called, we get the same color for the same data
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {

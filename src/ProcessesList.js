@@ -42,6 +42,9 @@ class ProcessesList extends React.Component {
        "sea":"Sea Generator"
     }
 
+    /**
+     * Represents the process details like algorithm, dataset, start and finished time, etc.
+     */
     render(){
         const header = {id: 'ID',
                         dataset: 'DATA',
@@ -88,6 +91,9 @@ class ProcessesList extends React.Component {
         );
     }
     
+    /**
+     * Renders the process table
+     */
     renderTableData(){
         return this.props.process_list.sort((a, b) => b.id - a.id).map((item, index) => {
             const { id, dataset_name, algorithm_name, state, started_at, finished_at} = item //destructuring

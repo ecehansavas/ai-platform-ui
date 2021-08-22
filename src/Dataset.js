@@ -17,12 +17,19 @@ class Dataset extends React.Component {
         super(props);
     }
 
+    /**
+     * Reacts when the dataset tab change
+     * @param {*} event 
+     * @param {*} newValue 
+     */
     handleTabChange(event, newValue){
         let selectedDatasetType = newValue === 1 ? "generated" : "predefined"
         this.props.onDatasetTypeSelected(selectedDatasetType)
     }
 
-
+    /**
+     * Represents the dataset ui
+     */
     render(){
         let currentTabIndex = this.props.is_dataset_generated ? 1 : 0
         return (
@@ -39,7 +46,9 @@ class Dataset extends React.Component {
         );
     }
 
-
+    /**
+     * Shows the predefined datasets
+     */
     renderPredefinedDatasetPanel(){
         return (
             <Grid container >
@@ -62,7 +71,9 @@ class Dataset extends React.Component {
         );
     }
 
-   
+    /**
+     * Represents the available dataset generators
+     */
     renderGeneratorPanel(){
         return (           
             <Grid container>
@@ -82,6 +93,9 @@ class Dataset extends React.Component {
         );
     }
 
+    /**
+     * Renders the selected generator parameters
+     */
     renderGenerator(generator) {
         if (generator === "hyperplane") {
             return this.renderHyperplaneParameters()
@@ -93,8 +107,12 @@ class Dataset extends React.Component {
             return "";
         }
     }
-
-    // (random_state=None, n_features=10, n_drift_features=2, mag_change=0.0, noise_percentage=0.05, sigma_percentage=0.1)
+    
+     /**
+     * Hyperplane Generator method of the scikit multiflow library
+     * Address: https://scikit-multiflow.readthedocs.io/en/stable/api/generated/skmultiflow.data.HyperplaneGenerator.html#skmultiflow.data.HyperplaneGenerator
+     * Default values of the parameters: random_state=None, n_features=10, n_drift_features=2, mag_change=0.0, noise_percentage=0.05, sigma_percentage=0.1
+     */
     renderHyperplaneParameters(){
         return(
             <Grid container>  
@@ -155,7 +173,12 @@ class Dataset extends React.Component {
         )
     }
 
-    // (classification_function=0, random_state=None, balance_classes=False, noise_percentage=0.0)
+    
+    /**
+     * Sea Generator method of the scikit multiflow library
+     * Address: https://scikit-multiflow.readthedocs.io/en/stable/api/generated/skmultiflow.data.SEAGenerator.html#skmultiflow.data.SEAGenerator
+     * Default values of the parameters: classification_function=0, random_state=None, balance_classes=False, noise_percentage=0.0
+     */
     renderSeaParameters(){
         return(
             <Grid container>  
